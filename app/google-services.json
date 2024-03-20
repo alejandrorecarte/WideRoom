@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "631712877813",
+    "project_id": "wideroom-b6ed8",
+    "storage_bucket": "wideroom-b6ed8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:631712877813:android:7ea11d026b95089e3909bc",
+        "android_client_info": {
+          "package_name": "com.example.wideroom"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJOJDZkE5VTSHyow2N_kdJ2xD0QU1MhXc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
