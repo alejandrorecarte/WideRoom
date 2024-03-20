@@ -79,7 +79,7 @@ public class ChatActivity extends AppCompatActivity {
         adapter = new ChatRecyclerAdapter(options, getApplicationContext());
         LinearLayoutManager manager=new LinearLayoutManager(this);
         manager.setReverseLayout(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
         adapter.startListening();
         adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
@@ -95,6 +95,7 @@ public class ChatActivity extends AppCompatActivity {
 
         chatroomModel.setLastMessageTimestamp(Timestamp.now());
         chatroomModel.setLastMessageSenderId(FirebaseUtil.currentUserId());
+        chatroomModel.setLastMessage(message);
         FirebaseUtil.getChatroomReference(chatroomId).set(chatroomModel);
 
         ChatMessageModel chatMessageModel = new ChatMessageModel(message, FirebaseUtil.currentUserId(), Timestamp.now());
