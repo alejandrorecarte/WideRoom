@@ -1,5 +1,8 @@
 package com.example.wideroom;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -54,6 +57,8 @@ public class SearchUserActivity extends AppCompatActivity {
         });
 
     }
+
+
 
     void setupSearchRecyclerView(String searchTerm){
         Query query = FirebaseUtil.allUserCollectionReference()

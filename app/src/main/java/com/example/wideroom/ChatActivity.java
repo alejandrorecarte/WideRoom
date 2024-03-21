@@ -2,6 +2,7 @@ package com.example.wideroom;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -21,13 +22,17 @@ import com.example.wideroom.utils.FirebaseUtil;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -171,17 +176,22 @@ public class ChatActivity extends AppCompatActivity {
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
-                .header("Authorization", "Bearer AAAAkxUFjPU:APA91bF2uEzeU6PpkXCrc0il2jFMUMCDLeWIiwWPwRBXLXYOhd5SswJNXQkvTtciiOLR27epYk1WojTrKSsxll0Hc_Plp730PeFAYeEf5b0yX50N4SAKiooqxjlZPwojKTRggku5EUNe")
+                .header("Authorization", "key=AAAAkxUFjPU:APA91bF2uEzeU6PpkXCrc0il2jFMUMCDLeWIiwWPwRBXLXYOhd5SswJNXQkvTtciiOLR27epYk1WojTrKSsxll0Hc_Plp730PeFAYeEf5b0yX50N4SAKiooqxjlZPwojKTRggku5EUNe")
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-
+                Log.e("FCM","Failed to send notificaction",e);
             }
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-
+                if (!response.isSuccessful()) {
+                    Log.e("FCM", "Failed to send notification: " + response.code());
+                    Log.e("FCM", response.toString());
+                } else {
+                    Log.i("FCM", "Successfully sent notificaction");
+                }
             }
         });
     }
