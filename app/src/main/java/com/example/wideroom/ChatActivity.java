@@ -22,18 +22,19 @@ import com.example.wideroom.utils.FirebaseUtil;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
+import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONObject;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Arrays;
 
 import okhttp3.Call;
@@ -56,6 +57,8 @@ public class ChatActivity extends AppCompatActivity {
     TextView otherUsername;
     RecyclerView recyclerView;
     ImageView imageView;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,45 +143,64 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
-    void sendNotification(String message){
-        FirebaseUtil.currentUserDetails().get().addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
-                  UserModel currentUser = task.getResult().toObject(UserModel.class);
-                  try{
-                    JSONObject jsonObject = new JSONObject();
+    public void sendNotification(String message) {
+        try {
+            // Configurar la conexión HTTP
+            URL url = new URL("https://onesignal.com/api/v1/notifications");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setUseCaches(false);
+            con.setDoOutput(true);
+            con.setDoInput(true);
+            con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            con.setRequestProperty("Authorization", "Basic 8fb48336-9fc4-45ae-b884-ccda62fd2c3a");
 
-                    JSONObject notificationObj = new JSONObject();
-                    notificationObj.put("title", currentUser.getUsername());
-                    notificationObj.put("body", message);
+            // Construir el cuerpo del mensaje JSON
+            JSONObject notification = new JSONObject();
+            notification.put("contents", new JSONObject().put("en", message));
+            notification.put("include_player_ids", otherUser.getOneSignalId());
 
-                    JSONObject dataObj = new JSONObject();
-                    dataObj.put("userId", currentUser.getUserId());
+            // Enviar la notificación
+            OutputStream os = con.getOutputStream();
+            os.write(notification.toString().getBytes("UTF-8"));
+            os.close();
 
-                    jsonObject.put("notification", notificationObj);
-                    jsonObject.put("data", dataObj);
-                    jsonObject.put("to", otherUser.getFcmToken());
-
-                    callApi(jsonObject);
-                  }catch(Exception ex){
-
-                  }
-            }
-        });
+            System.out.println(con.getResponseMessage());
+            // Leer la respuesta
+            int responseCode = con.getResponseCode();
+            System.out.println("Response Code: " + responseCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    void callApi(JSONObject jsonObject){
+    private static final String PROJECT_ID = "wideroom-b6ed8";
+
+    private static final String MESSAGING_SCOPE = "https://www.googleapis.com/auth/firebase.messaging";
+    private static final String[] SCOPES = { MESSAGING_SCOPE };
+
+    private String getAccessToken() throws IOException {
+        InputStream inputStream = getApplicationContext().getAssets().open("service-account.json");
+        GoogleCredentials googleCredentials = GoogleCredentials
+                .fromStream(inputStream)
+                .createScoped(Arrays.asList(SCOPES));
+        googleCredentials.refreshAccessToken();
+        return googleCredentials.getAccessToken().getTokenValue();
+    }
+
+    void callApi(JSONObject jsonObject, UserModel currentUser) throws IOException {
         MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
         OkHttpClient client = new OkHttpClient();
 
-        String url = "https://fcm.googleapis.com/fcm/send";
+        String url = "https://fcm.googleapis.com/v1/projects//messages:send";
         RequestBody body = RequestBody.create(jsonObject.toString(), JSON);
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
-                .header("Authorization", "key=AAAAkxUFjPU:APA91bF2uEzeU6PpkXCrc0il2jFMUMCDLeWIiwWPwRBXLXYOhd5SswJNXQkvTtciiOLR27epYk1WojTrKSsxll0Hc_Plp730PeFAYeEf5b0yX50N4SAKiooqxjlZPwojKTRggku5EUNe")
+                .header("Authorization", "Bearer "+ getAccessToken())
                 .build();
         client.newCall(request).enqueue(new Callback() {
+
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 Log.e("FCM","Failed to send notificaction",e);

@@ -27,6 +27,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    packagingOptions {
+        exclude ("META-INF/DEPENDENCIES")
+    }
 }
 
 dependencies {
@@ -43,7 +47,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation("com.onesignal:OneSignal:[5.0.0, 5.99.99]")
     implementation ("com.google.firebase:firebase-auth")
+    implementation ("com.google.auth:google-auth-library-oauth2-http:1.0.0")
     implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
     implementation ("com.firebaseui:firebase-ui-firestore:8.0.2")
     implementation ("com.github.dhaval2404:imagepicker:2.1")
