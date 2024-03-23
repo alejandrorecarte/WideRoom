@@ -1,6 +1,7 @@
 package com.example.wideroom;
 
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
@@ -28,14 +29,29 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -136,44 +152,17 @@ public class ChatActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentReference> task) {
                         if(task.isSuccessful()){
                             messageInput.setText("");
-                            sendNotification(message);
+                            try {
+                                sendNotification(message, otherUser);
+                            }catch(Exception e){
+                                Log.e("OneSignal Response", Log.getStackTraceString(e));
+                            }
                         }
                     }
                 });
 
     }
 
-    public void sendNotification(String message) {
-        try {
-            // Configurar la conexión HTTP
-            URL url = new URL("https://onesignal.com/api/v1/notifications");
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setUseCaches(false);
-            con.setDoOutput(true);
-            con.setDoInput(true);
-            con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            con.setRequestProperty("Authorization", "Basic 8fb48336-9fc4-45ae-b884-ccda62fd2c3a");
-
-            // Construir el cuerpo del mensaje JSON
-            JSONObject notification = new JSONObject();
-            notification.put("contents", new JSONObject().put("en", message));
-            notification.put("include_player_ids", otherUser.getOneSignalId());
-
-            // Enviar la notificación
-            OutputStream os = con.getOutputStream();
-            os.write(notification.toString().getBytes("UTF-8"));
-            os.close();
-
-            System.out.println(con.getResponseMessage());
-            // Leer la respuesta
-            int responseCode = con.getResponseCode();
-            System.out.println("Response Code: " + responseCode);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static final String PROJECT_ID = "wideroom-b6ed8";
 
     private static final String MESSAGING_SCOPE = "https://www.googleapis.com/auth/firebase.messaging";
     private static final String[] SCOPES = { MESSAGING_SCOPE };
@@ -235,6 +224,65 @@ public class ChatActivity extends AppCompatActivity {
                     }
                 }
             }
+        });
+    }
+
+    private static void sendNotification(String message, UserModel otherUser) {
+        FirebaseUtil.currentUserDetails().get().addOnCompleteListener(task -> {
+            UserModel currentUserModel = task.getResult().toObject(UserModel.class);
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    try {
+                        JSONObject notification = new JSONObject();
+                        notification.put("app_id", "8fb48336-9fc4-45ae-b884-ccda62fd2c3a");
+
+                        JSONObject onesignalIds = new JSONObject();
+                        JSONArray subscriptionIds = new JSONArray();
+                        Log.i("OneSignal Info", "Sending notification to " + otherUser.getOneSignalId());
+                        subscriptionIds.put(otherUser.getOneSignalId()); // Asumiendo que getOneSignalId() devuelve el ID de suscripción
+                        onesignalIds.put("onesignal_id", subscriptionIds);
+                        notification.put("include_aliases",onesignalIds);
+
+                        notification.put("target_channel", "push");
+
+                        JSONObject contents = new JSONObject();
+                        contents.put("es", message);
+                        contents.put("en", message);
+
+                        notification.put("contents", contents);
+
+                        // Crear la conexión HTTP
+                        URL url = new URL("https://onesignal.com/api/v1/notifications");
+                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                        conn.setRequestProperty("accept", "application/json");
+                        conn.setRequestProperty("Authorization", "Basic KEY_API_HERE");
+                        conn.setRequestProperty("content-type", "application/json");
+                        conn.setDoOutput(true);
+
+                        // Escribir los datos en la conexión
+                        OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
+                        writer.write(String.valueOf(notification));
+                        writer.flush();
+                        writer.close();
+
+                        // Verificar la respuesta del servidor
+                        int responseCode = conn.getResponseCode();
+                        Log.i("OneSignal Response", String.valueOf(responseCode));
+                        if (responseCode != HttpURLConnection.HTTP_OK && responseCode != HttpURLConnection.HTTP_CREATED) {
+                            Log.e("OneSignal Response",("Error al enviar la notificación. Detalles:"));
+                            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+                            String line;
+                            while ((line = br.readLine()) != null) {
+                                Log.e("OneSignal Response", line);
+                            }
+                        }
+                    } catch (Exception e) {
+                        Log.e("OneSignal Repsonse", Log.getStackTraceString(e));
+                    }
+                    return null;
+                }
+            }.execute();
         });
     }
 }

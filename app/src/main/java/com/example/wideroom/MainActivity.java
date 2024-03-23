@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     ChatFragment chatFragment;
     ProfileFragment profileFragment;
-    private static final String ONESIGNAL_APP_ID = "8fb48336-9fc4-45ae-b884-ccda62fd2c3a";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,31 +60,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
      bottomNavigationView.setSelectedItemId(R.id.menu_chat);
-
-     getOneSignalId();
+     FirebaseUtil.currentUserDetails().update("oneSignalId", OneSignal.getUser().getOnesignalId());
     }
 
-    void getOneSignalId(){
-        OneSignal.getDebug().setLogLevel(LogLevel.VERBOSE);
-
-        // OneSignal Initialization
-        OneSignal.initWithContext(this, ONESIGNAL_APP_ID);
-
-        // requestPermission will show the native Android notification permission prompt.
-        // NOTE: It's recommended to use a OneSignal In-App Message to prompt instead.
-        OneSignal.getNotifications().requestPermission(true, Continue.with(r -> {
-            if (r.isSuccess()) {
-                if (r.getData()) {
-                    // `requestPermission` completed successfully and the user has accepted permission
-                }
-                else {
-                    // `requestPermission` completed successfully but the user has rejected permission
-                }
-            }
-            else {
-                // `requestPermission` completed unsuccessfully, check `r.getThrowable()` for more info on the failure reason
-            }
-        }));
-        FirebaseUtil.currentUserDetails().update("oneSignalId", OneSignal.getUser().getOnesignalId());
-    }
 }
