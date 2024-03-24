@@ -2,6 +2,7 @@ package com.example.wideroom.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wideroom.ChatActivity;
@@ -53,11 +55,23 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<Chatroom
                                     });
 
                             holder.usernameText.setText(otherUserModel.getUsername());
+
+                            FirebaseUtil.currentUserDetails().get().addOnCompleteListener(t -> {
+                               if(t.isSuccessful()){
+                                   UserModel currentUser = t.getResult().toObject(UserModel.class);
+                                   if(otherUserModel.getUsername().equals(currentUser.getUsername())){
+                                       holder.usernameText.setText(holder.usernameText.getText() + " (Me)");
+                                   }
+                               }
+                            });
+
                             if(lastMessageSendByMe){
                                 holder.lastMessageText.setText("You : "+model.getLastMessage());
                             }
                             else{
                                 holder.lastMessageText.setText(model.getLastMessage());
+                                holder.lastMessageText.setTypeface(null, Typeface.BOLD);
+                                holder.lastMessageTime.setTypeface(null, Typeface.BOLD);
                             }
 
                             holder.lastMessageTime.setText(FirebaseUtil.timestampToString(model.getLastMessageTimestamp()));

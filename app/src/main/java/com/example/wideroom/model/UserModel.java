@@ -7,7 +7,8 @@ public class UserModel {
     private String username;
     private Timestamp createdTimestamp;
     private String userId;
-    private String fcmToken;
+    private String oneSignalId;
+    private String subscriptionId;
 
     public UserModel() {
     }
@@ -17,6 +18,15 @@ public class UserModel {
         this.username = username;
         this.createdTimestamp = createdTimestamp;
         this.userId = userId;
+    }
+
+    public UserModel(String phone, String username, Timestamp createdTimestamp, String userId, String oneSignalId, String subscriptionId) {
+        this.phone = phone;
+        this.username = username;
+        this.createdTimestamp = createdTimestamp;
+        this.userId = userId;
+        this.oneSignalId = oneSignalId;
+        this.subscriptionId = subscriptionId;
     }
 
     public String getPhone() {
@@ -51,11 +61,19 @@ public class UserModel {
         this.userId = userId;
     }
 
-    public String getFcmToken() {
-        return fcmToken;
+    public String getOneSignalId() {
+        return oneSignalId;
     }
 
-    public void setFcmToken(String fcmToken) {
-        this.fcmToken = fcmToken;
+    public void setOneSignalId(String oneSignalId) {
+        this.oneSignalId = oneSignalId;
+    }
+
+    public String getSubscriptionId() {
+        return subscriptionId;
+    }
+
+    public void setSubscriptionId(String subscriptionId) {
+        this.subscriptionId = subscriptionId;
     }
 }

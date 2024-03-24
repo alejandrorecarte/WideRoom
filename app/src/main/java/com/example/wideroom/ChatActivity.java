@@ -1,7 +1,9 @@
 package com.example.wideroom;
 
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -21,15 +23,35 @@ import com.example.wideroom.utils.FirebaseUtil;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -51,6 +73,8 @@ public class ChatActivity extends AppCompatActivity {
     TextView otherUsername;
     RecyclerView recyclerView;
     ImageView imageView;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,62 +152,15 @@ public class ChatActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentReference> task) {
                         if(task.isSuccessful()){
                             messageInput.setText("");
-                            sendNotification(message);
+                            try {
+                                sendNotification(message, otherUser);
+                            }catch(Exception e){
+                                Log.e("OneSignal Response", Log.getStackTraceString(e));
+                            }
                         }
                     }
                 });
 
-    }
-
-    void sendNotification(String message){
-        FirebaseUtil.currentUserDetails().get().addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
-                  UserModel currentUser = task.getResult().toObject(UserModel.class);
-                  try{
-                    JSONObject jsonObject = new JSONObject();
-
-                    JSONObject notificationObj = new JSONObject();
-                    notificationObj.put("title", currentUser.getUsername());
-                    notificationObj.put("body", message);
-
-                    JSONObject dataObj = new JSONObject();
-                    dataObj.put("userId", currentUser.getUserId());
-
-                    jsonObject.put("notification", notificationObj);
-                    jsonObject.put("data", dataObj);
-                    jsonObject.put("to", otherUser.getFcmToken());
-
-                    callApi(jsonObject);
-                  }catch(Exception ex){
-
-                  }
-            }
-        });
-    }
-
-    void callApi(JSONObject jsonObject){
-        MediaType JSON = MediaType.get("application/json; charset=utf-8");
-
-        OkHttpClient client = new OkHttpClient();
-
-        String url = "https://fcm.googleapis.com/fcm/send";
-        RequestBody body = RequestBody.create(jsonObject.toString(), JSON);
-        Request request = new Request.Builder()
-                .url(url)
-                .post(body)
-                .header("Authorization", "Bearer AAAAkxUFjPU:APA91bF2uEzeU6PpkXCrc0il2jFMUMCDLeWIiwWPwRBXLXYOhd5SswJNXQkvTtciiOLR27epYk1WojTrKSsxll0Hc_Plp730PeFAYeEf5b0yX50N4SAKiooqxjlZPwojKTRggku5EUNe")
-                .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-
-            }
-        });
     }
 
     void getOrCreateChatroomModel(){
@@ -203,6 +180,63 @@ public class ChatActivity extends AppCompatActivity {
                     }
                 }
             }
+        });
+    }
+
+    private static void sendNotification(String message, UserModel otherUser) {
+        FirebaseUtil.currentUserDetails().get().addOnCompleteListener(task -> {
+            UserModel currentUserModel = task.getResult().toObject(UserModel.class);
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    try {
+                        JSONObject notification = new JSONObject();
+                        notification.put("app_id", "8fb48336-9fc4-45ae-b884-ccda62fd2c3a");
+
+                        JSONArray subscriptionIds = new JSONArray();
+                        Log.i("OneSignal Response", "Sending notification to " + otherUser.getSubscriptionId());
+                        subscriptionIds.put(otherUser.getSubscriptionId()); // Asumiendo que getOneSignalId() devuelve el ID de suscripción
+                        //onesignalIds.put("onesignal_id", subscriptionIds);
+                        notification.put("include_subscription_ids",subscriptionIds);
+
+                        notification.put("target_channel", "push");
+
+                        JSONObject contents = new JSONObject();
+                        contents.put("es", message);
+                        contents.put("en", message);
+
+                        notification.put("contents", contents);
+
+                        // Crear la conexión HTTP
+                        URL url = new URL("https://onesignal.com/api/v1/notifications");
+                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                        conn.setRequestProperty("accept", "application/json");
+                        conn.setRequestProperty("content-type", "application/json");
+                        conn.setDoOutput(true);
+
+                        // Escribir los datos en la conexión
+                        OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
+                        writer.write(String.valueOf(notification));
+                        writer.flush();
+                        writer.close();
+
+                        // Verificar la respuesta del servidor
+                        int responseCode = conn.getResponseCode();
+                        Log.i("OneSignal Response", String.valueOf(responseCode));
+                        if (responseCode != HttpURLConnection.HTTP_OK && responseCode != HttpURLConnection.HTTP_CREATED) {
+                            Log.e("OneSignal Response",("Error al enviar la notificación. Detalles:"));
+                            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+                            String line;
+                            while ((line = br.readLine()) != null) {
+                                Log.e("OneSignal Response", line);
+                            }
+                        }
+                    } catch (Exception e) {
+                        Log.e("OneSignal Repsonse", Log.getStackTraceString(e));
+                    }
+                    return null;
+                }
+            }.execute();
         });
     }
 }
