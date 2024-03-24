@@ -1,8 +1,12 @@
 package com.example.wideroom;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageButton;
@@ -37,13 +41,35 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        OneSignalNotification.requestPermission();
-
         chatFragment= new ChatFragment();
         profileFragment=new ProfileFragment();
 
         bottomNavigationView=findViewById(R.id.bottom_navigation);
         searchButton= findViewById(R.id.main_search_btn);
+
+        if (!OneSignal.getNotifications().getPermission()) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Permisos de Notificación");
+            builder.setMessage("¿Desea recibir notificaciones de esta aplicación?");
+            builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Uri uri = Uri.fromParts("package", getPackageName(), null);
+                    Intent intentNot = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    intentNot.setData(uri);
+                    startActivity(intentNot);
+                }
+            });
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // Si el usuario rechaza, cierra la actividad
+                    finish();
+                }
+            });
+            builder.setCancelable(false); // Evita que el usuario pueda cerrar el diálogo sin responder
+            builder.show();
+        }
 
         searchButton.setOnClickListener((v) -> {
             startActivity(new Intent(MainActivity.this,SearchUserActivity.class));

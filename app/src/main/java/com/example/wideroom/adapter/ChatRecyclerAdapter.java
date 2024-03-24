@@ -48,6 +48,8 @@ public class ChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatMessageMod
                 if (previousMessage!=null && (!FirebaseUtil.timestampToString(previousMessage.getTimestamp()).equals(FirebaseUtil.timestampToString(model.getTimestamp()))
                         || !previousMessage.getSenderId().equals(model.getSenderId()))) {
                     holder.rightChatTextViewTimestamp.setText(timestamp);
+                } else if(previousMessage==null) {
+                    holder.rightChatTextViewTimestamp.setText(timestamp);
                 } else {
                     holder.rightChatTextViewTimestamp.setVisibility(View.GONE);
                 }
@@ -67,7 +69,9 @@ public class ChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatMessageMod
                 if (previousMessage!=null && (!FirebaseUtil.timestampToString(previousMessage.getTimestamp()).equals(FirebaseUtil.timestampToString(model.getTimestamp()))
                         || !previousMessage.getSenderId().equals(model.getSenderId()))) {
                     holder.leftChatTextViewTimestamp.setText(timestamp);
-                } else {
+                } else if(previousMessage==null) {
+                    holder.leftChatTextViewTimestamp.setText(timestamp);
+                }else{
                     holder.leftChatTextViewTimestamp.setVisibility(View.GONE);
                 }
                 if (previousMessage!=null && (!previousMessage.getSenderId().equals(model.getSenderId()))) {

@@ -193,7 +193,6 @@ public class ChatActivity extends AppCompatActivity {
                         JSONObject notification = new JSONObject();
                         notification.put("app_id", "8fb48336-9fc4-45ae-b884-ccda62fd2c3a");
 
-                        JSONObject onesignalIds = new JSONObject();
                         JSONArray subscriptionIds = new JSONArray();
                         Log.i("OneSignal Response", "Sending notification to " + otherUser.getSubscriptionId());
                         subscriptionIds.put(otherUser.getSubscriptionId()); // Asumiendo que getOneSignalId() devuelve el ID de suscripción

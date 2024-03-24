@@ -1,6 +1,7 @@
 package com.example.wideroom;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.example.wideroom.utils.FirebaseUtil;
 import com.onesignal.Continue;
@@ -21,22 +22,18 @@ public class OneSignalNotification extends Application {
     }
 
     public static void requestPermission(){
-        if(OneSignal.getConsentRequired()) {
-            OneSignal.getNotifications().requestPermission(true, Continue.with(r -> {
-                if (r.isSuccess()) {
-                    if (r.getData()) {
-                        // `requestPermission` completed successfully and the user has accepted permission
-                        OneSignal.setConsentRequired(true);
-                    } else {
-                        // `requestPermission` completed successfully but the user has rejected permission
-                        OneSignal.setConsentRequired(false);
-                    }
+        OneSignal.getNotifications().requestPermission(true, Continue.with(r -> {
+            if (r.isSuccess()) {
+                if (r.getData()) {
+                    // `requestPermission` completed successfully and the user has accepted permission
                 } else {
-                    // `requestPermission` completed unsuccessfully, check `r.getThrowable()` for more info on the failure reason
+                    // `requestPermission` completed successfully but the user has rejected permission
                 }
-                // requestPermission will show the native Android notification permission prompt.
-                // NOTE: It's recommended to use a OneSignal In-App Message to prompt instead.
-            }));
-        }
+            } else {
+                // `requestPermission` completed unsuccessfully, check `r.getThrowable()` for more info on the failure reason
+            }
+            // requestPermission will show the native Android notification permission prompt.
+            // NOTE: It's recommended to use a OneSignal In-App Message to prompt instead.
+        }));
     }
 }
