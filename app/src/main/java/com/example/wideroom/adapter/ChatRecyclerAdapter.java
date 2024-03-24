@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,14 +33,56 @@ public class ChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatMessageMod
 
     @Override
     protected void onBindViewHolder(ChatModelViewHolder holder, int position, @NonNull ChatMessageModel model) {
-        if(model.getSenderId().equals(FirebaseUtil.currentUserId())){
+        ChatMessageModel previousMessage = null;
+        try {
+            previousMessage = getItem(position - 1);
+        } catch (ArrayIndexOutOfBoundsException e) {
+        }
+
+        if (model.getSenderId().equals(FirebaseUtil.currentUserId())) {
             holder.leftChatLayout.setVisibility(View.GONE);
             holder.rightChatLayout.setVisibility(View.VISIBLE);
             holder.rightChatTextView.setText(model.getMessage());
-        }else{
+            String timestamp = model.getTimestamp().toDate().getDate() + "/" +
+                    model.getTimestamp().toDate().getMonth() + " " +
+                    FirebaseUtil.timestampToString(model.getTimestamp());
+            try {
+                if (!FirebaseUtil.timestampToString(previousMessage.getTimestamp()).equals(FirebaseUtil.timestampToString(model.getTimestamp()))
+                        || !previousMessage.getSenderId().equals(model.getSenderId())) {
+                    holder.rightChatTextViewTimestamp.setText(timestamp);
+                } else {
+                    holder.rightChatTextViewTimestamp.setVisibility(View.GONE);
+                }
+                if(!previousMessage.getSenderId().equals(model.getSenderId())){
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.rightChatLayout.getLayoutParams();
+                    params.setMargins(0, 0, 0, 20); // Ajusta el margen superior según sea necesario
+                    holder.rightChatLayout.setLayoutParams(params);
+                }
+            } catch (NullPointerException ex) {
+                holder.rightChatTextViewTimestamp.setText(timestamp);
+            }
+        } else {
             holder.rightChatLayout.setVisibility(View.GONE);
             holder.leftChatLayout.setVisibility(View.VISIBLE);
             holder.leftChatTextView.setText(model.getMessage());
+            String timestamp = model.getTimestamp().toDate().getDate() + "/" +
+                    model.getTimestamp().toDate().getMonth() + " " +
+                    FirebaseUtil.timestampToString(model.getTimestamp());
+            try {
+                if (!FirebaseUtil.timestampToString(previousMessage.getTimestamp()).equals(FirebaseUtil.timestampToString(model.getTimestamp()))
+                        || !previousMessage.getSenderId().equals(model.getSenderId())) {
+                    holder.leftChatTextViewTimestamp.setText(timestamp);
+                } else {
+                    holder.leftChatTextViewTimestamp.setVisibility(View.GONE);
+                }
+                if(!previousMessage.getSenderId().equals(model.getSenderId())){
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.leftChatLayout.getLayoutParams();
+                    params.setMargins(0, 0, 0, 20); // Ajusta el margen superior según sea necesario
+                    holder.leftChatLayout.setLayoutParams(params);
+                }
+            } catch (NullPointerException ex) {
+                holder.leftChatTextViewTimestamp.setText(timestamp);
+            }
         }
     }
 
@@ -52,14 +95,16 @@ public class ChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatMessageMod
 
     class ChatModelViewHolder extends RecyclerView.ViewHolder{
         LinearLayout leftChatLayout,rightChatLayout;
-        TextView leftChatTextView,rightChatTextView;
+        TextView leftChatTextView,rightChatTextView, leftChatTextViewTimestamp, rightChatTextViewTimestamp;
 
         public ChatModelViewHolder(@NonNull View itemView) {
             super(itemView);
             leftChatLayout=itemView.findViewById(R.id.left_chat_layout);
             rightChatLayout=itemView.findViewById(R.id.right_chat_layout);
             leftChatTextView=itemView.findViewById(R.id.left_chat_textview);
+            leftChatTextViewTimestamp=itemView.findViewById(R.id.left_chat_textview_timestamp);
             rightChatTextView=itemView.findViewById(R.id.right_chat_textview);
+            rightChatTextViewTimestamp=itemView.findViewById(R.id.right_chat_textview_timestamp);
 
         }
     }

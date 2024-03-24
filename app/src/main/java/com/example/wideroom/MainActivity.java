@@ -10,7 +10,6 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.wideroom.model.UserModel;
 import com.example.wideroom.utils.FirebaseUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -38,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        OneSignalNotification.requestPermission();
+
         chatFragment= new ChatFragment();
         profileFragment=new ProfileFragment();
 
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 if(item.getItemId()==R.id.menu_profile){
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, profileFragment).commit();
                 }
-                return false;
+                return true;
             }
         });
 

@@ -18,21 +18,25 @@ public class OneSignalNotification extends Application {
 
         // OneSignal Initialization
         OneSignal.initWithContext(this, ONESIGNAL_APP_ID);
+    }
 
-        // requestPermission will show the native Android notification permission prompt.
-        // NOTE: It's recommended to use a OneSignal In-App Message to prompt instead.
-        OneSignal.getNotifications().requestPermission(true, Continue.with(r -> {
-            if (r.isSuccess()) {
-                if (r.getData()) {
-                    // `requestPermission` completed successfully and the user has accepted permission
+    public static void requestPermission(){
+        if(OneSignal.getConsentRequired()) {
+            OneSignal.getNotifications().requestPermission(true, Continue.with(r -> {
+                if (r.isSuccess()) {
+                    if (r.getData()) {
+                        // `requestPermission` completed successfully and the user has accepted permission
+                        OneSignal.setConsentRequired(true);
+                    } else {
+                        // `requestPermission` completed successfully but the user has rejected permission
+                        OneSignal.setConsentRequired(false);
+                    }
+                } else {
+                    // `requestPermission` completed unsuccessfully, check `r.getThrowable()` for more info on the failure reason
                 }
-                else {
-                    // `requestPermission` completed successfully but the user has rejected permission
-                }
-            }
-            else {
-                // `requestPermission` completed unsuccessfully, check `r.getThrowable()` for more info on the failure reason
-            }
-        }));
+                // requestPermission will show the native Android notification permission prompt.
+                // NOTE: It's recommended to use a OneSignal In-App Message to prompt instead.
+            }));
+        }
     }
 }

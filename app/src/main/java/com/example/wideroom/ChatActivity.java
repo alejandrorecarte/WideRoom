@@ -163,50 +163,6 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
-
-    private static final String MESSAGING_SCOPE = "https://www.googleapis.com/auth/firebase.messaging";
-    private static final String[] SCOPES = { MESSAGING_SCOPE };
-
-    private String getAccessToken() throws IOException {
-        InputStream inputStream = getApplicationContext().getAssets().open("service-account.json");
-        GoogleCredentials googleCredentials = GoogleCredentials
-                .fromStream(inputStream)
-                .createScoped(Arrays.asList(SCOPES));
-        googleCredentials.refreshAccessToken();
-        return googleCredentials.getAccessToken().getTokenValue();
-    }
-
-    void callApi(JSONObject jsonObject, UserModel currentUser) throws IOException {
-        MediaType JSON = MediaType.get("application/json; charset=utf-8");
-
-        OkHttpClient client = new OkHttpClient();
-
-        String url = "https://fcm.googleapis.com/v1/projects//messages:send";
-        RequestBody body = RequestBody.create(jsonObject.toString(), JSON);
-        Request request = new Request.Builder()
-                .url(url)
-                .post(body)
-                .header("Authorization", "Bearer "+ getAccessToken())
-                .build();
-        client.newCall(request).enqueue(new Callback() {
-
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                Log.e("FCM","Failed to send notificaction",e);
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if (!response.isSuccessful()) {
-                    Log.e("FCM", "Failed to send notification: " + response.code());
-                    Log.e("FCM", response.toString());
-                } else {
-                    Log.i("FCM", "Successfully sent notificaction");
-                }
-            }
-        });
-    }
-
     void getOrCreateChatroomModel(){
         FirebaseUtil.getChatroomReference(chatroomId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override

@@ -28,30 +28,25 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-
-
-        createNotificationChannel();
-
-        if(getIntent().getExtras()!=null){
+        if(getIntent().getExtras()!=null &&  getIntent().getExtras().getString("userId") != null){
             //from notification
             String userId = getIntent().getExtras().getString("userId");
             FirebaseUtil.allUserCollectionReference().document(userId).get()
                     .addOnCompleteListener(task -> {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             UserModel model = task.getResult().toObject(UserModel.class);
 
-                            Intent mainIntent = new Intent(this,MainActivity.class);
+                            Intent mainIntent = new Intent(this, MainActivity.class);
                             mainIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                             startActivity(mainIntent);
 
                             Intent intent = new Intent(this, ChatActivity.class);
-                            AndroidUtil.passUserModelAsIntent(intent,model);
+                            AndroidUtil.passUserModelAsIntent(intent, model);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             finish();
                         }
                     });
-
 
         }else{
             new Handler().postDelayed(new Runnable() {
@@ -65,20 +60,6 @@ public class SplashActivity extends AppCompatActivity {
                     finish();
                 }
             },1000);
-        }
-    }
-
-    private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String channelId = getString(R.string.default_notification_channel_id);
-            CharSequence channelName = getString(R.string.default_notification_channel_id);
-            String channelDescription = getString(R.string.default_notification_channel_description);
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
-            channel.setDescription(channelDescription);
-
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
         }
     }
 }
