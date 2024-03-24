@@ -2,6 +2,7 @@ package com.example.wideroom.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,56 +35,47 @@ public class ChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatMessageMod
     @Override
     protected void onBindViewHolder(ChatModelViewHolder holder, int position, @NonNull ChatMessageModel model) {
         ChatMessageModel previousMessage = null;
-        try {
+        if(position > 0) {
             previousMessage = getItem(position - 1);
-        } catch (ArrayIndexOutOfBoundsException e) {
         }
-
-        if (model.getSenderId().equals(FirebaseUtil.currentUserId())) {
-            holder.leftChatLayout.setVisibility(View.GONE);
-            holder.rightChatLayout.setVisibility(View.VISIBLE);
-            holder.rightChatTextView.setText(model.getMessage());
-            String timestamp = model.getTimestamp().toDate().getDate() + "/" +
-                    model.getTimestamp().toDate().getMonth() + " " +
-                    FirebaseUtil.timestampToString(model.getTimestamp());
-            try {
-                if (!FirebaseUtil.timestampToString(previousMessage.getTimestamp()).equals(FirebaseUtil.timestampToString(model.getTimestamp()))
-                        || !previousMessage.getSenderId().equals(model.getSenderId())) {
+            if (model.getSenderId().equals(FirebaseUtil.currentUserId())) {
+                holder.leftChatLayout.setVisibility(View.GONE);
+                holder.rightChatLayout.setVisibility(View.VISIBLE);
+                holder.rightChatTextView.setText(model.getMessage());
+                String timestamp = model.getTimestamp().toDate().getDate() + "/" +
+                        model.getTimestamp().toDate().getMonth() + " " +
+                        FirebaseUtil.timestampToString(model.getTimestamp());
+                if (previousMessage!=null && (!FirebaseUtil.timestampToString(previousMessage.getTimestamp()).equals(FirebaseUtil.timestampToString(model.getTimestamp()))
+                        || !previousMessage.getSenderId().equals(model.getSenderId()))) {
                     holder.rightChatTextViewTimestamp.setText(timestamp);
                 } else {
                     holder.rightChatTextViewTimestamp.setVisibility(View.GONE);
                 }
-                if(!previousMessage.getSenderId().equals(model.getSenderId())){
+                if (previousMessage!=null && (!previousMessage.getSenderId().equals(model.getSenderId()))) {
                     RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.rightChatLayout.getLayoutParams();
                     params.setMargins(0, 0, 0, 20); // Ajusta el margen superior según sea necesario
                     holder.rightChatLayout.setLayoutParams(params);
                 }
-            } catch (NullPointerException ex) {
-                holder.rightChatTextViewTimestamp.setText(timestamp);
-            }
-        } else {
-            holder.rightChatLayout.setVisibility(View.GONE);
-            holder.leftChatLayout.setVisibility(View.VISIBLE);
-            holder.leftChatTextView.setText(model.getMessage());
-            String timestamp = model.getTimestamp().toDate().getDate() + "/" +
-                    model.getTimestamp().toDate().getMonth() + " " +
-                    FirebaseUtil.timestampToString(model.getTimestamp());
-            try {
-                if (!FirebaseUtil.timestampToString(previousMessage.getTimestamp()).equals(FirebaseUtil.timestampToString(model.getTimestamp()))
-                        || !previousMessage.getSenderId().equals(model.getSenderId())) {
+
+            } else {
+                holder.rightChatLayout.setVisibility(View.GONE);
+                holder.leftChatLayout.setVisibility(View.VISIBLE);
+                holder.leftChatTextView.setText(model.getMessage());
+                String timestamp = model.getTimestamp().toDate().getDate() + "/" +
+                        model.getTimestamp().toDate().getMonth() + " " +
+                        FirebaseUtil.timestampToString(model.getTimestamp());
+                if (previousMessage!=null && (!FirebaseUtil.timestampToString(previousMessage.getTimestamp()).equals(FirebaseUtil.timestampToString(model.getTimestamp()))
+                        || !previousMessage.getSenderId().equals(model.getSenderId()))) {
                     holder.leftChatTextViewTimestamp.setText(timestamp);
                 } else {
                     holder.leftChatTextViewTimestamp.setVisibility(View.GONE);
                 }
-                if(!previousMessage.getSenderId().equals(model.getSenderId())){
+                if (previousMessage!=null && (!previousMessage.getSenderId().equals(model.getSenderId()))) {
                     RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.leftChatLayout.getLayoutParams();
                     params.setMargins(0, 0, 0, 20); // Ajusta el margen superior según sea necesario
                     holder.leftChatLayout.setLayoutParams(params);
                 }
-            } catch (NullPointerException ex) {
-                holder.leftChatTextViewTimestamp.setText(timestamp);
             }
-        }
     }
 
     @NonNull
