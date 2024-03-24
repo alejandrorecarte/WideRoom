@@ -8,6 +8,7 @@ public class UserModel {
     private Timestamp createdTimestamp;
     private String userId;
     private String oneSignalId;
+    private String subscriptionId;
 
     public UserModel() {
     }
@@ -17,6 +18,15 @@ public class UserModel {
         this.username = username;
         this.createdTimestamp = createdTimestamp;
         this.userId = userId;
+    }
+
+    public UserModel(String phone, String username, Timestamp createdTimestamp, String userId, String oneSignalId, String subscriptionId) {
+        this.phone = phone;
+        this.username = username;
+        this.createdTimestamp = createdTimestamp;
+        this.userId = userId;
+        this.oneSignalId = oneSignalId;
+        this.subscriptionId = subscriptionId;
     }
 
     public String getPhone() {
@@ -57,5 +67,13 @@ public class UserModel {
 
     public void setOneSignalId(String oneSignalId) {
         this.oneSignalId = oneSignalId;
+    }
+
+    public String getSubscriptionId() {
+        return subscriptionId;
+    }
+
+    public void setSubscriptionId(String subscriptionId) {
+        this.subscriptionId = subscriptionId;
     }
 }

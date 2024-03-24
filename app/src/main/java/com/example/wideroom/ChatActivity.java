@@ -239,10 +239,10 @@ public class ChatActivity extends AppCompatActivity {
 
                         JSONObject onesignalIds = new JSONObject();
                         JSONArray subscriptionIds = new JSONArray();
-                        Log.i("OneSignal Info", "Sending notification to " + otherUser.getOneSignalId());
-                        subscriptionIds.put(otherUser.getOneSignalId()); // Asumiendo que getOneSignalId() devuelve el ID de suscripción
-                        onesignalIds.put("onesignal_id", subscriptionIds);
-                        notification.put("include_aliases",onesignalIds);
+                        Log.i("OneSignal Response", "Sending notification to " + otherUser.getSubscriptionId());
+                        subscriptionIds.put(otherUser.getSubscriptionId()); // Asumiendo que getOneSignalId() devuelve el ID de suscripción
+                        //onesignalIds.put("onesignal_id", subscriptionIds);
+                        notification.put("include_subscription_ids",subscriptionIds);
 
                         notification.put("target_channel", "push");
 
@@ -256,7 +256,6 @@ public class ChatActivity extends AppCompatActivity {
                         URL url = new URL("https://onesignal.com/api/v1/notifications");
                         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                         conn.setRequestProperty("accept", "application/json");
-                        conn.setRequestProperty("Authorization", "Basic KEY_API_HERE");
                         conn.setRequestProperty("content-type", "application/json");
                         conn.setDoOutput(true);
 

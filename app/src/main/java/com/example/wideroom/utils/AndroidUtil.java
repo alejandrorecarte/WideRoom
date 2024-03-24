@@ -19,14 +19,16 @@ public class AndroidUtil {
         intent.putExtra("username",model.getUsername());
         intent.putExtra("phone",model.getPhone());
         intent.putExtra("userId",model.getUserId());
-        intent.putExtra("fcmToken",model.getOneSignalId());
+        intent.putExtra("oneSignalId",model.getOneSignalId());
+        intent.putExtra("subscriptionId",model.getSubscriptionId());
     }
     public static UserModel getUserModelFromIntent(Intent intent){
         UserModel userModel =new UserModel();
         userModel.setUsername(intent.getStringExtra("username"));
         userModel.setPhone(intent.getStringExtra("phone"));
         userModel.setUserId(intent.getStringExtra("userId"));
-        userModel.setOneSignalId(intent.getStringExtra("fcmToken"));
+        userModel.setOneSignalId(intent.getStringExtra("oneSignalId"));
+        userModel.setSubscriptionId(intent.getStringExtra("subscriptionId"));
         return userModel;
     }
 
