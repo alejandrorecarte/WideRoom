@@ -21,6 +21,7 @@ public class AndroidUtil {
         intent.putExtra("userId",model.getUserId());
         intent.putExtra("oneSignalId",model.getOneSignalId());
         intent.putExtra("subscriptionId",model.getSubscriptionId());
+        intent.putExtra("bio",model.getBio());
     }
     public static UserModel getUserModelFromIntent(Intent intent){
         UserModel userModel =new UserModel();
@@ -29,6 +30,7 @@ public class AndroidUtil {
         userModel.setUserId(intent.getStringExtra("userId"));
         userModel.setOneSignalId(intent.getStringExtra("oneSignalId"));
         userModel.setSubscriptionId(intent.getStringExtra("subscriptionId"));
+        userModel.setBio(intent.getStringExtra("bio"));
         return userModel;
     }
 

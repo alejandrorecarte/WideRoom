@@ -2,13 +2,16 @@ package com.example.wideroom.model;
 
 import com.google.firebase.Timestamp;
 
-public class UserModel {
+import java.io.Serializable;
+
+public class UserModel implements Serializable {
     private String phone;
     private String username;
     private Timestamp createdTimestamp;
     private String userId;
     private String oneSignalId;
     private String subscriptionId;
+    private String bio;
 
     public UserModel() {
     }
@@ -20,13 +23,14 @@ public class UserModel {
         this.userId = userId;
     }
 
-    public UserModel(String phone, String username, Timestamp createdTimestamp, String userId, String oneSignalId, String subscriptionId) {
+    public UserModel(String phone, String username, Timestamp createdTimestamp, String userId, String oneSignalId, String subscriptionId, String bio) {
         this.phone = phone;
         this.username = username;
         this.createdTimestamp = createdTimestamp;
         this.userId = userId;
         this.oneSignalId = oneSignalId;
         this.subscriptionId = subscriptionId;
+        this.bio = bio;
     }
 
     public String getPhone() {
@@ -75,5 +79,13 @@ public class UserModel {
 
     public void setSubscriptionId(String subscriptionId) {
         this.subscriptionId = subscriptionId;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 }

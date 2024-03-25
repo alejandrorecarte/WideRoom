@@ -47,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView=findViewById(R.id.bottom_navigation);
         searchButton= findViewById(R.id.main_search_btn);
 
+        OneSignal.getNotifications().clearAllNotifications();
+
         if (!OneSignal.getNotifications().getPermission()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Permisos de Notificación");

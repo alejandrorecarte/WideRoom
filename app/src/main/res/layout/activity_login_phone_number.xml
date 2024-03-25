@@ -73,12 +73,14 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enter mobile number"
         android:layout_gravity="center_vertical"
+        android:layout_weight="5"
+        android:gravity="center_horizontal"
         android:letterSpacing="0.08"
-        android:textStyle="bold"
+        android:text="Enter mobile number"
+        android:textColor="?attr/colorOnPrimary"
         android:textSize="25sp"
-        android:layout_weight="5"/>
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -93,7 +95,12 @@
             app:ccp_showFlag="false"
             app:ccp_showNameCode="false"
             app:ccp_countryPreference="ES,PT"
-            android:id="@+id/login_countrycode"/>
+            app:ccp_contentColor="?attr/colorOnPrimary"
+            app:ccp_autoDetectCountry="true"
+            android:outlineAmbientShadowColor="?attr/colorOnPrimary"
+            android:id="@+id/login_countrycode"
+            app:ccpDialog_backgroundColor="?attr/colorOnSecondary"
+            app:ccpDialog_textColor="?attr/colorOnPrimary"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -102,6 +109,9 @@
             android:hint="Mobile"
             android:inputType="phone"
             android:layout_margin="10dp"
+            android:backgroundTint="?attr/colorOnSecondary"
+            android:foregroundTint="?attr/colorOnPrimary"
+            android:outlineAmbientShadowColor="?attr/colorOnPrimary"
             android:background="@drawable/edit_text_rounded_corner"
             android:elevation="5dp"
             android:id="@+id/login_mobile_number"
@@ -125,7 +135,7 @@
         <ProgressBar
             android:layout_width="32dp"
             android:layout_height="wrap_content"
-            android:indeterminateTint="@color/primary"
+            android:indeterminateTint="?attr/colorPrimary"
             android:layout_gravity="center"
             android:id="@+id/login_progress_bar"/>
     </LinearLayout>

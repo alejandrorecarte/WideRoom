@@ -36,6 +36,7 @@ public class ProfileFragment extends Fragment {
 
     ImageView profilePic;
     EditText usernameInput;
+    EditText bioInput;
     EditText phoneInput;
     Button updateProfileBtn;
     ProgressBar progressBar;
@@ -70,6 +71,7 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         profilePic = view.findViewById(R.id.profile_image_view);
         usernameInput = view.findViewById(R.id.profile_username);
+        bioInput = view.findViewById(R.id.profile_bio);
         phoneInput = view.findViewById(R.id.profile_phone);
         updateProfileBtn = view.findViewById(R.id.profile_update_btn);
         progressBar = view.findViewById(R.id.profile_progress_bar);
@@ -119,6 +121,7 @@ public class ProfileFragment extends Fragment {
         }
 
         currentUserModel.setUsername(newUsername);
+        currentUserModel.setBio(bioInput.getText().toString());
         setInProgress(true);
 
         if(selectedImageUri != null) {
@@ -139,7 +142,6 @@ public class ProfileFragment extends Fragment {
                         AndroidUtil.showToast(getContext(),"Updated successfully");
                     }else{
                         AndroidUtil.showToast(getContext(),"Updated failed");
-
                     }
                 });
     }
@@ -159,6 +161,7 @@ public class ProfileFragment extends Fragment {
             setInProgress(false);
             currentUserModel = task.getResult().toObject(UserModel.class);
             usernameInput.setText(currentUserModel.getUsername());
+            bioInput.setText(currentUserModel.getBio());
             phoneInput.setText(currentUserModel.getPhone());
         });
     }

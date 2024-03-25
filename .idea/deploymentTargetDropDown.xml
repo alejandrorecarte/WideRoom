@@ -4,18 +4,18 @@
     <value>
       <entry key="app">
         <State>
-          <runningDeviceTargetSelectedWithDropDown>
+          <targetSelectedWithDropDown>
             <Target>
-              <type value="RUNNING_DEVICE_TARGET" />
+              <type value="QUICK_BOOT_TARGET" />
               <deviceKey>
                 <Key>
                   <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\alexr\.android\avd\Medium_Phone_API_30_2.avd" />
+                  <value value="C:\Users\alexr\.android\avd\Recarte.avd" />
                 </Key>
               </deviceKey>
             </Target>
-          </runningDeviceTargetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-03-23T17:52:23.615113500Z" />
+          </targetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-03-25T10:17:46.970805Z" />
           <multipleDevicesSelectedInDropDown value="true" />
           <targetsSelectedWithDialog>
             <Target>
@@ -23,7 +23,7 @@
               <deviceKey>
                 <Key>
                   <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\alexr\.android\avd\Medium_Phone_API_30_2.avd" />
+                  <value value="C:\Users\alexr\.android\avd\Ines.avd" />
                 </Key>
               </deviceKey>
             </Target>
@@ -32,7 +32,7 @@
               <deviceKey>
                 <Key>
                   <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\alexr\.android\avd\Medium_Phone_API_30.avd" />
+                  <value value="C:\Users\alexr\.android\avd\Recarte.avd" />
                 </Key>
               </deviceKey>
             </Target>

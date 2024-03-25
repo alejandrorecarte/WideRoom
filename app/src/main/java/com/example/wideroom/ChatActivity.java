@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentContainerView;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -73,6 +76,8 @@ public class ChatActivity extends AppCompatActivity {
     TextView otherUsername;
     RecyclerView recyclerView;
     ImageView imageView;
+    ProfileFragmentOtherUser profileFragment;
+    FragmentContainerView profileContainer;
 
 
 
@@ -90,6 +95,13 @@ public class ChatActivity extends AppCompatActivity {
         otherUsername = findViewById(R.id.other_username);
         recyclerView = findViewById(R.id.chat_recycler_view);
         imageView = findViewById(R.id.profile_pic_image_view);
+        profileFragment=new ProfileFragmentOtherUser();
+        profileContainer = findViewById(R.id.fragment_container);
+
+        Bundle args = new Bundle();
+        args.putSerializable("otherUserModel", otherUser);
+        profileFragment.setArguments(args);
+        profileContainer.setVisibility(View.GONE);
 
         FirebaseUtil.getOtherProfilePicStorageRef(otherUser.getUserId()).getDownloadUrl()
                 .addOnCompleteListener(t -> {
@@ -99,8 +111,38 @@ public class ChatActivity extends AppCompatActivity {
                     }
                 });
 
+        final FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
+        otherUsername.setOnClickListener(v -> {
+            if(getSupportFragmentManager().getBackStackEntryCount() == 0){
+                fragmentTransaction.add(R.id.fragment_container, profileFragment).addToBackStack(null).commit();
+                profileContainer.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+                messageInput.setVisibility(View.GONE);
+                sendMessageBtn.setVisibility(View.GONE);
+            }
+        });
+
+        imageView.setOnClickListener(v -> {
+            if(getSupportFragmentManager().getBackStackEntryCount() == 0){
+                fragmentTransaction.add(R.id.fragment_container, profileFragment).addToBackStack(null).commit();
+                profileContainer.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+                messageInput.setVisibility(View.GONE);
+                sendMessageBtn.setVisibility(View.GONE);
+            }
+        });
+
         backBtn.setOnClickListener(v -> {
-            onBackPressed();
+            if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+                onBackPressed();
+            } else {
+                getSupportFragmentManager().popBackStack();
+                profileContainer.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+                messageInput.setVisibility(View.VISIBLE);
+                sendMessageBtn.setVisibility(View.VISIBLE);
+            }
         });
 
         otherUsername.setText(otherUser.getUsername());
@@ -199,13 +241,21 @@ public class ChatActivity extends AppCompatActivity {
                         //onesignalIds.put("onesignal_id", subscriptionIds);
                         notification.put("include_subscription_ids",subscriptionIds);
 
+                        JSONObject data = new JSONObject();
+                        data.put("userId", currentUserModel.getUserId());
+                        notification.put("data", data);
+
                         notification.put("target_channel", "push");
 
                         JSONObject contents = new JSONObject();
-                        contents.put("es", message);
                         contents.put("en", message);
 
                         notification.put("contents", contents);
+
+                        JSONObject headings = new JSONObject();
+                        headings.put("en", currentUserModel.getUsername());
+                        notification.put("headings",headings);
+
 
                         // Crear la conexión HTTP
                         URL url = new URL("https://onesignal.com/api/v1/notifications");

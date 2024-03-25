@@ -66,19 +66,21 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:src="@drawable/otp_icon"
-        app:tint="@color/primary"
+        app:tint="?attr/colorPrimary"
         android:layout_weight="20"
         />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enter OTP sent to your phone number"
         android:layout_gravity="center_vertical"
+        android:layout_weight="5"
+        android:gravity="center_horizontal"
         android:letterSpacing="0.08"
-        android:textStyle="bold"
+        android:text="Enter OTP sent to your phone number"
+        android:textColor="?attr/colorOnPrimary"
         android:textSize="25sp"
-        android:layout_weight="5"/>
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -97,6 +99,9 @@
             android:inputType="number"
             android:maxLength="6"
             android:layout_margin="10dp"
+            android:backgroundTint="?attr/colorOnSecondary"
+            android:foregroundTint="?attr/colorOnPrimary"
+            android:outlineAmbientShadowColor="?attr/colorOnPrimary"
             android:background="@drawable/edit_text_rounded_corner"
             android:elevation="5dp"
             android:id="@+id/login_otp"
@@ -110,16 +115,19 @@
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:layout_weight="10">
+
         <Button
+            android:id="@+id/login_next_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_rounded_corner"
-            android:text="NEXT"
-            android:id="@+id/login_next_btn"/>
+            android:textColor="@color/white"
+            android:text="NEXT" />
+
         <ProgressBar
             android:layout_width="32dp"
             android:layout_height="wrap_content"
-            android:indeterminateTint="@color/primary"
+            android:indeterminateTint="?attr/colorPrimary"
             android:layout_gravity="center"
             android:id="@+id/login_progress_bar"/>
     </LinearLayout>
