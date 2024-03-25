@@ -18,7 +18,7 @@
         android:layout_marginBottom="40dp"
         android:id="@+id/profile_image_view_other_user"/>
 
-    <EditText
+    <TextView
         android:id="@+id/profile_username_other_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,14 +26,12 @@
         android:background="@drawable/edit_text_rounded_corner"
         android:backgroundTint="?attr/colorOnSecondary"
         android:elevation="5dp"
-        android:enabled="false"
-        android:foregroundTint="?attr/colorOnPrimary"
+        android:textColor="?attr/colorOnPrimary"
         android:hint="Username"
-        android:inputType="text"
         android:outlineAmbientShadowColor="?attr/colorOnPrimary"
         android:padding="10dp" />
 
-    <EditText
+    <TextView
         android:id="@+id/profile_bio_other_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,10 +39,8 @@
         android:background="@drawable/edit_text_rounded_corner"
         android:backgroundTint="?attr/colorOnSecondary"
         android:elevation="5dp"
-        android:enabled="false"
-        android:foregroundTint="?attr/colorOnPrimary"
+        android:textColor="?attr/colorOnPrimary"
         android:hint="Bio"
-        android:inputType="text|textShortMessage"
         android:outlineAmbientShadowColor="?attr/colorOnPrimary"
         android:padding="10dp" />
 

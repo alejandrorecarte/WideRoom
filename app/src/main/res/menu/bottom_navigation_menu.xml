@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Events"
+        android:icon="@drawable/event_icon"
+        android:id="@+id/menu_event"
+        />
+
     <item android:title="Chats"
         android:icon="@drawable/ic_logo_no_title"
         android:id="@+id/menu_chat"

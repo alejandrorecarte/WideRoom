@@ -35,8 +35,8 @@ import kotlin.jvm.functions.Function1;
 public class ProfileFragmentOtherUser extends Fragment {
 
     ImageView profilePic;
-    EditText usernameInput;
-    EditText bioInput;
+    TextView usernameInput;
+    TextView bioInput;
 
     UserModel otherUserModel;
     ActivityResultLauncher<Intent> imagePickLauncher;
