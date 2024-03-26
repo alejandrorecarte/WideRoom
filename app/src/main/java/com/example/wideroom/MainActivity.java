@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     ChatFragment chatFragment;
     ProfileFragment profileFragment;
+    EventsFragment eventsFragment;
 
 
     @Override
@@ -43,11 +44,13 @@ public class MainActivity extends AppCompatActivity {
 
         chatFragment= new ChatFragment();
         profileFragment=new ProfileFragment();
+        eventsFragment=new EventsFragment();
 
         bottomNavigationView=findViewById(R.id.bottom_navigation);
         searchButton= findViewById(R.id.main_search_btn);
 
         OneSignal.getNotifications().clearAllNotifications();
+
 
         if (!OneSignal.getNotifications().getPermission()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -83,9 +86,11 @@ public class MainActivity extends AppCompatActivity {
                 if(item.getItemId()==R.id.menu_chat){
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, chatFragment).commit();
                 }
-
                 if(item.getItemId()==R.id.menu_profile){
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, profileFragment).commit();
+                }
+                if(item.getItemId()==R.id.menu_event){
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, eventsFragment).commit();
                 }
                 return true;
             }

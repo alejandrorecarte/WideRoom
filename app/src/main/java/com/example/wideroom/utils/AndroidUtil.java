@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.wideroom.model.EventModel;
 import com.example.wideroom.model.UserModel;
 
 public class AndroidUtil {
@@ -36,5 +37,20 @@ public class AndroidUtil {
 
     public static void setProfilePic(Context context, Uri imageUri, ImageView imageView){
         Glide.with(context).load(imageUri).apply(RequestOptions.circleCropTransform()).into(imageView);
+    }
+    public static void passEventModelAsIntent(Intent intent, EventModel model){
+        intent.putExtra("eventName",model.getEventName());
+        intent.putExtra("date",model.getDate());
+        intent.putExtra("eventId",model.getEventId());
+        intent.putExtra("city",model.getCity());
+    }
+
+    public static EventModel getEventModelFromIntent(Intent intent){
+        EventModel eventModel =new EventModel();
+        eventModel.setEventName(intent.getStringExtra("eventName"));
+        eventModel.setDate(intent.getStringExtra("date"));
+        eventModel.setEventId(intent.getStringExtra("eventId"));
+        eventModel.setCity(intent.getStringExtra("city"));
+        return eventModel;
     }
 }

@@ -72,4 +72,10 @@ public class FirebaseUtil {
         return FirebaseStorage.getInstance().getReference().child("profile_pic")
                 .child(otherUserId);
     }
+    public static CollectionReference allEventsCollectionReference(){
+        return FirebaseFirestore.getInstance().collection("events");
+    }
+    public static DocumentReference getEventReference(String eventId){
+        return FirebaseFirestore.getInstance().collection("events").document(eventId);
+    }
 }
