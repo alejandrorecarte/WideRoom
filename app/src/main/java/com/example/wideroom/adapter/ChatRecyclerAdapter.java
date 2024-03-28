@@ -38,13 +38,14 @@ public class ChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatMessageMod
         if(position > 0) {
             previousMessage = getItem(position - 1);
         }
+        String timestamp = model.getTimestamp().toDate().getDate() + "/" +
+                model.getTimestamp().toDate().getMonth() + " " +
+                FirebaseUtil.timestampToString(model.getTimestamp());
+
             if (model.getSenderId().equals(FirebaseUtil.currentUserId())) {
                 holder.leftChatLayout.setVisibility(View.GONE);
                 holder.rightChatLayout.setVisibility(View.VISIBLE);
                 holder.rightChatTextView.setText(model.getMessage());
-                String timestamp = model.getTimestamp().toDate().getDate() + "/" +
-                        model.getTimestamp().toDate().getMonth() + " " +
-                        FirebaseUtil.timestampToString(model.getTimestamp());
                 if (previousMessage!=null && (!FirebaseUtil.timestampToString(previousMessage.getTimestamp()).equals(FirebaseUtil.timestampToString(model.getTimestamp()))
                         || !previousMessage.getSenderId().equals(model.getSenderId()))) {
                     holder.rightChatTextViewTimestamp.setText(timestamp);
@@ -63,9 +64,6 @@ public class ChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatMessageMod
                 holder.rightChatLayout.setVisibility(View.GONE);
                 holder.leftChatLayout.setVisibility(View.VISIBLE);
                 holder.leftChatTextView.setText(model.getMessage());
-                String timestamp = model.getTimestamp().toDate().getDate() + "/" +
-                        model.getTimestamp().toDate().getMonth() + " " +
-                        FirebaseUtil.timestampToString(model.getTimestamp());
                 if (previousMessage!=null && (!FirebaseUtil.timestampToString(previousMessage.getTimestamp()).equals(FirebaseUtil.timestampToString(model.getTimestamp()))
                         || !previousMessage.getSenderId().equals(model.getSenderId()))) {
                     holder.leftChatTextViewTimestamp.setText(timestamp);

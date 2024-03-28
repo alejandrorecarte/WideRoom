@@ -4,10 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,7 +27,14 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.AggregateQuery;
+import com.google.firebase.firestore.AggregateQuerySnapshot;
+import com.google.firebase.firestore.AggregateSource;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatroomModel, RecentChatRecyclerAdapter.ChatroomModelViewHolder> {
 
@@ -51,6 +61,10 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<Chatroom
                                         if(t.isSuccessful()){
                                             Uri uri = t.getResult();
                                             AndroidUtil.setProfilePic(context, uri, holder.profilePic);
+                                        }else{
+                                            Log.i("FireUtil Info","Other user profile pic not found");
+                                            Uri uri = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.drawable.person_icon);
+                                            AndroidUtil.setProfilePic(context, uri, holder.profilePic);
                                         }
                                     });
 
@@ -69,13 +83,38 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<Chatroom
                                 holder.lastMessageText.setText("You : "+model.getLastMessage());
                             }
                             else{
+                                AggregateQuery aq = FirebaseUtil.getChatroomMessageReference(model.getChatroomId())
+                                        .whereEqualTo("senderId", otherUserModel.getUserId())
+                                        .whereEqualTo("read", false)
+                                        .count();
+
+                                aq.get(AggregateSource.SERVER).addOnCompleteListener(new OnCompleteListener<AggregateQuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AggregateQuerySnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            TypedValue typedValue = new TypedValue();
+                                            context.getTheme().resolveAttribute(androidx.appcompat.R.attr.colorPrimary, typedValue, true);
+                                            int color = ContextCompat.getColor(context, typedValue.resourceId);
+                                            AggregateQuerySnapshot snapshot = task.getResult();
+                                            if(snapshot.getCount() > 0){
+                                                holder.lastMessageText.setTypeface(null, Typeface.BOLD);
+                                                holder.lastMessageTime.setTypeface(null, Typeface.BOLD);
+                                                holder.lastMessageTime.setTextColor(color);
+                                                holder.nonReadMessagesCountLayout.setVisibility(View.VISIBLE);
+                                                holder.nonReadMessagesCount.setText(String.valueOf(snapshot.getCount()));
+                                            }
+                                            Log.d("Firebase Info", "Count: " + snapshot.getCount());
+                                        }
+                                    }
+                                });
+
                                 String lastMessage = model.getLastMessage();
-                                if(lastMessage.length() > 50){
+                                if(lastMessage.length() > 80){
                                     lastMessage = lastMessage.substring(0,80)+"...";
                                 }
+
                                 holder.lastMessageText.setText(lastMessage);
-                                holder.lastMessageText.setTypeface(null, Typeface.BOLD);
-                                holder.lastMessageTime.setTypeface(null, Typeface.BOLD);
+
                             }
 
                             holder.lastMessageTime.setText(FirebaseUtil.timestampToString(model.getLastMessageTimestamp()));
@@ -102,6 +141,8 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<Chatroom
         TextView lastMessageText;
         TextView lastMessageTime;
         ImageView profilePic;
+        TextView nonReadMessagesCount;
+        RelativeLayout nonReadMessagesCountLayout;
 
         public ChatroomModelViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -109,7 +150,9 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<Chatroom
             lastMessageText = itemView.findViewById(R.id.last_message_text);
             lastMessageTime = itemView.findViewById(R.id.last_message_time_text);
             profilePic = itemView.findViewById(R.id.profile_pic_image_view);
-
+            nonReadMessagesCount = itemView.findViewById(R.id.non_read_messages_count);
+            nonReadMessagesCountLayout = itemView.findViewById(R.id.non_read_messages_layout);
+            nonReadMessagesCountLayout.setVisibility(View.GONE);
         }
     }
 }

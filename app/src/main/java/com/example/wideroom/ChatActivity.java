@@ -31,6 +31,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -103,13 +104,16 @@ public class ChatActivity extends AppCompatActivity {
         profileFragment.setArguments(args);
         profileContainer.setVisibility(View.GONE);
 
-        FirebaseUtil.getOtherProfilePicStorageRef(otherUser.getUserId()).getDownloadUrl()
-                .addOnCompleteListener(t -> {
-                    if(t.isSuccessful()){
-                        Uri uri = t.getResult();
-                        AndroidUtil.setProfilePic(this, uri, imageView);
-                    }
-                });
+        try {
+            FirebaseUtil.getOtherProfilePicStorageRef(otherUser.getUserId()).getDownloadUrl()
+                    .addOnCompleteListener(t -> {
+                        if (t.isSuccessful()) {
+                            Uri uri = t.getResult();
+                            AndroidUtil.setProfilePic(this, uri, imageView);
+                            uri=null;
+                        }
+                    });
+        }catch(Exception e){}
 
         final FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
@@ -159,6 +163,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     void setupChatRecyclerView(){
+        FirebaseUtil.markAsRead(chatroomId, otherUser);
         Query query = FirebaseUtil.getChatroomMessageReference(chatroomId)
                 .orderBy("timestamp", Query.Direction.DESCENDING);
 
@@ -176,6 +181,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onItemRangeInserted(int positionStart, int itemCount) {
                 super.onItemRangeInserted(positionStart, itemCount);
                 recyclerView.smoothScrollToPosition(0);
+                FirebaseUtil.markAsRead(chatroomId, otherUser);
             }
         });
     }
@@ -187,7 +193,7 @@ public class ChatActivity extends AppCompatActivity {
         chatroomModel.setLastMessage(message);
         FirebaseUtil.getChatroomReference(chatroomId).set(chatroomModel);
 
-        ChatMessageModel chatMessageModel = new ChatMessageModel(message, FirebaseUtil.currentUserId(), Timestamp.now());
+        ChatMessageModel chatMessageModel = new ChatMessageModel(message, FirebaseUtil.currentUserId(), Timestamp.now(), false);
         FirebaseUtil.getChatroomMessageReference(chatroomId).add(chatMessageModel)
                 .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                     @Override

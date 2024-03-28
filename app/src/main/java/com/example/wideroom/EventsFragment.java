@@ -52,6 +52,7 @@ public class EventsFragment extends Fragment {
     EventRecyclerAdapter adapter;
     String eventId;
     EventModel eventModel;
+    double[] coordinates;
     public EventsFragment() {
     }
 
@@ -59,6 +60,7 @@ public class EventsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_event, container, false);
+        coordinates = getArguments().getDoubleArray("coordinates");
         recyclerView = view.findViewById(R.id.recyler_view);
         setupRecyclerView();
         return view;
@@ -71,7 +73,7 @@ public class EventsFragment extends Fragment {
         FirestoreRecyclerOptions<EventModel> options = new FirestoreRecyclerOptions.Builder<EventModel>()
                 .setQuery(query, EventModel.class).build();
 
-        adapter = new EventRecyclerAdapter(options, getContext());
+        adapter = new EventRecyclerAdapter(options, getContext(), coordinates);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
         adapter.startListening();

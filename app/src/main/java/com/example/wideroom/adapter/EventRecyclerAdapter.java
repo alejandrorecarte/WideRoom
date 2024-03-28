@@ -29,10 +29,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 public class EventRecyclerAdapter extends FirestoreRecyclerAdapter<EventModel, EventRecyclerAdapter.EventModelViewHolder> {
 
     Context context;
+    double[] coordinates;
 
-    public EventRecyclerAdapter(@NonNull FirestoreRecyclerOptions<EventModel> options, Context context) {
+    public EventRecyclerAdapter(@NonNull FirestoreRecyclerOptions<EventModel> options, Context context, double[] coordinates) {
         super(options);
         this.context = context;
+        this.coordinates = coordinates;
     }
 
     @Override

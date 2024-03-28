@@ -12,7 +12,7 @@
         android:layout_width="160dp"
         android:layout_height="160dp"
         android:background="@drawable/circular_bg"
-        android:backgroundTint="@color/primary"
+        android:backgroundTint="?attr/colorPrimary"
         android:src="@drawable/person_icon"
         android:scaleType="centerCrop"
         android:layout_marginBottom="40dp"
@@ -34,14 +34,15 @@
     <TextView
         android:id="@+id/profile_bio_other_user"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_margin="10dp"
         android:background="@drawable/edit_text_rounded_corner"
         android:backgroundTint="?attr/colorOnSecondary"
         android:elevation="5dp"
-        android:textColor="?attr/colorOnPrimary"
         android:hint="Bio"
         android:outlineAmbientShadowColor="?attr/colorOnPrimary"
-        android:padding="10dp" />
+        android:inputType="text|textShortMessage|textAutoCorrect|textMultiLine"
+        android:padding="10dp"
+        android:textColor="?attr/colorOnPrimary" />
 
 </LinearLayout>

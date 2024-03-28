@@ -1,10 +1,15 @@
 package com.example.wideroom.utils;
 
+import android.util.Log;
+
+import com.example.wideroom.model.UserModel;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -77,5 +82,22 @@ public class FirebaseUtil {
     }
     public static DocumentReference getEventReference(String eventId){
         return FirebaseFirestore.getInstance().collection("events").document(eventId);
+    }
+
+    public static void markAsRead(String chatroomId, UserModel otherUser){
+        Query query = FirebaseUtil.getChatroomMessageReference(chatroomId)
+                .whereEqualTo("senderId", otherUser.getUserId())
+                .whereEqualTo("read", false);
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    // Obtiene la referencia del documento y actualiza el campo isRead a true
+                    DocumentReference docRef = document.getReference();
+                    docRef.update("read", true);
+                }
+            } else {
+                Log.d("FirebaseUtil Info", "Error al obtener los documentos: ", task.getException());
+            }
+        });
     }
 }
