@@ -8,31 +8,46 @@
     android:layout_margin="10dp"
     android:elevation="2dp">
 
+    <include layout="@layout/event_pic_view"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:orientation="vertical"
-        android:layout_gravity="center">
+        android:padding="5dp">
+
         <TextView
+            android:id="@+id/event_name_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Event name"
             android:textSize="18sp"
-            android:textStyle="bold"
-            android:id="@+id/event_name_text"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="00/00/0000 00:00"
-            android:id="@+id/date_text"/>
+            android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/city_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="City name"
-            android:id="@+id/city_text"/>
+            android:text="City name" />
+
+        <TextView
+            android:id="@+id/address_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address" />
+
+        <TextView
+            android:id="@+id/date_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00/00/0000 00:00" />
 
     </LinearLayout>
-
 </LinearLayout>

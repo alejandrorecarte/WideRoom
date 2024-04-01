@@ -48,6 +48,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation ("com.firebase:geofire-android-common:3.1.0")
     implementation("com.onesignal:OneSignal:[5.0.0, 5.99.99]")
     implementation ("com.google.firebase:firebase-auth")
     implementation ("com.google.auth:google-auth-library-oauth2-http:1.0.0")

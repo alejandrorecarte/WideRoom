@@ -2,7 +2,13 @@ package com.example.wideroom.utils;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.example.wideroom.model.UserModel;
+import com.firebase.geofire.GeoFireUtils;
+import com.firebase.geofire.GeoLocation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -14,7 +20,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FirebaseUtil {
 
@@ -99,5 +107,15 @@ public class FirebaseUtil {
                 Log.d("FirebaseUtil Info", "Error al obtener los documentos: ", task.getException());
             }
         });
+    }
+
+    public static StorageReference getEventPicIconStorageRef(String eventId){
+        return FirebaseStorage.getInstance().getReference().child("event_pic").child("icon")
+                .child(eventId);
+    }
+
+    public static StorageReference getEventPicBackgroundStorageRef(String eventId){
+        return FirebaseStorage.getInstance().getReference().child("event_pic").child("background")
+                .child(eventId);
     }
 }

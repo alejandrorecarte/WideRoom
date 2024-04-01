@@ -43,6 +43,7 @@ public class AndroidUtil {
         intent.putExtra("date",model.getDate());
         intent.putExtra("eventId",model.getEventId());
         intent.putExtra("city",model.getCity());
+        intent.putExtra("address",model.getAddress());
     }
 
     public static EventModel getEventModelFromIntent(Intent intent){
@@ -51,6 +52,11 @@ public class AndroidUtil {
         eventModel.setDate(intent.getStringExtra("date"));
         eventModel.setEventId(intent.getStringExtra("eventId"));
         eventModel.setCity(intent.getStringExtra("city"));
+        eventModel.setAddress(intent.getStringExtra("address"));
         return eventModel;
+    }
+
+    public static void setEventPic(Context context, Uri imageUri, ImageView imageView){
+        Glide.with(context).load(imageUri).into(imageView);
     }
 }
