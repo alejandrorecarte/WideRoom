@@ -110,7 +110,6 @@ public class ChatActivity extends AppCompatActivity {
                         if (t.isSuccessful()) {
                             Uri uri = t.getResult();
                             AndroidUtil.setProfilePic(this, uri, imageView);
-                            uri=null;
                         }
                     });
         }catch(Exception e){}

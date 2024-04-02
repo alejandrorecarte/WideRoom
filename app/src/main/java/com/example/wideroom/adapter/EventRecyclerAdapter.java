@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wideroom.EventActivity;
+import com.example.wideroom.MainActivity;
 import com.example.wideroom.R;
 import com.example.wideroom.model.EventModel;
 import com.example.wideroom.utils.AndroidUtil;
@@ -43,7 +44,8 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         holder.eventNameText.setText(eventModel.getEventName());
         holder.dateText.setText(eventModel.getDate());
         holder.cityText.setText(eventModel.getCity());
-        holder.addressText.setText(eventModel.getAddress() + " (" + eventModel.getDistanceAsString() + ")");
+        holder.distanceText.setText(eventModel.getDistanceAsString());
+        holder.addressText.setText(eventModel.getAddress());
 
         FirebaseUtil.getEventPicIconStorageRef(eventModel.getEventId()).getDownloadUrl()
                 .addOnCompleteListener(t -> {
@@ -75,6 +77,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         TextView dateText;
         TextView cityText;
         TextView addressText;
+        TextView distanceText;
         ImageView eventPic;
 
         public EventModelViewHolder(@NonNull View itemView) {
@@ -83,6 +86,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             dateText = itemView.findViewById(R.id.date_text);
             cityText = itemView.findViewById(R.id.city_text);
             addressText = itemView.findViewById(R.id.address_text);
+            distanceText = itemView.findViewById(R.id.distance_text);
             eventPic = itemView.findViewById(R.id.profile_pic_image_view);
         }
     }

@@ -113,9 +113,4 @@ public class FirebaseUtil {
         return FirebaseStorage.getInstance().getReference().child("event_pic").child("icon")
                 .child(eventId);
     }
-
-    public static StorageReference getEventPicBackgroundStorageRef(String eventId){
-        return FirebaseStorage.getInstance().getReference().child("event_pic").child("background")
-                .child(eventId);
-    }
 }

@@ -44,6 +44,9 @@ public class AndroidUtil {
         intent.putExtra("eventId",model.getEventId());
         intent.putExtra("city",model.getCity());
         intent.putExtra("address",model.getAddress());
+        intent.putExtra("distanceInM",model.getDistanceInM());
+        intent.putExtra("lng", model.getLng());
+        intent.putExtra("lat", model.getLat());
     }
 
     public static EventModel getEventModelFromIntent(Intent intent){
@@ -53,6 +56,9 @@ public class AndroidUtil {
         eventModel.setEventId(intent.getStringExtra("eventId"));
         eventModel.setCity(intent.getStringExtra("city"));
         eventModel.setAddress(intent.getStringExtra("address"));
+        eventModel.setDistanceInM(intent.getDoubleExtra("distanceInM",0));
+        eventModel.setLng(intent.getDoubleExtra("lng",0));
+        eventModel.setLat(intent.getDoubleExtra("lat",0));
         return eventModel;
     }
 

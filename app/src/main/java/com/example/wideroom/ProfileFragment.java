@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -69,10 +68,10 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        profilePic = view.findViewById(R.id.profile_image_view);
+        profilePic = view.findViewById(R.id.event_background_pic);
         usernameInput = view.findViewById(R.id.profile_username);
-        bioInput = view.findViewById(R.id.profile_bio);
-        phoneInput = view.findViewById(R.id.profile_phone);
+        bioInput = view.findViewById(R.id.address);
+        phoneInput = view.findViewById(R.id.date);
         updateProfileBtn = view.findViewById(R.id.profile_update_btn);
         progressBar = view.findViewById(R.id.profile_progress_bar);
         logoutBtn = view.findViewById(R.id.logout_btn);

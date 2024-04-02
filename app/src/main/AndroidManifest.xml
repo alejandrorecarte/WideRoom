@@ -28,6 +28,9 @@
             android:name=".ChatActivity"
             android:exported="false" />
         <activity
+            android:name=".EventActivity"
+            android:exported="false"/>
+        <activity
             android:name=".SearchUserActivity"
             android:exported="false" />
         <activity

@@ -32,16 +32,22 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/address_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address" />
+
+        <TextView
             android:id="@+id/city_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="City name" />
 
         <TextView
-            android:id="@+id/address_text"
+            android:id="@+id/distance_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Address" />
+            android:text="(-1 km)" />
 
         <TextView
             android:id="@+id/date_text"
