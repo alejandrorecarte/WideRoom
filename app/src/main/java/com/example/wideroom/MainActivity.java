@@ -11,11 +11,13 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.wideroom.utils.AndroidUtil;
 import com.example.wideroom.utils.FirebaseUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -39,6 +41,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -47,6 +50,7 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     ImageButton searchButton;
+    ImageButton filterButton;
     FusedLocationProviderClient fusedLocationClient;
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
     private static final int REQUEST_CODE_NOTIFICATION_PERMISSION = 1002;
@@ -67,42 +71,25 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         searchButton = findViewById(R.id.main_search_btn);
+        filterButton = findViewById(R.id.main_filter_btn);
 
         OneSignal.getNotifications().clearAllNotifications();
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         requestLocation();
 
-
-/*
-        if (!OneSignal.getNotifications().getPermission()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Permisos de Notificación");
-            builder.setMessage("¿Desea recibir notificaciones de esta aplicación?");
-            builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Uri uri = Uri.fromParts("package", getPackageName(), null);
-                    Intent intentNot = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                    intentNot.setData(uri);
-                    startActivity(intentNot);
-                }
-            });
-            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    // Si el usuario rechaza, cierra la actividad
-                    finish();
-                }
-            });
-            builder.setCancelable(false); // Evita que el usuario pueda cerrar el diálogo sin responder
-            builder.show();
-        }
-
- */
+        //coordinates = new double[]{40.32168011549933, -3.8684653512644993};
 
         searchButton.setOnClickListener((v) -> {
+
             startActivity(new Intent(MainActivity.this, SearchUserActivity.class));
+        });
+
+        filterButton.setOnClickListener((v) -> {
+            Intent intent = new Intent(MainActivity.this, FilterEventActivity.class);
+            intent.putExtra("coordinates", coordinates);
+            startActivity(intent);
+
         });
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -110,15 +97,22 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.menu_chat) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, chatFragment).commit();
+                    searchButton.setVisibility(View.VISIBLE);
+                    filterButton.setVisibility(View.GONE);
                 }
                 if (item.getItemId() == R.id.menu_profile) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, profileFragment).commit();
+                    searchButton.setVisibility(View.GONE);
+                    filterButton.setVisibility(View.GONE);
                 }
                 if (item.getItemId() == R.id.menu_event) {
                     Bundle args = new Bundle();
                     args.putSerializable("coordinates", coordinates);
                     eventsFragment.setArguments(args);
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, eventsFragment).commit();
+                    searchButton.setVisibility(View.GONE);
+                    filterButton.setVisibility(View.VISIBLE);
+
                 }
                 return true;
             }

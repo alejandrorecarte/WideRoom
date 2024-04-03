@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wideroom.adapter.EventRecyclerAdapter;
 import com.example.wideroom.model.EventModel;
+import com.example.wideroom.utils.AndroidUtil;
 import com.example.wideroom.utils.FirebaseUtil;
 import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
@@ -53,13 +54,11 @@ public class EventFragment extends Fragment {
     void setupRecyclerView(){
 
         coordinates = getArguments().getDoubleArray("coordinates");
-        coordinates = new double[]{40.32168011549933, -3.8684653512644993};
         Log.i("GeoFire", "User coordinates: " + Arrays.toString(coordinates));
         final GeoLocation userLocation = new GeoLocation(coordinates[0], coordinates[1]);
         double radiusInKm = 100;
         double radiusInM = radiusInKm * 1000;
         List<EventModel> events = new ArrayList<>();
-
         List<GeoQueryBounds> bounds = GeoFireUtils.getGeoHashQueryBounds(userLocation, radiusInM);
         final List<Task<QuerySnapshot>> tasks = new ArrayList<>();
         for (GeoQueryBounds b : bounds) {

@@ -46,6 +46,7 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation ("com.google.android.gms:play-services-location:21.2.0")
     implementation(libs.play.services.location)
+    implementation(libs.play.services.maps)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

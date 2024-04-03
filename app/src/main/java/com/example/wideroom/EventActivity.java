@@ -14,10 +14,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.wideroom.model.EventModel;
 import com.example.wideroom.utils.AndroidUtil;
 import com.example.wideroom.utils.FirebaseUtil;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Locale;
 
-public class EventActivity extends AppCompatActivity {
+public class EventActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     EventModel eventModel;
     TextView eventName;
@@ -27,8 +33,8 @@ public class EventActivity extends AppCompatActivity {
     TextView date;
     Button subscribeBtn;
     Button searchBtn;
-    ImageButton locationBtn;
-
+    MapView mapView;
+    private GoogleMap googleMap;
 
 
     @Override
@@ -44,7 +50,11 @@ public class EventActivity extends AppCompatActivity {
         subscribeBtn = findViewById(R.id.subscribe_btn);
         searchBtn = findViewById(R.id.search_users_btn);
         backBtn = findViewById(R.id.back_btn);
-        locationBtn = findViewById(R.id.location_btn);
+        mapView = findViewById(R.id.map_view);
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(this);
+
+        searchBtn.setVisibility(View.GONE);
 
         try {
             FirebaseUtil.getEventPicIconStorageRef(eventModel.getEventId()).getDownloadUrl()
@@ -60,12 +70,18 @@ public class EventActivity extends AppCompatActivity {
             onBackPressed();
         });
 
-        locationBtn.setOnClickListener(new View.OnClickListener() {
+        /*locationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String uri = String.format(Locale.ENGLISH, "geo:%f,%f", eventModel.getLat(), eventModel.getLng());
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                String geoUri = "http://maps.google.com/maps?q=loc:" + eventModel.getLat() + "," + eventModel.getLng() + " (" + eventModel.getAddress() + ")";
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(geoUri));
                 v.getContext().startActivity(intent);
+            }
+        });*/
+
+        subscribeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
             }
         });
 
@@ -73,5 +89,43 @@ public class EventActivity extends AppCompatActivity {
         address.setText(eventModel.getAddress() + ", " + eventModel.getCity() + "\n" + eventModel.getDistanceAsString());
         date.setText(eventModel.getDate());
 
+    }
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+        googleMap = map;
+        LatLng COORDINATES = new LatLng(eventModel.getLat(), eventModel.getLng());
+        // Añadir marcador en las coordenadas especificadas
+        googleMap.addMarker(new MarkerOptions()
+                .position(COORDINATES)
+                .title(eventModel.getAddress())
+                .snippet(eventModel.getCity()));
+
+        // Mover la cámara a las coordenadas especificadas y ajustar el zoom
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(COORDINATES, 12));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
     }
 }
