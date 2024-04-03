@@ -1,5 +1,7 @@
 package com.example.wideroom;
 
+import static android.Manifest.permission.POST_NOTIFICATIONS;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,6 +27,7 @@ import android.location.Location;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     ImageButton searchButton;
     FusedLocationProviderClient fusedLocationClient;
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
+    private static final int REQUEST_CODE_NOTIFICATION_PERMISSION = 1002;
     ChatFragment chatFragment;
     ProfileFragment profileFragment;
     EventFragment eventsFragment;
@@ -69,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         requestLocation();
 
+
+/*
         if (!OneSignal.getNotifications().getPermission()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Permisos de Notificación");
@@ -92,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
             builder.setCancelable(false); // Evita que el usuario pueda cerrar el diálogo sin responder
             builder.show();
         }
+
+ */
 
         searchButton.setOnClickListener((v) -> {
             startActivity(new Intent(MainActivity.this, SearchUserActivity.class));
@@ -179,12 +187,25 @@ public class MainActivity extends AppCompatActivity {
                 double longitude = location.getLongitude();
                 // Usa la latitud, longitud y altitud como sea necesario
                 coordinates = new double[]{latitude, longitude};
+                
+                requestNotificationPermission();
             } else {
                 // Si la ubicación es nula, puedes solicitar actualizaciones de ubicación
                 requestLocationUpdates();
             }
         });
     }
+
+    private void requestNotificationPermission() {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // Si los permisos de notificación no están concedidos, solicítalos
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                    REQUEST_CODE_NOTIFICATION_PERMISSION);
+        }
+    }
+
 
     private void requestLocationUpdates() {
         LocationRequest locationRequest = LocationRequest.create()
@@ -227,11 +248,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_CODE_LOCATION_PERMISSION &&
-                grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            requestLocation();
-        } else {
-            Toast.makeText(this, "Permiso denegado", Toast.LENGTH_SHORT).show();
+        switch (requestCode) {
+            case REQUEST_CODE_LOCATION_PERMISSION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    requestLocation();
+                } else {
+                    Toast.makeText(this, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case REQUEST_CODE_NOTIFICATION_PERMISSION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Los permisos de notificación han sido concedidos
+                    // Puedes proceder con tu lógica de notificación aquí
+                } else {
+                    Toast.makeText(this, "Permiso de notificación denegado", Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
     }
 }
