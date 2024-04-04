@@ -7,18 +7,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.wideroom.model.UserModel;
 import com.example.wideroom.utils.FirebaseUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Firebase;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 
@@ -37,7 +32,7 @@ public class LoginUsernameActivity extends AppCompatActivity {
 
         usernameInput = findViewById(R.id.login_username);
         letMeInBtn = findViewById(R.id.login_let_me_in_btn);
-        progressBar =findViewById(R.id.login_progress_bar);
+        progressBar =findViewById(R.id.event_progress_bar);
 
         phoneNumber = getIntent().getExtras().getString("phone");
         getUsername();

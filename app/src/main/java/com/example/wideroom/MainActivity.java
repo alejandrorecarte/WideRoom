@@ -75,10 +75,10 @@ public class MainActivity extends AppCompatActivity {
 
         OneSignal.getNotifications().clearAllNotifications();
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        requestLocation();
+        //fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        //requestLocation();
 
-        //coordinates = new double[]{40.32168011549933, -3.8684653512644993};
+        coordinates = new double[]{40.32168011549933, -3.8684653512644993};
 
         searchButton.setOnClickListener((v) -> {
 

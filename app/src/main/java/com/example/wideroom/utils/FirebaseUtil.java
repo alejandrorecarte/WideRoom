@@ -113,4 +113,16 @@ public class FirebaseUtil {
         return FirebaseStorage.getInstance().getReference().child("event_pic").child("icon")
                 .child(eventId);
     }
+
+    public static CollectionReference allEventSubscribersReference(String eventId){
+        return getEventReference(eventId).collection("subscribers");
+    }
+
+    public static DocumentReference currentUserEventSubscriberReference(String eventId){
+        return getEventReference(eventId).collection("subscribers").document(currentUserId());
+    }
+
+    public static DocumentReference getEventsSubscriberReference(String eventId, String userId){
+        return getEventReference(eventId).collection("subscribers").document(userId);
+    }
 }

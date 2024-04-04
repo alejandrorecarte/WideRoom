@@ -103,7 +103,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="139dp"
+                android:layout_height="203dp"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
@@ -115,6 +115,13 @@
                     android:background="@drawable/btn_rounded_corner"
                     android:text="Subscribe event"
                     android:textColor="@color/white" />
+
+                <ProgressBar
+                    android:id="@+id/event_progress_bar"
+                    android:layout_width="32dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:indeterminateTint="@color/primary" />
 
                 <Button
                     android:id="@+id/search_users_btn"

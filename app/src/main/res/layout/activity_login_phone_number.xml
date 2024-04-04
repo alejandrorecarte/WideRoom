@@ -137,7 +137,7 @@
             android:layout_height="wrap_content"
             android:indeterminateTint="?attr/colorPrimary"
             android:layout_gravity="center"
-            android:id="@+id/login_progress_bar"/>
+            android:id="@+id/event_progress_bar"/>
     </LinearLayout>
 
 </LinearLayout>

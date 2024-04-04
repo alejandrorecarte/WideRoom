@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.wideroom.utils.AndroidUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,12 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import org.w3c.dom.Text;
-
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -51,7 +45,7 @@ public class LoginOtpActivity extends AppCompatActivity {
 
         otpInput = findViewById(R.id.login_otp);
         nextBtn = findViewById(R.id.login_next_btn);
-        progressBar = findViewById(R.id.login_progress_bar);
+        progressBar = findViewById(R.id.event_progress_bar);
         resendOtpTextView = findViewById(R.id.resend_otp_textview);
 
         phoneNumber = getIntent().getExtras().getString("phone");
