@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:gravity="center"
+android:layout_margin="20dp"
+android:weightSum="100"
+tools:context=".LoginEmailActivity">
+
+    <ImageView
+    android:layout_width="150dp"
+    android:layout_height="150dp"
+    android:src="@drawable/ic_logo_no_title"
+    android:layout_weight="20"
+    />
+
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:layout_weight="5"
+    android:gravity="center_horizontal"
+    android:letterSpacing="0.08"
+    android:text="WIDE ROOM"
+    android:textColor="?attr/colorOnPrimary"
+    android:textSize="25sp"
+    android:textStyle="bold" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:layout_margin="10dp"
+        android:backgroundTint="?attr/colorOnSecondary"
+        android:foregroundTint="?attr/colorOnPrimary"
+        android:outlineAmbientShadowColor="?attr/colorOnPrimary"
+        android:background="@drawable/edit_text_rounded_corner"
+        android:elevation="5dp"
+        android:id="@+id/login_email"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:layout_margin="10dp"
+        android:backgroundTint="?attr/colorOnSecondary"
+        android:foregroundTint="?attr/colorOnPrimary"
+        android:outlineAmbientShadowColor="?attr/colorOnPrimary"
+        android:background="@drawable/edit_text_rounded_corner"
+        android:elevation="5dp"
+        android:id="@+id/login_password"
+        />
+
+    <TextView
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorOnPrimary"
+        android:text="Can't remember your password?"
+        android:id="@+id/restore_password_text"
+        />
+
+    <TextView
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorOnPrimary"
+        android:text="Don't have an account? Register here"
+        android:id="@+id/register_text"
+        />
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:layout_weight="20">
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_rounded_corner"
+        android:text="LOG IN"
+        android:textColor="@color/white"
+        android:id="@+id/login_btn"/>
+    <ProgressBar
+        android:layout_width="32dp"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="?attr/colorPrimary"
+        android:layout_gravity="center"
+        android:id="@+id/event_progress_bar"/>
+</LinearLayout>
+
+</LinearLayout>

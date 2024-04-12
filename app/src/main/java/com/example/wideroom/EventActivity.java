@@ -24,6 +24,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Query;
 
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -129,7 +130,8 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                         Random random = new Random();
                         int randomIndex = random.nextInt(totalDocuments);
 
-                        AtomicInteger petitionsSentTries = new AtomicInteger(5);
+                        Query query = FirebaseUtil.allEventSubscribersReference(eventModel.getEventId()).whereEqualTo("isSubscribed", true).whereNotEqualTo("userId", FirebaseUtil.currentUserId());
+                        /*AtomicInteger petitionsSentTries = new AtomicInteger(5);
                         while (petitionsSentTries.get() > 0) {
                             Log.i("SendChatPetitionBtn", "Entered the while");
                             FirebaseUtil.allEventSubscribersReference(eventModel.getEventId()).orderBy("subTimestamp").limit(randomIndex + 1).get().addOnSuccessListener(queryDocumentSnapshots1 -> {
@@ -151,7 +153,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                             }
                             });
                             petitionsSentTries.getAndDecrement();
-                        }
+                        }*/
                     });
                 }else{
                     AndroidUtil.showToast(v.getContext(), "You have no more chat petition to send");

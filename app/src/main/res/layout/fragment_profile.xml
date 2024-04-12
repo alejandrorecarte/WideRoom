@@ -47,19 +47,20 @@
         android:inputType="text|textShortMessage|textAutoCorrect|textMultiLine"
         android:outlineAmbientShadowColor="?attr/colorOnPrimary"
         android:padding="10dp" />
+
     <EditText
+        android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:hint="Phone"
         android:layout_margin="10dp"
         android:background="@drawable/edit_text_rounded_corner"
         android:backgroundTint="?attr/colorOnSecondary"
-        android:foregroundTint="?attr/colorOnPrimary"
-        android:outlineAmbientShadowColor="?attr/colorOnPrimary"
         android:elevation="5dp"
-        android:enabled="false" android:id="@+id/date"
-        />
+        android:enabled="false"
+        android:foregroundTint="?attr/colorOnPrimary"
+        android:hint="Email"
+        android:outlineAmbientShadowColor="?attr/colorOnPrimary"
+        android:padding="10dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -72,6 +73,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/btn_rounded_corner"
             android:text="Update profile"
+            android:textColor="@color/white"
             android:id="@+id/profile_update_btn"/>
         <ProgressBar
             android:layout_width="32dp"

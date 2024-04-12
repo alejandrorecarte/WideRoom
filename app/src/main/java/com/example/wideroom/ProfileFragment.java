@@ -36,7 +36,7 @@ public class ProfileFragment extends Fragment {
     ImageView profilePic;
     EditText usernameInput;
     EditText bioInput;
-    EditText phoneInput;
+    EditText emailInput;
     Button updateProfileBtn;
     ProgressBar progressBar;
     TextView logoutBtn;
@@ -71,7 +71,7 @@ public class ProfileFragment extends Fragment {
         profilePic = view.findViewById(R.id.event_background_pic);
         usernameInput = view.findViewById(R.id.profile_username);
         bioInput = view.findViewById(R.id.address);
-        phoneInput = view.findViewById(R.id.date);
+        emailInput = view.findViewById(R.id.email);
         updateProfileBtn = view.findViewById(R.id.profile_update_btn);
         progressBar = view.findViewById(R.id.profile_progress_bar);
         logoutBtn = view.findViewById(R.id.logout_btn);
@@ -161,7 +161,7 @@ public class ProfileFragment extends Fragment {
             currentUserModel = task.getResult().toObject(UserModel.class);
             usernameInput.setText(currentUserModel.getUsername());
             bioInput.setText(currentUserModel.getBio());
-            phoneInput.setText(currentUserModel.getPhone());
+            emailInput.setText(currentUserModel.getEmail());
         });
     }
 
