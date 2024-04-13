@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     ChatFragment chatFragment;
     ProfileFragment profileFragment;
     EventFragment eventsFragment;
+    FriendRequestFragment friendRequestFragment;
     double[] coordinates;
 
 
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         chatFragment = new ChatFragment();
         profileFragment = new ProfileFragment();
         eventsFragment = new EventFragment();
+        friendRequestFragment= new FriendRequestFragment();
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         searchButton = findViewById(R.id.main_search_btn);
@@ -113,6 +115,11 @@ public class MainActivity extends AppCompatActivity {
                     searchButton.setVisibility(View.GONE);
                     filterButton.setVisibility(View.VISIBLE);
 
+                }
+                if (item.getItemId() == R.id.menu_friend_request) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, friendRequestFragment).commit();
+                    searchButton.setVisibility(View.GONE);
+                    filterButton.setVisibility(View.GONE);
                 }
                 return true;
             }

@@ -14,5 +14,8 @@
         android:icon="@drawable/person_icon"
         android:id="@+id/menu_profile"
         />
-
+    <item android:title="Request"
+        android:icon="@drawable/friend_request_icon"
+        android:id="@+id/menu_friend_request"
+        />
 </menu>
