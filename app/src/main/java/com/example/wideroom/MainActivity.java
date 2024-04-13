@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                     OkHttpClient client = new OkHttpClient();
 
                     Request request = new Request.Builder()
-                            .url("https://api.onesignal.com/apps/8fb48336-9fc4-45ae-b884-ccda62fd2c3a/users/by/onesignal_id/" + oneSignalId)
+                            .url("https://api.onesignal.com/apps/6b027511-d7eb-4c8b-aa32-f8211e2c317b/users/by/onesignal_id/" + oneSignalId)
                             .get()
                             .addHeader("accept", "application/json")
                             .build();

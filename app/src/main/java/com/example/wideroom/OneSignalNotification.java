@@ -13,7 +13,7 @@ import com.onesignal.debug.LogLevel;
 
 public class OneSignalNotification extends Application {
 
-    private static final String ONESIGNAL_APP_ID = "8fb48336-9fc4-45ae-b884-ccda62fd2c3a";
+    private static final String ONESIGNAL_APP_ID = "6b027511-d7eb-4c8b-aa32-f8211e2c317b";
 
     @Override
     public void onCreate(){

@@ -76,25 +76,55 @@ tools:context=".LoginEmailActivity">
         android:id="@+id/register_text"
         />
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:gravity="center_vertical"
-    android:orientation="vertical"
-    android:layout_weight="20">
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/btn_rounded_corner"
-        android:text="LOG IN"
-        android:textColor="@color/white"
-        android:id="@+id/login_btn"/>
-    <ProgressBar
-        android:layout_width="32dp"
-        android:layout_height="wrap_content"
-        android:indeterminateTint="?attr/colorPrimary"
-        android:layout_gravity="center"
-        android:id="@+id/event_progress_bar"/>
-</LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="182dp"
+        android:layout_weight="20"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/login_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="LOG IN"
+            android:textColor="@color/white" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <Button
+                android:id="@+id/login_phone_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/btn_rounded_corner"
+                android:drawableEnd="@drawable/phone_icon"
+                android:drawableTint="@color/white"
+                android:text="Use Phone"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/login_google_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/btn_rounded_corner"
+                android:drawableEnd="@drawable/google_icon"
+                android:drawableTint="@color/white"
+                android:text="Use Google"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/event_progress_bar"
+            android:layout_width="32dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminateTint="?attr/colorPrimary" />
+    </LinearLayout>
 </LinearLayout>
