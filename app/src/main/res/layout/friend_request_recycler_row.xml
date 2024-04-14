@@ -33,12 +33,16 @@
                 android:textStyle="bold"
                 android:id="@+id/user_name_text"/>
             <Button
+                android:id="@+id/accept_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Acept"
+                android:text="Accept"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="10dp"
-                android:id="@+id/accept_btn"/>
+                android:background="@drawable/btn_rounded_corner"
+                android:drawableTint="@color/white"
+                android:textColor="@color/white"
+                android:drawableEnd="@drawable/check_icon"
+                />
 
         </RelativeLayout>
 
@@ -51,12 +55,14 @@
                 tools:text="null"
                 android:id="@+id/bio_text"/>
             <Button
+                android:id="@+id/reject_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Reject"
+                android:text="Reject"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="10dp"
-                android:id="@+id/reject_btn"
+                android:drawableTint="@color/white"
+                android:textColor="@color/white"
+                android:drawableEnd="@drawable/cross_icon"
                 />
 
             </RelativeLayout>
