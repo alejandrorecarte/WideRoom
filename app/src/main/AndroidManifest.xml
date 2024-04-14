@@ -15,6 +15,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        tools:targetApi="31"
         android:theme="@style/Theme.WideRoom">
         <activity
             android:name=".LoginPhoneNumberActivity"
@@ -74,7 +75,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCAUyRQhKIeJV6262pm13B0txlGt4ppN1g" />
+            android:value="AIzaSyAymapyNPbW7k8GLfmM13m3-L4pwsZ0Ay8" />
     </application>
 
 </manifest>

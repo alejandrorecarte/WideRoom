@@ -4,6 +4,7 @@ plugins {
 }
 
 android {
+
     namespace = "com.example.wideroom"
     compileSdk = 34
 
@@ -12,7 +13,7 @@ android {
         minSdk = 24
         targetSdk = 34
         versionCode = 1
-        versionName = "A.1.0"
+        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

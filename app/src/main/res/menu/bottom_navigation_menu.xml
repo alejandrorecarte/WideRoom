@@ -4,7 +4,10 @@
         android:icon="@drawable/event_icon"
         android:id="@+id/menu_event"
         />
-
+    <item android:title="Request"
+        android:icon="@drawable/friend_request_icon"
+        android:id="@+id/menu_friend_request"
+        />
     <item android:title="Chats"
         android:icon="@drawable/ic_logo_no_title"
         android:id="@+id/menu_chat"
@@ -14,8 +17,5 @@
         android:icon="@drawable/person_icon"
         android:id="@+id/menu_profile"
         />
-    <item android:title="Request"
-        android:icon="@drawable/friend_request_icon"
-        android:id="@+id/menu_friend_request"
-        />
+
 </menu>
