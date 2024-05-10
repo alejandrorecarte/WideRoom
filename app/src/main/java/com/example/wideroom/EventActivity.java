@@ -11,11 +11,18 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.wideroom.adapter.RecentChatRecyclerAdapter;
+import com.example.wideroom.adapter.SearchUsersEventRecyclerAdapter;
+import com.example.wideroom.model.ChatroomModel;
 import com.example.wideroom.model.EventModel;
 import com.example.wideroom.model.EventSubscriptionModel;
+import com.example.wideroom.model.UserModel;
 import com.example.wideroom.utils.AndroidUtil;
 import com.example.wideroom.utils.FirebaseUtil;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -26,6 +33,8 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -38,10 +47,12 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
     TextView address;
     TextView date;
     Button subscribeBtn;
-    Button sendChatPetitionBtn;
+    Button searchForUsersBtn;
     MapView mapView;
     EventSubscriptionModel sub;
     ProgressBar progressBar;
+    RecyclerView searchUsersEventRecyclerView;
+    SearchUsersEventRecyclerAdapter searchUsersEventRecyclerAdapter;
     private GoogleMap googleMap;
 
 
@@ -56,15 +67,16 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
         address = findViewById(R.id.address);
         date = findViewById(R.id.date);
         subscribeBtn = findViewById(R.id.subscribe_btn);
-        sendChatPetitionBtn = findViewById(R.id.search_users_btn);
+        searchForUsersBtn = findViewById(R.id.search_users_btn);
         backBtn = findViewById(R.id.back_btn);
         mapView = findViewById(R.id.map_view);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
         progressBar = findViewById(R.id.event_progress_bar);
+        searchUsersEventRecyclerView = findViewById(R.id.search_users_event_recycler_view);
 
 
-        sendChatPetitionBtn.setVisibility(View.GONE);
+        searchForUsersBtn.setVisibility(View.GONE);
         setInProgress(false);
 
         FirebaseUtil.getEventsSubscriberReference(eventModel.getEventId(), FirebaseUtil.currentUserId()).get().addOnCompleteListener(task -> {
@@ -72,7 +84,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                 sub = task.getResult().toObject(EventSubscriptionModel.class);
                 if(sub!=null && sub.isSubscribed()){
                     subscribeBtn.setText("Unsubscribe");
-                    sendChatPetitionBtn.setVisibility(View.VISIBLE);
+                    searchForUsersBtn.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -105,65 +117,50 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                     sub.setSubscribed(false);
                     FirebaseUtil.getEventsSubscriberReference(eventModel.getEventId(), FirebaseUtil.currentUserId()).set(sub).addOnCompleteListener(task -> {
                         subscribeBtn.setText("Subscribe");
-                        sendChatPetitionBtn.setVisibility(View.GONE);
-                        sendChatPetitionBtn.setText("Send a new chat petition (x" + sub.getMessageInvitationQuantity() + ")");
+                        searchForUsersBtn.setVisibility(View.GONE);
+                        searchForUsersBtn.setText("Send a new chat petition (x" + sub.getMessageInvitationQuantity() + ")");
                         setInProgress(false);
                     });
                 }else{
                     sub.setSubscribed(true);
                     FirebaseUtil.getEventsSubscriberReference(eventModel.getEventId(), FirebaseUtil.currentUserId()).set(sub).addOnCompleteListener(task -> {
                         subscribeBtn.setText("Unsubscribe");
-                        sendChatPetitionBtn.setVisibility(View.VISIBLE);
+                        searchForUsersBtn.setVisibility(View.VISIBLE);
                         setInProgress(false);
                     });
                 }
             }
         });
 
-        sendChatPetitionBtn.setOnClickListener(new View.OnClickListener() {
+        searchForUsersBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(sub.getMessageInvitationQuantity() > 0) {
-                    FirebaseUtil.allEventSubscribersReference(eventModel.getEventId()).get().addOnSuccessListener(queryDocumentSnapshots -> {
-                        int totalDocuments = queryDocumentSnapshots.size();
+                searchForUsersBtn.setVisibility(View.GONE);
+                searchUsersEventRecyclerView.setVisibility(View.VISIBLE);
+                setupRecyclerView();
 
-                        Random random = new Random();
-                        int randomIndex = random.nextInt(totalDocuments);
-
-                        Query query = FirebaseUtil.allEventSubscribersReference(eventModel.getEventId()).whereEqualTo("isSubscribed", true).whereNotEqualTo("userId", FirebaseUtil.currentUserId());
-                        /*AtomicInteger petitionsSentTries = new AtomicInteger(5);
-                        while (petitionsSentTries.get() > 0) {
-                            Log.i("SendChatPetitionBtn", "Entered the while");
-                            FirebaseUtil.allEventSubscribersReference(eventModel.getEventId()).orderBy("subTimestamp").limit(randomIndex + 1).get().addOnSuccessListener(queryDocumentSnapshots1 -> {
-
-                            if (!queryDocumentSnapshots1.isEmpty()) {
-                                DocumentSnapshot randomDocument = queryDocumentSnapshots1.getDocuments().get(randomIndex);
-                                //String id = randomDocument.getId();
-                                EventSubscriptionModel sub = randomDocument.toObject(EventSubscriptionModel.class);
-                                if (!sub.getUserId().equals(FirebaseUtil.currentUserId()) && sub.isSubscribed()) {
-                                    AndroidUtil.showToast(v.getContext(), "Message petition sent to ." + sub.getUserId());
-                                    sub.setMessageInvitationQuantity(sub.getMessageInvitationQuantity() - 1);
-                                    sendChatPetitionBtn.setText("Send a new chat petition (x" + sub.getMessageInvitationQuantity() + ")");
-                                    FirebaseUtil.allEventSubscribersReference(eventModel.getEventId()).document(FirebaseUtil.currentUserId()).set(sub);
-                                    petitionsSentTries.set(0);
-                                }else{
-                                }
-                            } else {
-                                AndroidUtil.showToast(v.getContext(), "Not subscribed users found.");
-                            }
-                            });
-                            petitionsSentTries.getAndDecrement();
-                        }*/
-                    });
-                }else{
-                    AndroidUtil.showToast(v.getContext(), "You have no more chat petition to send");
-                }
             }
         });
 
         eventName.setText(eventModel.getEventName());
         address.setText(eventModel.getAddress() + ", " + eventModel.getCity() + "\n" + eventModel.getDistanceAsString());
         date.setText(eventModel.getDate());
+
+    }
+
+    void setupRecyclerView(){
+        FirebaseUtil.allEventSubscribersReference(eventModel.getEventId())
+                .whereEqualTo("subscribed", true)
+                .whereNotEqualTo("userId", FirebaseUtil.currentUserId())
+                .limit(50)
+                .get().addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        List<EventSubscriptionModel> subscribers = task.getResult().toObjects(EventSubscriptionModel.class);
+                        Log.i("EventActivityInfo", subscribers.toString());
+                    }else{
+                        Log.e("EventActivityError", task.getException().toString());
+                    }
+                });
 
     }
 

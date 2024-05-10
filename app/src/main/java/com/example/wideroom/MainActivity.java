@@ -80,8 +80,6 @@ public class MainActivity extends AppCompatActivity {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         requestLocation();
 
-        //coordinates = new double[]{40.32168011549933, -3.8684653512644993};
-
         searchButton.setOnClickListener((v) -> {
 
             startActivity(new Intent(MainActivity.this, SearchUserActivity.class));
