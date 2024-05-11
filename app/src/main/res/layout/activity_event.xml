@@ -131,6 +131,12 @@
                     android:text="Search for users"
                     android:textColor="@color/white" />
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/search_users_event_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
+
             </LinearLayout>
 
         </LinearLayout>

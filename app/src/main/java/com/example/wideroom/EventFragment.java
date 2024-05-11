@@ -51,57 +51,60 @@ public class EventFragment extends Fragment {
         return view;
     }
 
-    void setupRecyclerView(){
+    void setupRecyclerView() {
 
         coordinates = getArguments().getDoubleArray("coordinates");
         Log.i("GeoFire", "User coordinates: " + Arrays.toString(coordinates));
-        final GeoLocation userLocation = new GeoLocation(coordinates[0], coordinates[1]);
-        double radiusInKm = 100;
-        double radiusInM = radiusInKm * 1000;
-        List<EventModel> events = new ArrayList<>();
-        List<GeoQueryBounds> bounds = GeoFireUtils.getGeoHashQueryBounds(userLocation, radiusInM);
-        final List<Task<QuerySnapshot>> tasks = new ArrayList<>();
-        for (GeoQueryBounds b : bounds) {
-            Query q = FirebaseUtil.allEventsCollectionReference()
-                    .orderBy("geohash")
-                    .startAt(b.startHash)
-                    .endAt(b.endHash);
+        coordinates = new double[]{40.32168011549933, -3.8684653512644993};
+        if (coordinates != null) {
+            final GeoLocation userLocation = new GeoLocation(coordinates[0], coordinates[1]);
+            double radiusInKm = 100;
+            double radiusInM = radiusInKm * 1000;
+            List<EventModel> events = new ArrayList<>();
+            List<GeoQueryBounds> bounds = GeoFireUtils.getGeoHashQueryBounds(userLocation, radiusInM);
+            final List<Task<QuerySnapshot>> tasks = new ArrayList<>();
+            for (GeoQueryBounds b : bounds) {
+                Query q = FirebaseUtil.allEventsCollectionReference()
+                        .orderBy("geohash")
+                        .startAt(b.startHash)
+                        .endAt(b.endHash);
 
-            tasks.add(q.get());
-        }
+                tasks.add(q.get());
+            }
 
-        Tasks.whenAllComplete(tasks)
-                .addOnCompleteListener(new OnCompleteListener<List<Task<?>>>() {
-                    @Override
-                    public void onComplete(@NonNull Task<List<Task<?>>> t) {
-                        List<DocumentSnapshot> matchingDocs = new ArrayList<>();
+            Tasks.whenAllComplete(tasks)
+                    .addOnCompleteListener(new OnCompleteListener<List<Task<?>>>() {
+                        @Override
+                        public void onComplete(@NonNull Task<List<Task<?>>> t) {
+                            List<DocumentSnapshot> matchingDocs = new ArrayList<>();
 
-                        for (Task<QuerySnapshot> task : tasks) {
-                            QuerySnapshot snap = task.getResult();
-                            for (DocumentSnapshot doc : snap.getDocuments()) {
-                                double lat = doc.getDouble("lat");
-                                double lng = doc.getDouble("lng");
+                            for (Task<QuerySnapshot> task : tasks) {
+                                QuerySnapshot snap = task.getResult();
+                                for (DocumentSnapshot doc : snap.getDocuments()) {
+                                    double lat = doc.getDouble("lat");
+                                    double lng = doc.getDouble("lng");
 
-                                // We have to filter out a few false positives due to GeoHash
-                                // accuracy, but most will match
-                                GeoLocation docLocation = new GeoLocation(lat, lng);
-                                double distanceInM = -1;
-                                distanceInM = GeoFireUtils.getDistanceBetween(docLocation, userLocation);
-                                if (distanceInM <= radiusInM) {
-                                    EventModel event = doc.toObject(EventModel.class);
-                                    if(distanceInM != -1) {
-                                        event.setDistanceInM(distanceInM);
+                                    // We have to filter out a few false positives due to GeoHash
+                                    // accuracy, but most will match
+                                    GeoLocation docLocation = new GeoLocation(lat, lng);
+                                    double distanceInM = -1;
+                                    distanceInM = GeoFireUtils.getDistanceBetween(docLocation, userLocation);
+                                    if (distanceInM <= radiusInM) {
+                                        EventModel event = doc.toObject(EventModel.class);
+                                        if (distanceInM != -1) {
+                                            event.setDistanceInM(distanceInM);
+                                        }
+                                        events.add(event);
                                     }
-                                    events.add(event);
-                              }
+                                }
                             }
-                        }
 
-                        Collections.sort(events, Comparator.comparingDouble(EventModel::getDistanceInM));
-                        adapter = new EventRecyclerAdapter(getContext(), events);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                        recyclerView.setAdapter(adapter);
-                    }
-                });
+                            Collections.sort(events, Comparator.comparingDouble(EventModel::getDistanceInM));
+                            adapter = new EventRecyclerAdapter(getContext(), events);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                            recyclerView.setAdapter(adapter);
+                        }
+                    });
+        }
     }
 }
