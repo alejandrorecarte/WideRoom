@@ -15,6 +15,7 @@ firebaseAnalytics = "21.5.1"
 playServicesLocation = "21.2.0"
 playServicesMaps = "18.2.0"
 firebaseAuth = "22.3.1"
+googleGmsGoogleServices = "4.4.1"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -35,4 +36,5 @@ firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
+googleGmsGoogleServices = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 

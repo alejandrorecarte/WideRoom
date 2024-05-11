@@ -1,14 +1,13 @@
 {
   "project_info": {
-    "project_number": "979231254305",
-    "firebase_url": "https://wideroom-7094f-default-rtdb.europe-west1.firebasedatabase.app",
-    "project_id": "wideroom-7094f",
-    "storage_bucket": "wideroom-7094f.appspot.com"
+    "project_number": "77844006605",
+    "project_id": "wideroom-bd4a2",
+    "storage_bucket": "wideroom-bd4a2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:979231254305:android:2af52442b5af5fe5430060",
+        "mobilesdk_app_id": "1:77844006605:android:e2162eff552450ab558b84",
         "android_client_info": {
           "package_name": "com.example.wideroom"
         }
@@ -16,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDtWLmsEMO7xkB4SN8fqGogJZzCqXtxiX0"
+          "current_key": "AIzaSyD-csOYbVwAzy2fXILQxwHZX0lf-iXmYZk"
         }
       ],
       "services": {

@@ -115,7 +115,7 @@ public class ProfileFragment extends Fragment {
     void updateBtnClick(){
         String newUsername = usernameInput.getText().toString();
         if(newUsername.isEmpty() || newUsername.length()<3){
-            usernameInput.setError("Username length should be at least 3 chats");
+            usernameInput.setError("Username length should be at least 3 chars");
             return;
         }
 
