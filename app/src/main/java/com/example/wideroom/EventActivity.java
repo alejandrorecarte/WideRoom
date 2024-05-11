@@ -14,9 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.wideroom.adapter.RecentChatRecyclerAdapter;
 import com.example.wideroom.adapter.SearchUsersEventRecyclerAdapter;
-import com.example.wideroom.model.ChatroomModel;
 import com.example.wideroom.model.EventModel;
 import com.example.wideroom.model.EventSubscriptionModel;
 import com.example.wideroom.model.UserModel;
@@ -30,8 +28,10 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,8 +51,8 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
     MapView mapView;
     EventSubscriptionModel sub;
     ProgressBar progressBar;
-    RecyclerView searchUsersEventRecyclerView;
-    SearchUsersEventRecyclerAdapter searchUsersEventRecyclerAdapter;
+    RecyclerView recyclerView;
+    SearchUsersEventRecyclerAdapter adapter;
     private GoogleMap googleMap;
 
 
@@ -73,7 +73,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
         progressBar = findViewById(R.id.event_progress_bar);
-        searchUsersEventRecyclerView = findViewById(R.id.search_users_event_recycler_view);
+        recyclerView = findViewById(R.id.search_users_event_recycler_view);
 
 
         searchForUsersBtn.setVisibility(View.GONE);
@@ -136,7 +136,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
             @Override
             public void onClick(View v) {
                 searchForUsersBtn.setVisibility(View.GONE);
-                searchUsersEventRecyclerView.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
                 setupRecyclerView();
 
             }
@@ -149,17 +149,27 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
     }
 
     void setupRecyclerView(){
-        FirebaseUtil.allEventSubscribersReference(eventModel.getEventId())
-                .whereEqualTo("subscribed", true)
-                .whereNotEqualTo("userId", FirebaseUtil.currentUserId())
-                .limit(50)
-                .get().addOnCompleteListener(task -> {
-                    if(task.isSuccessful()){
-                        List<EventSubscriptionModel> subscribers = task.getResult().toObjects(EventSubscriptionModel.class);
-                        Log.i("EventActivityInfo", subscribers.toString());
-                    }else{
-                        Log.e("EventActivityError", task.getException().toString());
+        Log.i("Información","entra en el recycler");
+        FirebaseUtil.allEventSubscribersReference(eventModel.getEventId()).whereEqualTo("subscribed",true)
+                .get().addOnCompleteListener(task ->{
+                    if(task.isSuccessful()) {
+                        List<String> subscribers = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            subscribers.add(document.getString("userId"));
+                        }
+                        Log.i("Información", "Número de suscriptores encontrados: " + subscribers.size()); // Para verificar cuántos suscriptores se han obtenido.
+                            Query query=FirebaseUtil.allUserCollectionReference().whereIn("userId",subscribers);
+
+                            Log.i("Información", "Query Firestore creada correctamente: " + query.toString()); // Para verificar la consulta Firestore creada correctamente.
+                            FirestoreRecyclerOptions<UserModel> options = new FirestoreRecyclerOptions.Builder<UserModel>()
+                                    .setQuery(query, UserModel.class).build();
+
+                            adapter = new SearchUsersEventRecyclerAdapter(options, EventActivity.this);
+                            recyclerView.setAdapter(adapter);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                            adapter.startListening();
                     }
+                    Log.e("Error","Error al obtener datos de suscriptores");
                 });
 
     }
@@ -192,6 +202,9 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
     protected void onResume() {
         super.onResume();
         mapView.onResume();
+        if(adapter!=null){
+            adapter.startListening();
+        }
     }
 
     @Override

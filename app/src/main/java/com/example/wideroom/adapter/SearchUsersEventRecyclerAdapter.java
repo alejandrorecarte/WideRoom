@@ -12,7 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.wideroom.ChatActivity;
+import com.example.wideroom.EventActivity;
 import com.example.wideroom.R;
 import com.example.wideroom.model.UserModel;
 import com.example.wideroom.utils.AndroidUtil;
@@ -47,7 +47,7 @@ public class SearchUsersEventRecyclerAdapter extends FirestoreRecyclerAdapter<Us
                 });
 
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, ChatActivity.class);
+            Intent intent = new Intent(context, EventActivity.class);
             AndroidUtil.passUserModelAsIntent(intent, model);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
