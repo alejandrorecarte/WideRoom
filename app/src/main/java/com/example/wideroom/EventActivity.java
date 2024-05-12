@@ -156,6 +156,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                         List<String> subscribedFriends = new ArrayList<>();
                         for(QueryDocumentSnapshot document : t.getResult()){
                             subscribedFriends.add(document.getString("userId"));
+                            Log.i("Información", document.getId() + " => " + document.getString("userId"));
                         }
 
                         FirebaseUtil.allEventSubscribersReference(eventModel.getEventId()).whereEqualTo("subscribed", true)
@@ -163,10 +164,10 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                                     if (task.isSuccessful()) {
                                         List<String> subscribers = new ArrayList<>();
                                         for (QueryDocumentSnapshot document : task.getResult()) {
-                                            subscribers.add(document.getString("userId"));
+                                            if(!document.getString("userId").equals(FirebaseUtil.currentUserId()) && !subscribedFriends.contains(document.getString("userId"))){
+                                                subscribers.add(document.getString("userId"));
+                                            }
                                         }
-                                        subscribers.remove(FirebaseUtil.currentUserId());
-                                        subscribers.removeAll(subscribedFriends);
 
                                         Log.i("Información", "Número de suscriptores encontrados: " + subscribers.size()); // Para verificar cuántos suscriptores se han obtenido.
 

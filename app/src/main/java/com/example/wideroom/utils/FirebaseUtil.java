@@ -133,17 +133,20 @@ public class FirebaseUtil {
     }
 
     public static void sendFriendRequest(String userId){
-        FriendModel friendModel = new FriendModel(false, Timestamp.now(), userId);
+        FriendModel friendModel = new FriendModel(false, Timestamp.now(), currentUserId(), false);
         FirebaseFirestore.getInstance().collection("users").document(userId).collection("friends")
                 .document(currentUserId()).set(friendModel);
+        friendModel.setSender(true);
+        friendModel.setUserId(userId);
+        FirebaseFirestore.getInstance().collection("users").document(currentUserId()).collection("friends")
+                .document(userId).set(friendModel);
     }
 
     public static void acceptFriendRequest(String userId){
+        FirebaseFirestore.getInstance().collection("users").document(userId).collection("friends")
+                .document(currentUserId()).update("requestAccepted", true);
         FirebaseFirestore.getInstance().collection("users").document(currentUserId()).collection("friends")
                 .document(userId).update("requestAccepted", true);
-        FriendModel friendModel = new FriendModel(true, Timestamp.now(), userId);
-        FirebaseFirestore.getInstance().collection("users").document(userId).collection("friends")
-                .document(currentUserId()).set(friendModel);
     }
 
     public static void removeFriend(String userId){

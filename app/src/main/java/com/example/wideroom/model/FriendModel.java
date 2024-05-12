@@ -7,11 +7,21 @@ public class FriendModel {
     boolean requestAccepted;
     Timestamp timestamp;
     String userId;
+    boolean sender;
 
-    public FriendModel(boolean requestAccepted, Timestamp timestamp, String userId) {
+    public FriendModel(boolean requestAccepted, Timestamp timestamp, String userId, boolean sender) {
         this.requestAccepted = requestAccepted;
         this.timestamp = timestamp;
         this.userId = userId;
+        this.sender = sender;
+    }
+
+    public boolean isSender() {
+        return sender;
+    }
+
+    public void setSender(boolean sender) {
+        this.sender = sender;
     }
 
     public boolean isRequestAccepted() {

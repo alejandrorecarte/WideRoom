@@ -51,7 +51,9 @@ public class FriendRequestFragment extends Fragment {
                     if(task.isSuccessful()) {
                         List<String> requesters = new ArrayList<>();
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            requesters.add(document.getString("userId"));
+                            if(!document.getBoolean("sender") == true){
+                                requesters.add(document.getString("userId"));
+                            }
                         }
                         if(requesters.size()!=0) {
                             Log.i("FriendRequestInfo", "Número de suscriptores encontrados: " + requesters.size()); // Para verificar cuántos suscriptores se han obtenido.
