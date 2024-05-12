@@ -61,7 +61,9 @@ public class SearchUserActivity extends AppCompatActivity {
 
 
     void setupSearchRecyclerView(String searchTerm){
-        Query query = FirebaseUtil.allUserCollectionReference()
+        //TODO
+        /*Query query = FirebaseUtil.allOwnFriendsReference()
+                .whereEqualTo("requestAccepted", true);
                 .whereGreaterThanOrEqualTo("username",searchTerm)
                 .whereLessThanOrEqualTo("username",searchTerm + "\uf8ff");
 
@@ -71,7 +73,7 @@ public class SearchUserActivity extends AppCompatActivity {
         adapter = new SearchUserRecyclerAdapter(options, SearchUserActivity.this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-        adapter.startListening();
+        adapter.startListening();*/
     }
 
     @Override

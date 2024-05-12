@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.wideroom.model.FriendModel;
 import com.example.wideroom.model.UserModel;
 import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
@@ -129,5 +130,24 @@ public class FirebaseUtil {
     public static CollectionReference allOwnFriendsReference(){
         return FirebaseFirestore.getInstance().collection("users").document(currentUserId())
                 .collection("friends");
+    }
+
+    public static void sendFriendRequest(String userId){
+        FriendModel friendModel = new FriendModel(false, Timestamp.now(), userId);
+        FirebaseFirestore.getInstance().collection("users").document(userId).collection("friends")
+                .document(currentUserId()).set(friendModel);
+    }
+
+    public static void acceptFriendRequest(String userId){
+        FirebaseFirestore.getInstance().collection("users").document(currentUserId()).collection("friends")
+                .document(userId).update("requestAccepted", true);
+        FriendModel friendModel = new FriendModel(true, Timestamp.now(), userId);
+        FirebaseFirestore.getInstance().collection("users").document(userId).collection("friends")
+                .document(currentUserId()).set(friendModel);
+    }
+
+    public static void removeFriend(String userId){
+        FirebaseFirestore.getInstance().collection("users").document(currentUserId()).collection("friends")
+                .document(userId).delete();
     }
 }

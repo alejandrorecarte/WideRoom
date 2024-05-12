@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.wideroom.adapter.FriendRequestRecyclerAdapter;
 import com.example.wideroom.adapter.SearchUsersEventRecyclerAdapter;
 import com.example.wideroom.model.EventModel;
 import com.example.wideroom.model.EventSubscriptionModel;
@@ -28,15 +29,11 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class EventActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -109,18 +106,21 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                 setInProgress(true);
                 if(sub == null){
                     Log.i("EventActivity", "Subscribing");
-                    long currentTimeSeconds = System.currentTimeMillis() / 1000;
-                    sub = new EventSubscriptionModel(eventModel.getEventId(),new Timestamp(currentTimeSeconds, 0));
+                    sub = new EventSubscriptionModel(FirebaseUtil.currentUserId(),Timestamp.now());
                     FirebaseUtil.allEventSubscribersReference(eventModel.getEventId()).document(FirebaseUtil.currentUserId()).set(sub);
                 }
+
+                //ESTAR SUBSCRITO
                 if(sub.isSubscribed()){
                     sub.setSubscribed(false);
                     FirebaseUtil.getEventsSubscriberReference(eventModel.getEventId(), FirebaseUtil.currentUserId()).set(sub).addOnCompleteListener(task -> {
-                        subscribeBtn.setText("Subscribe");
+                        subscribeBtn.setText("Subscribe event");
                         searchForUsersBtn.setVisibility(View.GONE);
-                        searchForUsersBtn.setText("Send a new chat petition (x" + sub.getMessageInvitationQuantity() + ")");
+                        recyclerView.setVisibility(View.GONE);
                         setInProgress(false);
                     });
+
+                    //NO ESTAR SUBSCRITO
                 }else{
                     sub.setSubscribed(true);
                     FirebaseUtil.getEventsSubscriberReference(eventModel.getEventId(), FirebaseUtil.currentUserId()).set(sub).addOnCompleteListener(task -> {
@@ -150,28 +150,43 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
 
     void setupRecyclerView(){
         Log.i("Información","entra en el recycler");
-        FirebaseUtil.allEventSubscribersReference(eventModel.getEventId()).whereEqualTo("subscribed",true)
-                .get().addOnCompleteListener(task ->{
-                    if(task.isSuccessful()) {
-                        List<String> subscribers = new ArrayList<>();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            subscribers.add(document.getString("userId"));
+        FirebaseUtil.allOwnFriendsReference()
+                .get().addOnCompleteListener(t -> {
+                    if (t.isSuccessful()) {
+                        List<String> subscribedFriends = new ArrayList<>();
+                        for(QueryDocumentSnapshot document : t.getResult()){
+                            subscribedFriends.add(document.getString("userId"));
                         }
-                        Log.i("Información", "Número de suscriptores encontrados: " + subscribers.size()); // Para verificar cuántos suscriptores se han obtenido.
-                            Query query=FirebaseUtil.allUserCollectionReference().whereIn("userId",subscribers);
 
-                            Log.i("Información", "Query Firestore creada correctamente: " + query.toString()); // Para verificar la consulta Firestore creada correctamente.
-                            FirestoreRecyclerOptions<UserModel> options = new FirestoreRecyclerOptions.Builder<UserModel>()
-                                    .setQuery(query, UserModel.class).build();
+                        FirebaseUtil.allEventSubscribersReference(eventModel.getEventId()).whereEqualTo("subscribed", true)
+                                .get().addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        List<String> subscribers = new ArrayList<>();
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            subscribers.add(document.getString("userId"));
+                                        }
+                                        subscribers.remove(FirebaseUtil.currentUserId());
+                                        subscribers.removeAll(subscribedFriends);
 
-                            adapter = new SearchUsersEventRecyclerAdapter(options, EventActivity.this);
-                            recyclerView.setAdapter(adapter);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-                            adapter.startListening();
+                                        Log.i("Información", "Número de suscriptores encontrados: " + subscribers.size()); // Para verificar cuántos suscriptores se han obtenido.
+
+                                        if (subscribers.size() != 0) {
+
+                                            Query query = FirebaseUtil.allUserCollectionReference().whereIn("userId", subscribers);
+
+                                            Log.i("Información", "Query Firestore creada correctamente: " + query.toString()); // Para verificar la consulta Firestore creada correctamente.
+                                            FirestoreRecyclerOptions<UserModel> options = new FirestoreRecyclerOptions.Builder<UserModel>()
+                                                    .setQuery(query, UserModel.class).build();
+
+                                            adapter = new SearchUsersEventRecyclerAdapter(options, EventActivity.this);
+                                            recyclerView.setAdapter(adapter);
+                                            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                                            adapter.startListening();
+                                        }
+                                    }
+                                });
                     }
-                    Log.e("Error","Error al obtener datos de suscriptores");
                 });
-
     }
 
     void setInProgress(boolean inProgress){

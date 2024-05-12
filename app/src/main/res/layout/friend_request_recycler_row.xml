@@ -34,8 +34,8 @@
                 android:id="@+id/user_name_text"/>
             <Button
                 android:id="@+id/accept_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
                 android:text="Accept"
                 android:layout_alignParentEnd="true"
                 android:background="@drawable/btn_rounded_corner"
@@ -52,12 +52,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="null"
-                android:id="@+id/bio_text"/>
+                android:text="Bio"
+                android:layout_alignParentStart="true"
+                android:textSize="18sp"
+                android:id="@+id/user_bio_text"/>
             <Button
                 android:id="@+id/reject_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
                 android:text="Reject"
                 android:layout_alignParentEnd="true"
                 android:drawableTint="@color/white"
