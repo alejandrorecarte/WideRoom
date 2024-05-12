@@ -125,4 +125,9 @@ public class FirebaseUtil {
     public static DocumentReference getEventsSubscriberReference(String eventId, String userId){
         return getEventReference(eventId).collection("subscribers").document(userId);
     }
+
+    public static CollectionReference allOwnFriendsReference(){
+        return FirebaseFirestore.getInstance().collection("users").document(currentUserId())
+                .collection("friends");
+    }
 }

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,6 +53,12 @@ public class SearchUsersEventRecyclerAdapter extends FirestoreRecyclerAdapter<Us
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         });
+        holder.sendRequestBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.sendRequestBtn.setText("Requested");
+            }
+        });
     }
 
     @NonNull
@@ -65,12 +72,14 @@ public class SearchUsersEventRecyclerAdapter extends FirestoreRecyclerAdapter<Us
         TextView usernameText;
         TextView bioText;
         ImageView profilePic;
+        Button sendRequestBtn;
 
         public UserModelViewHolder(@NonNull View itemView) {
             super(itemView);
             usernameText = itemView.findViewById(R.id.user_name_text);
             bioText = itemView.findViewById(R.id.user_bio_text);
             profilePic = itemView.findViewById(R.id.profile_pic_image_view);
+            sendRequestBtn = itemView.findViewById(R.id.send_request_btn);
 
         }
     }
