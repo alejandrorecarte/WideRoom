@@ -152,5 +152,7 @@ public class FirebaseUtil {
     public static void removeFriend(String userId){
         FirebaseFirestore.getInstance().collection("users").document(currentUserId()).collection("friends")
                 .document(userId).delete();
+        FirebaseFirestore.getInstance().collection("users").document(userId).collection("friends")
+                .document(currentUserId()).delete();
     }
 }
