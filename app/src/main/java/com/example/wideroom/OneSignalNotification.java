@@ -13,15 +13,13 @@ import com.onesignal.debug.LogLevel;
 
 public class OneSignalNotification extends Application {
 
-    private static final String ONESIGNAL_APP_ID = "6b027511-d7eb-4c8b-aa32-f8211e2c317b";
+    private static final String ONESIGNAL_APP_ID = "e16a55f3-93a5-44fa-92fa-cd5d29413fd1";
 
     @Override
     public void onCreate(){
         super.onCreate();
+
         OneSignal.getDebug().setLogLevel(LogLevel.VERBOSE);
-
-        // OneSignal Initialization
         OneSignal.initWithContext(this, ONESIGNAL_APP_ID);
-
     }
 }

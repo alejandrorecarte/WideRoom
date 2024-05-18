@@ -108,16 +108,6 @@ tools:context=".LoginEmailActivity">
                 android:text="@string/use_phone"
                 android:textColor="@color/white" />
 
-            <Button
-                android:id="@+id/login_google_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/btn_rounded_corner"
-                android:drawableEnd="@drawable/google_icon"
-                android:drawableTint="@color/white"
-                android:text="@string/use_google"
-                android:textColor="@color/white" />
         </LinearLayout>
 
         <ProgressBar

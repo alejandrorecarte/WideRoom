@@ -1,5 +1,6 @@
 package com.example.wideroom;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -79,6 +80,7 @@ public class ChatActivity extends AppCompatActivity {
     ImageView imageView;
     ProfileFragmentOtherUser profileFragment;
     FragmentContainerView profileContainer;
+    private static final String ONESIGNAL_APP_ID = "e16a55f3-93a5-44fa-92fa-cd5d29413fd1";
 
 
 
@@ -114,10 +116,9 @@ public class ChatActivity extends AppCompatActivity {
                     });
         }catch(Exception e){}
 
-        final FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-
-        otherUsername.setOnClickListener(v -> {
-            if(getSupportFragmentManager().getBackStackEntryCount() == 0){
+        imageView.setOnClickListener(v -> {
+            if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.add(R.id.fragment_container, profileFragment).addToBackStack(null).commit();
                 profileContainer.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.GONE);
@@ -127,7 +128,8 @@ public class ChatActivity extends AppCompatActivity {
         });
 
         imageView.setOnClickListener(v -> {
-            if(getSupportFragmentManager().getBackStackEntryCount() == 0){
+            if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.add(R.id.fragment_container, profileFragment).addToBackStack(null).commit();
                 profileContainer.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.GONE);
@@ -138,7 +140,9 @@ public class ChatActivity extends AppCompatActivity {
 
         backBtn.setOnClickListener(v -> {
             if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
-                onBackPressed();
+                Intent intent = new Intent(ChatActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
             } else {
                 getSupportFragmentManager().popBackStack();
                 profileContainer.setVisibility(View.GONE);
@@ -238,7 +242,7 @@ public class ChatActivity extends AppCompatActivity {
                 protected Void doInBackground(Void... voids) {
                     try {
                         JSONObject notification = new JSONObject();
-                        notification.put("app_id", "8fb48336-9fc4-45ae-b884-ccda62fd2c3a");
+                        notification.put("app_id", ONESIGNAL_APP_ID);
 
                         JSONArray subscriptionIds = new JSONArray();
                         Log.i("OneSignal Response", "Sending notification to " + otherUser.getSubscriptionId());
@@ -248,6 +252,7 @@ public class ChatActivity extends AppCompatActivity {
 
                         JSONObject data = new JSONObject();
                         data.put("userId", currentUserModel.getUserId());
+                        data.put("activity", "ChatActivity");
                         notification.put("data", data);
 
                         notification.put("target_channel", "push");

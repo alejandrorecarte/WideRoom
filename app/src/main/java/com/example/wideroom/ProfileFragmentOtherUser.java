@@ -37,6 +37,7 @@ public class ProfileFragmentOtherUser extends Fragment {
     ImageView profilePic;
     TextView usernameInput;
     TextView bioInput;
+    Button deleteFriendButton;
 
     UserModel otherUserModel;
     ActivityResultLauncher<Intent> imagePickLauncher;
@@ -67,12 +68,19 @@ public class ProfileFragmentOtherUser extends Fragment {
         profilePic = view.findViewById(R.id.profile_image_view_other_user);
         usernameInput = view.findViewById(R.id.profile_username_other_user);
         bioInput = view.findViewById(R.id.profile_bio_other_user);
+        deleteFriendButton = view.findViewById(R.id.delete_friend_btn);
 
         Bundle args = getArguments();
         if (args != null){
             otherUserModel= (UserModel) args.getSerializable("otherUserModel");
             getUserData();
         }
+
+        deleteFriendButton.setOnClickListener(v -> {
+            FirebaseUtil.removeFriend(otherUserModel.getUserId());
+            AndroidUtil.showToast(getContext(), "Friend deleted");
+            this.getActivity().finish();
+        });
 
         return view;
     }

@@ -18,6 +18,10 @@ import com.example.wideroom.model.UserModel;
 import com.example.wideroom.utils.FirebaseUtil;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChatFragment extends Fragment {
 
@@ -37,17 +41,32 @@ public class ChatFragment extends Fragment {
     }
 
     void setupRecyclerView(){
-        Query query = FirebaseUtil.allChatroomCollectionReference()
-                .whereArrayContains("userIds",FirebaseUtil.currentUserId())
-                .orderBy("lastMessageTimestamp",Query.Direction.DESCENDING);
+        Log.i("FriendRequestInfo","entra en el recycler");
+        FirebaseUtil.allOwnFriendsReference()
+                .whereEqualTo("requestAccepted",true)
+                .get().addOnCompleteListener(task ->{
+                    if(task.isSuccessful()) {
+                        List<String> friends = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            friends.add(document.getString("userId"));
+                        }
 
-        FirestoreRecyclerOptions<ChatroomModel> options = new FirestoreRecyclerOptions.Builder<ChatroomModel>()
-                .setQuery(query, ChatroomModel.class).build();
+                        if(friends.size() != 0) {
+                            Query query = FirebaseUtil.allChatroomCollectionReference()
+                                    .whereArrayContainsAny("userIds", friends)
+                                    .whereArrayContains("userIds", FirebaseUtil.currentUserId())
+                                    .orderBy("lastMessageTimestamp", Query.Direction.DESCENDING);
 
-        adapter = new RecentChatRecyclerAdapter(options, getContext());
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(adapter);
-        adapter.startListening();
+                            FirestoreRecyclerOptions<ChatroomModel> options = new FirestoreRecyclerOptions.Builder<ChatroomModel>()
+                                    .setQuery(query, ChatroomModel.class).build();
+
+                            adapter = new RecentChatRecyclerAdapter(options, getContext());
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                            recyclerView.setAdapter(adapter);
+                            adapter.startListening();
+                        }
+                    }
+                });
     }
 
     @Override

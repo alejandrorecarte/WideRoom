@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
 
 import com.example.wideroom.model.UserModel;
 import com.example.wideroom.utils.AndroidUtil;
@@ -38,23 +39,51 @@ public class SplashActivity extends AppCompatActivity {
         OneSignal.getNotifications().addClickListener(event ->
         {
             try {
-                String userId = event.getNotification().getAdditionalData().get("userId").toString();
-                FirebaseUtil.allUserCollectionReference().document(userId).get()
-                        .addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                UserModel model = task.getResult().toObject(UserModel.class);
+                String activity = event.getNotification().getAdditionalData().get("activity").toString();
 
-                                Intent mainIntent = new Intent(this, MainActivity.class);
-                                mainIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                startActivity(mainIntent);
+                if(activity.equals("ChatActivity")){
+                    String userId = event.getNotification().getAdditionalData().get("userId").toString();
+                    FirebaseUtil.allUserCollectionReference().document(userId).get()
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    UserModel model = task.getResult().toObject(UserModel.class);
 
-                                Intent intent = new Intent(this, ChatActivity.class);
-                                AndroidUtil.passUserModelAsIntent(intent, model);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                                finish();
-                            }
-                        });
+                                    Intent mainIntent = new Intent(this, MainActivity.class);
+                                    mainIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                    startActivity(mainIntent);
+
+                                    Intent intent = new Intent(this, ChatActivity.class);
+                                    AndroidUtil.passUserModelAsIntent(intent, model);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            });
+                }else if(activity.equals("FriendRequestFragment")){
+                    Intent mainIntent = new Intent(this, MainActivity.class);
+                    mainIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(mainIntent);
+                    Fragment friendRequestFragment = new FriendRequestFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,friendRequestFragment).commit();
+                }else if(activity.equals("SearchUserActivity")){
+                    String userId = event.getNotification().getAdditionalData().get("userId").toString();
+                    FirebaseUtil.allUserCollectionReference().document(userId).get()
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    UserModel model = task.getResult().toObject(UserModel.class);
+
+                                    Intent mainIntent = new Intent(this, MainActivity.class);
+                                    mainIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                    startActivity(mainIntent);
+
+                                    Intent intent = new Intent(this, ChatActivity.class);
+                                    AndroidUtil.passUserModelAsIntent(intent, model);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            });
+                }
 
             }catch(Exception e){
                 Log.e("OneSignal Response", Log.getStackTraceString(e));

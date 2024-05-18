@@ -36,6 +36,7 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.onesignal.debug.LogLevel;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     FusedLocationProviderClient fusedLocationClient;
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
     private static final int REQUEST_CODE_NOTIFICATION_PERMISSION = 1002;
+    private static final String ONESIGNAL_APP_ID = "e16a55f3-93a5-44fa-92fa-cd5d29413fd1";
     ChatFragment chatFragment;
     ProfileFragment profileFragment;
     EventFragment eventsFragment;
@@ -126,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.menu_chat);
 
         String oneSignalId = OneSignal.getUser().getOnesignalId();
-
+        Log.i("OneSignal Info", "OneSignal ID: " + oneSignalId);
         FirebaseUtil.currentUserDetails().update("oneSignalId", oneSignalId);
         updateSubscriptionId(oneSignalId);
 
@@ -140,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                     OkHttpClient client = new OkHttpClient();
 
                     Request request = new Request.Builder()
-                            .url("https://api.onesignal.com/apps/6b027511-d7eb-4c8b-aa32-f8211e2c317b/users/by/onesignal_id/" + oneSignalId)
+                            .url("https://api.onesignal.com/apps/"+ONESIGNAL_APP_ID+"/users/by/onesignal_id/" + oneSignalId)
                             .get()
                             .addHeader("accept", "application/json")
                             .build();

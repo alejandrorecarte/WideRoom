@@ -4,6 +4,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -16,12 +17,17 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.wideroom.adapter.FriendRequestRecyclerAdapter;
 import com.example.wideroom.adapter.SearchUserRecyclerAdapter;
 import com.example.wideroom.model.UserModel;
 import com.example.wideroom.utils.FirebaseUtil;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SearchUserActivity extends AppCompatActivity {
     EditText searchInput;
@@ -56,24 +62,45 @@ public class SearchUserActivity extends AppCompatActivity {
             setupSearchRecyclerView(searchTerm);
         });
 
+        setupSearchRecyclerView("");
     }
 
 
 
     void setupSearchRecyclerView(String searchTerm){
-        //TODO
-        /*Query query = FirebaseUtil.allOwnFriendsReference()
-                .whereEqualTo("requestAccepted", true);
-                .whereGreaterThanOrEqualTo("username",searchTerm)
-                .whereLessThanOrEqualTo("username",searchTerm + "\uf8ff");
+        Log.i("FriendRequestInfo","entra en el recycler");
+        FirebaseUtil.allOwnFriendsReference()
+                .whereEqualTo("requestAccepted",true)
+                .get().addOnCompleteListener(task ->{
+                    if(task.isSuccessful()) {
+                        List<String> friends = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            friends.add(document.getString("userId"));
+                        }
+                        if(friends.size()!=0) {
+                            Log.i("FriendRequestInfo", "Número de suscriptores encontrados: " + friends.size()); // Para verificar cuántos suscriptores se han obtenido.
+                            Query query = null;
 
-        FirestoreRecyclerOptions<UserModel> options = new FirestoreRecyclerOptions.Builder<UserModel>()
-                .setQuery(query, UserModel.class).build();
+                            if(searchTerm.equals("")){
+                                query = FirebaseUtil.allUserCollectionReference().whereIn("userId", friends);
+                            }else {
+                                query = FirebaseUtil.allUserCollectionReference().whereIn("userId", friends)
+                                        .whereGreaterThanOrEqualTo("username",searchTerm)
+                                        .whereLessThanOrEqualTo("username",searchTerm + "\uf8ff");
+                            }
 
-        adapter = new SearchUserRecyclerAdapter(options, SearchUserActivity.this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
-        adapter.startListening();*/
+                            Log.i("FriendRequestInfo", "Query Firestore creada correctamente: " + query.toString()); // Para verificar la consulta Firestore creada correctamente.
+                            FirestoreRecyclerOptions<UserModel> options = new FirestoreRecyclerOptions.Builder<UserModel>()
+                                    .setQuery(query, UserModel.class).build();
+
+                            adapter = new SearchUserRecyclerAdapter(options, this);
+                            recyclerView.setAdapter(adapter);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                            adapter.startListening();
+                        }
+                    }
+                    Log.e("FriendRequestError","Error al obtener datos de peticiones de amigos" + task.getException());
+                });
     }
 
     @Override

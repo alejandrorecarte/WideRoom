@@ -1,6 +1,7 @@
 package com.example.wideroom;
 
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +33,14 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -211,7 +220,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                 .snippet(eventModel.getCity()));
 
         // Mover la cámara a las coordenadas especificadas y ajustar el zoom
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(COORDINATES, 12));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(COORDINATES, 16));
     }
 
     @Override

@@ -27,13 +27,12 @@ import com.hbb20.CountryCodePicker;
 public class LoginEmailActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    Button loginGoogleBtn;
     EditText emailInput;
     EditText passwordInput;
     Button loginBtn;
     ProgressBar progressBar;
     Button loginPhoneBtn;
-    TextView restorePasswordTextView;
+    TextView resetPasswordTextView;
     TextView registerTextView;
 
 
@@ -50,7 +49,7 @@ public class LoginEmailActivity extends AppCompatActivity {
         emailInput = findViewById(R.id.login_email);
         passwordInput = findViewById(R.id.login_password);
         registerTextView= findViewById(R.id.register_text);
-        restorePasswordTextView= findViewById(R.id.restore_password_text);
+        resetPasswordTextView= findViewById(R.id.restore_password_text);
         loginPhoneBtn = findViewById(R.id.login_phone_btn);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,9 +70,13 @@ public class LoginEmailActivity extends AppCompatActivity {
             }
         });
 
-        restorePasswordTextView.setOnClickListener(new View.OnClickListener() {
+        resetPasswordTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(emailInput.getText().toString().isEmpty()){
+                    AndroidUtil.showToast(LoginEmailActivity.this, "Please fill email field");
+                    return;
+                }
                 sendRestorePassword(emailInput.getText().toString());
             }
         });
