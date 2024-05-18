@@ -70,6 +70,8 @@
     <string name="unsuscribe">Unsubscribe</string>
     <string name="suscribe">Subscribe event</string>
     <string name="default_notification_channel_id">Chanel event</string>
+    <string name="requested">Requested</string>
+
 
 
 </resources>

@@ -1,5 +1,6 @@
 package com.example.wideroom.adapter;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -54,7 +55,7 @@ public class SearchUsersEventRecyclerAdapter extends FirestoreRecyclerAdapter<Us
         holder.sendRequestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.sendRequestBtn.setText("Requested");
+                holder.sendRequestBtn.setText(context.getResources().getString(R.string.requested));
                 holder.sendRequestBtn.setEnabled(false);
 
                 FirebaseUtil.sendFriendRequest(model.getUserId());
