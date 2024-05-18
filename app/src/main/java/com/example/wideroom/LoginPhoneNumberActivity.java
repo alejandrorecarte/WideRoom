@@ -33,7 +33,7 @@ public class LoginPhoneNumberActivity extends AppCompatActivity {
         countryCodePicker.registerCarrierNumberEditText(phoneInput);
         sendOtpBtn.setOnClickListener((v)->{
             if(!countryCodePicker.isValidFullNumber()){
-                phoneInput.setError("Phone number not valid");
+                phoneInput.setError(getResources().getString(R.string.phone_ko));
                 return;
             }
             Intent intent = new Intent(LoginPhoneNumberActivity.this,LoginOtpActivity.class);

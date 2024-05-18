@@ -58,7 +58,7 @@ public class LoginEmailActivity extends AppCompatActivity {
                 if(!emailInput.getText().toString().isEmpty() && !passwordInput.getText().toString().isEmpty()) {
                     signInWithEmail(emailInput.getText().toString(), passwordInput.getText().toString());
                 } else {
-                    AndroidUtil.showToast(LoginEmailActivity.this, "Please fill in all fields");
+                    AndroidUtil.showToast(LoginEmailActivity.this, getResources().getString(R.string.fill_all));
                 }
             }
         });
@@ -108,16 +108,16 @@ public class LoginEmailActivity extends AppCompatActivity {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()) {
-                                                    AndroidUtil.showToast(LoginEmailActivity.this, "Verification email sent");
+                                                    AndroidUtil.showToast(LoginEmailActivity.this, getResources().getString(R.string.vrf_email_sent));
                                                 } else {
-                                                    AndroidUtil.showToast(LoginEmailActivity.this, "Error trying to send email");
+                                                    AndroidUtil.showToast(LoginEmailActivity.this, getResources().getString(R.string.error_email_send));
                                                 }
                                             }
                                         });
                             }
                         } else {
                             // El inicio de sesion falló
-                            AndroidUtil.showToast(LoginEmailActivity.this, "Error trying to Log in");
+                            AndroidUtil.showToast(LoginEmailActivity.this, getResources().getString(R.string.login_ko));
                         }
                     }
                 });
@@ -130,9 +130,9 @@ public class LoginEmailActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            AndroidUtil.showToast(LoginEmailActivity.this, "Email sent");
+                            AndroidUtil.showToast(LoginEmailActivity.this, getResources().getString(R.string.email_ok));
                         } else {
-                            AndroidUtil.showToast(LoginEmailActivity.this, "Error trying to send email");
+                            AndroidUtil.showToast(LoginEmailActivity.this, getResources().getString(R.string.email_ko));
                         }
                     }
                 });

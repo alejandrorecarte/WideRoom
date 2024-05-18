@@ -80,7 +80,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
             if (task.isSuccessful()) {
                 sub = task.getResult().toObject(EventSubscriptionModel.class);
                 if(sub!=null && sub.isSubscribed()){
-                    subscribeBtn.setText("Unsubscribe");
+                    subscribeBtn.setText(getResources().getString(R.string.unsuscribe));
                     searchForUsersBtn.setVisibility(View.VISIBLE);
                 }
             }
@@ -114,7 +114,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                 if(sub.isSubscribed()){
                     sub.setSubscribed(false);
                     FirebaseUtil.getEventsSubscriberReference(eventModel.getEventId(), FirebaseUtil.currentUserId()).set(sub).addOnCompleteListener(task -> {
-                        subscribeBtn.setText("Subscribe event");
+                        subscribeBtn.setText(getResources().getString(R.string.suscribe));
                         searchForUsersBtn.setVisibility(View.GONE);
                         recyclerView.setVisibility(View.GONE);
                         setInProgress(false);
@@ -124,7 +124,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                 }else{
                     sub.setSubscribed(true);
                     FirebaseUtil.getEventsSubscriberReference(eventModel.getEventId(), FirebaseUtil.currentUserId()).set(sub).addOnCompleteListener(task -> {
-                        subscribeBtn.setText("Unsubscribe");
+                        subscribeBtn.setText(getResources().getString(R.string.unsuscribe));
                         searchForUsersBtn.setVisibility(View.VISIBLE);
                         setInProgress(false);
                     });

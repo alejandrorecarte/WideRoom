@@ -50,7 +50,7 @@ public class SearchUserActivity extends AppCompatActivity {
         searchButton.setOnClickListener(v -> {
             String searchTerm = searchInput.getText().toString();
             if(searchTerm.isEmpty() || searchTerm.length() < 3){
-                searchInput.setError("Invalid username");
+                searchInput.setError(getResources().getString(R.string.invalid_username));
                 return;
             }
             setupSearchRecyclerView(searchTerm);

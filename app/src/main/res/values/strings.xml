@@ -1,10 +1,6 @@
 <resources>
     <string name="app_name">Wide Room</string>
     <string name="app_name_upper">WIDE ROOM</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="default_notification_channel_id">Mensaje de texto</string>
-    <string name="default_notification_channel_description">Canal para mensajes de texto</string>
     <string name="dev_by">Developed by Recarte and Inés</string>
     <string name="username">Username</string>
     <string name="write_msg">Write message here</string>
@@ -20,8 +16,8 @@
     <string name="order">Order</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="rmmbr_pswd">Cant remember your password?</string>
-    <string name="no_account">Dont have an account? Register here</string>
+    <string name="rmmbr_pswd">Can&apos;t remember your password?</string>
+    <string name="no_account">Don&apos;t have an account? Register here</string>
     <string name="login">LOG IN</string>
     <string name="use_phone">Use Phone</string>
     <string name="use_google">Use Google</string>
@@ -52,36 +48,28 @@
     <string name="profile">Profile</string>
     <string name="date_time">00/00/0000 00:00</string>
     <string name="_km2">(-1 Km)</string>
-    <string name="advertiser">Please note that by subscribing to the event, other subscribed users will be able to see your profile information and know where and when you will be located. Be cautious and aware of which data is public on the internet.</string>
+    <string name="advertiser">Please note that by subscribing to the event, other subscribed users will be able to see your profile information and know where and when you will be located.</string>
     <string name="access">Email or Phone</string>
-    <string name="no_events_category">Theres no events for this category</string>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    <string name="no_events_category">There are no events for this category</string>
+    <string name="pwd_6">Password must be at least 6</string>
+    <string name="fill_all">Please fill in all fields</string>
+    <string name="vrf_email_sent">Verification email sent</string>
+    <string name="error_email_send">Error trying to send verification email</string>
+    <string name="error_register">Error trying to register</string>
+    <string name="invalid_username">Invalid username</string>
+    <string name="error_username">Username length should be at least 3 chars</string>
+    <string name="update_ok">Updated successfully</string>
+    <string name="update_ko">Updated failed</string>
+    <string name="phone_ko">Phone number not valid</string>
+    <string name="otp_ko">OTP verification failed</string>
+    <string name="otp_ok">OTP sent successfully</string>
+    <string name="login_ko">Error trying to Log in</string>
+    <string name="email_ok">Email sent</string>
+    <string name="email_ko">Error trying to send email</string>
+    <string name="invalid_eventname">Invalid event name</string>
+    <string name="unsuscribe">Unsubscribe</string>
+    <string name="suscribe">Subscribe event</string>
+    <string name="default_notification_channel_id">Chanel event</string>
 
 
 </resources>

@@ -33,7 +33,6 @@ public class RegisterActivity extends AppCompatActivity {
     EditText passwordInput;
     EditText passwordConfirmInput;
     Button nextBtn;
-    TextView registerTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +52,9 @@ public class RegisterActivity extends AppCompatActivity {
                 && passwordInput.getText().toString().length() >= 6) {
                     registerUser(emailInput.getText().toString(), passwordInput.getText().toString());
                 } else if (passwordInput.getText().toString().length() < 6) {
-                    AndroidUtil.showToast(RegisterActivity.this, "Password must be at least 6");
+                    AndroidUtil.showToast(RegisterActivity.this, getResources().getString(R.string.pwd_6));
                 } else {
-                    AndroidUtil.showToast(RegisterActivity.this, "Please fill in all fields");
+                    AndroidUtil.showToast(RegisterActivity.this, getResources().getString(R.string.fill_all));
                 }
             }
         });
@@ -72,7 +71,7 @@ public class RegisterActivity extends AppCompatActivity {
                             user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        AndroidUtil.showToast(RegisterActivity.this, "Verification email sent");
+                                        AndroidUtil.showToast(RegisterActivity.this, getResources().getString(R.string.vrf_email_sent));
                                         UserModel userModel = new UserModel(emailInput.getText().toString(), usernameInput.getText().toString(), Timestamp.now(),FirebaseUtil.currentUserId());
                                         FirebaseUtil.currentUserDetails().set(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
@@ -84,13 +83,13 @@ public class RegisterActivity extends AppCompatActivity {
                                         });
 
                                     } else {
-                                        AndroidUtil.showToast(RegisterActivity.this, "Error trying to send verification email");
+                                        AndroidUtil.showToast(RegisterActivity.this, getResources().getString(R.string.error_email_send));
                                     }
                                 }
                             });
                         } else {
                             // El registro falló, actualiza la interfaz de usuario con el mensaje de error.
-                            AndroidUtil.showToast(RegisterActivity.this, "Error trying to register");
+                            AndroidUtil.showToast(RegisterActivity.this, getResources().getString(R.string.error_register));
                         }
                     }
                 });

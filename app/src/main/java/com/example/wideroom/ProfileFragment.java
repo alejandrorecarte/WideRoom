@@ -115,7 +115,7 @@ public class ProfileFragment extends Fragment {
     void updateBtnClick(){
         String newUsername = usernameInput.getText().toString();
         if(newUsername.isEmpty() || newUsername.length()<3){
-            usernameInput.setError("Username length should be at least 3 chars");
+            usernameInput.setError(getResources().getString(R.string.error_username));
             return;
         }
 
@@ -138,9 +138,9 @@ public class ProfileFragment extends Fragment {
                 .addOnCompleteListener(task -> {
                     setInProgress(false);
                     if(task.isSuccessful()){
-                        AndroidUtil.showToast(getContext(),"Updated successfully");
+                        AndroidUtil.showToast(getContext(),getResources().getString(R.string.update_ok));
                     }else{
-                        AndroidUtil.showToast(getContext(),"Updated failed");
+                        AndroidUtil.showToast(getContext(),getResources().getString(R.string.update_ko));
                     }
                 });
     }

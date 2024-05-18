@@ -132,7 +132,7 @@ public class FilterEventActivity extends AppCompatActivity {
         searchButton.setOnClickListener(v -> {
             String searchTerm = searchInput.getText().toString();
             if(!searchTerm.isEmpty() && searchTerm.length() < 3){
-                searchInput.setError("Invalid event name");
+                searchInput.setError(getResources().getString(R.string.invalid_eventname));
                 return;
             }
             setupEventSearchRecyclerView(coordinates, selectedCategory, distance[0], order[0] ,searchTerm);
@@ -148,12 +148,11 @@ public class FilterEventActivity extends AppCompatActivity {
         final List<Task<QuerySnapshot>> tasks = new ArrayList<>();
         for (GeoQueryBounds b : bounds) {
             Query q = FirebaseUtil.allEventsCollectionReference()
-                    .whereEqualTo("category", category) ;// Filtrar por categoría
-                    /*.orderBy("geohash")
+                    .whereEqualTo("category", category) // Filtrar por categoría
+                    .orderBy("geohash")
                     .startAt(b.startHash)
                     .endAt(b.endHash);
 
-                     */
 
             tasks.add(q.get());
         }

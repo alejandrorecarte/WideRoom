@@ -81,7 +81,7 @@ public class LoginOtpActivity extends AppCompatActivity {
 
                             @Override
                             public void onVerificationFailed(@NonNull FirebaseException e) {
-                                AndroidUtil.showToast(getApplicationContext(),"OTP verification failed");
+                                AndroidUtil.showToast(getApplicationContext(), getResources().getString(R.string.otp_ko));
                                 setInProgress(false);
                             }
 
@@ -90,7 +90,7 @@ public class LoginOtpActivity extends AppCompatActivity {
                                 super.onCodeSent(s, forceResendingToken);
                                 verificationCode = s;
                                 resendingToken = forceResendingToken;
-                                AndroidUtil.showToast(getApplicationContext(),"OTP sent successfully");
+                                AndroidUtil.showToast(getApplicationContext(),getResources().getString(R.string.otp_ok));
                                 setInProgress(false);
                             }
                         });
@@ -124,7 +124,7 @@ public class LoginOtpActivity extends AppCompatActivity {
                     intent.putExtra("phone",phoneNumber);
                     startActivity(intent);
                 }else{
-                    AndroidUtil.showToast(getApplicationContext(),"OTP verification failed");
+                    AndroidUtil.showToast(getApplicationContext(),getResources().getString(R.string.otp_ko));
                 }
             }
         });
