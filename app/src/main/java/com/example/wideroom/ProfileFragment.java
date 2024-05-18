@@ -161,7 +161,7 @@ public class ProfileFragment extends Fragment {
             currentUserModel = task.getResult().toObject(UserModel.class);
             usernameInput.setText(currentUserModel.getUsername());
             bioInput.setText(currentUserModel.getBio());
-            emailInput.setText(currentUserModel.getEmail());
+            emailInput.setText(currentUserModel.getAccessId());
         });
     }
 

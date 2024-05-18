@@ -28,7 +28,7 @@
                 android:layout_centerInParent="true"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                android:text="1"/>
+                android:text="@string/one"/>
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="32dp"
@@ -43,7 +43,7 @@
                 android:layout_centerInParent="true"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                android:text="2"/>
+                android:text="@string/two"/>
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="32dp"
@@ -56,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="3"
+                android:text="@string/three"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
         </RelativeLayout>
@@ -77,7 +77,7 @@
         android:layout_weight="5"
         android:gravity="center_horizontal"
         android:letterSpacing="0.08"
-        android:text="Enter your username"
+        android:text="@string/ent_user"
         android:textColor="?attr/colorOnPrimary"
         android:textSize="25sp"
         android:textStyle="bold" />
@@ -95,7 +95,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:hint="Username"
+            android:hint="@string/username"
             android:inputType="text"
             android:layout_margin="10dp"
             android:backgroundTint="?attr/colorOnSecondary"
@@ -118,7 +118,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_rounded_corner"
-            android:text="NEXT"
+            android:text="@string/next"
             android:textColor="@color/white"
             android:id="@+id/login_let_me_in_btn"/>
         <ProgressBar

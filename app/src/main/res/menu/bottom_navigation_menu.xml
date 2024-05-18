@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="Events"
+    <item android:title="@string/events"
         android:icon="@drawable/event_icon"
         android:id="@+id/menu_event"
         />
-    <item android:title="Request"
+    <item android:title="@string/request"
         android:icon="@drawable/friend_request_icon"
         android:id="@+id/menu_friend_request"
         />
-    <item android:title="Chats"
+    <item android:title="@string/chats"
         android:icon="@drawable/ic_logo_no_title"
         android:id="@+id/menu_chat"
         />
 
-    <item android:title="Profile"
+    <item android:title="@string/profile"
         android:icon="@drawable/person_icon"
         android:id="@+id/menu_profile"
         />

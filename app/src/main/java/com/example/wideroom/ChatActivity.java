@@ -287,7 +287,7 @@ public class ChatActivity extends AppCompatActivity {
                             }
                         }
                     } catch (Exception e) {
-                        Log.e("OneSignal Repsonse", Log.getStackTraceString(e));
+                        Log.e("OneSignal Response", Log.getStackTraceString(e));
                     }
                     return null;
                 }

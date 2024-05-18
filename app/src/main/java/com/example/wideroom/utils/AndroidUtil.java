@@ -18,7 +18,7 @@ public class AndroidUtil {
     }
     public static void passUserModelAsIntent(Intent intent, UserModel model){
         intent.putExtra("username",model.getUsername());
-        intent.putExtra("email",model.getEmail());
+        intent.putExtra("accessId",model.getAccessId());
         intent.putExtra("userId",model.getUserId());
         intent.putExtra("oneSignalId",model.getOneSignalId());
         intent.putExtra("subscriptionId",model.getSubscriptionId());
@@ -27,7 +27,7 @@ public class AndroidUtil {
     public static UserModel getUserModelFromIntent(Intent intent){
         UserModel userModel =new UserModel();
         userModel.setUsername(intent.getStringExtra("username"));
-        userModel.setEmail(intent.getStringExtra("email"));
+        userModel.setAccessId(intent.getStringExtra("accessId"));
         userModel.setUserId(intent.getStringExtra("userId"));
         userModel.setOneSignalId(intent.getStringExtra("oneSignalId"));
         userModel.setSubscriptionId(intent.getStringExtra("subscriptionId"));
@@ -47,6 +47,7 @@ public class AndroidUtil {
         intent.putExtra("distanceInM",model.getDistanceInM());
         intent.putExtra("lng", model.getLng());
         intent.putExtra("lat", model.getLat());
+        intent.putExtra("category",model.getCategory());
     }
 
     public static EventModel getEventModelFromIntent(Intent intent){
@@ -59,6 +60,7 @@ public class AndroidUtil {
         eventModel.setDistanceInM(intent.getDoubleExtra("distanceInM",0));
         eventModel.setLng(intent.getDoubleExtra("lng",0));
         eventModel.setLat(intent.getDoubleExtra("lat",0));
+        eventModel.setCategory(intent.getStringExtra("category"));
         return eventModel;
     }
 

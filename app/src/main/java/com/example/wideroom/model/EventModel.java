@@ -15,6 +15,7 @@ public class EventModel implements Serializable {
     private double distanceInM;
     private double lat;
     private double lng;
+    private String category;
 
     public EventModel() {
     }
@@ -27,7 +28,7 @@ public class EventModel implements Serializable {
         this.address = address;
     }
 
-    public EventModel(String eventId, String eventName, String date, String city, String address, double distanceInM, double lat, double lng) {
+    public EventModel(String eventId, String eventName, String date, String city, String address, double distanceInM, double lat, double lng, String category) {
         this.eventId = eventId;
         this.eventName = eventName;
         this.date = date;
@@ -36,6 +37,7 @@ public class EventModel implements Serializable {
         this.distanceInM = distanceInM;
         this.lat = lat;
         this.lng = lng;
+        this.category=category;
     }
 
     public String getEventId() {
@@ -111,5 +113,13 @@ public class EventModel implements Serializable {
 
         // Agregar la unidad de medida "km" al String formateado
         return formattedDistance + " km";
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

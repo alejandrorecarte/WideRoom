@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Filter Events"
+            android:text="@string/filter_event"
             android:textSize="22sp"
             android:textStyle="bold"
             android:textColor="@color/white"
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:text="Category" />
+            android:text="@string/cat" />
 
         <Spinner
             android:id="@+id/category_spinner"
@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:text="Distance" />
+            android:text="@string/distance" />
 
         <SeekBar
             android:id="@+id/distance_bar"
@@ -91,7 +91,7 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:gravity="center_horizontal"
-            android:text="100 Km" />
+            android:text="@string/_km" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -105,7 +105,7 @@
             android:id="@+id/order_search_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Order"
+            android:text="@string/order"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -138,7 +138,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/edit_text_rounded_corner"
             android:layout_margin="10dp"
-            android:hint="Event name"
+            android:hint="@string/event_name"
             android:backgroundTint="?attr/colorOnSecondary"
             android:foregroundTint="?attr/colorOnPrimary"
             android:outlineAmbientShadowColor="?attr/colorOnPrimary"

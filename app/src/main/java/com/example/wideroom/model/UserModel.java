@@ -5,7 +5,7 @@ import com.google.firebase.Timestamp;
 import java.io.Serializable;
 
 public class UserModel implements Serializable {
-    private String email;
+    private String accessId;
     private String username;
     private Timestamp createdTimestamp;
     private String userId;
@@ -16,15 +16,15 @@ public class UserModel implements Serializable {
     public UserModel() {
     }
 
-    public UserModel(String email, String username, Timestamp createdTimestamp,String userId) {
-        this.email = email;
+    public UserModel(String accessId, String username, Timestamp createdTimestamp,String userId) {
+        this.accessId = accessId;
         this.username = username;
         this.createdTimestamp = createdTimestamp;
         this.userId = userId;
     }
 
-    public UserModel(String email, String username, Timestamp createdTimestamp, String userId, String oneSignalId, String subscriptionId, String bio) {
-        this.email = email;
+    public UserModel(String accessId, String username, Timestamp createdTimestamp, String userId, String oneSignalId, String subscriptionId, String bio) {
+        this.accessId = accessId;
         this.username = username;
         this.createdTimestamp = createdTimestamp;
         this.userId = userId;
@@ -33,12 +33,13 @@ public class UserModel implements Serializable {
         this.bio = bio;
     }
 
-    public String getEmail() {
-        return email;
+    public String getAccessId() {
+        return accessId;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+
+    public void setAccessId(String accessId) {
+        this.accessId = accessId;
     }
 
     public String getUsername() {

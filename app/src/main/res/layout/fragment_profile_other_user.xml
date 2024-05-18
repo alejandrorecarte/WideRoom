@@ -27,7 +27,7 @@
         android:backgroundTint="?attr/colorOnSecondary"
         android:elevation="5dp"
         android:textColor="?attr/colorOnPrimary"
-        android:hint="Username"
+        android:hint="@string/username"
         android:outlineAmbientShadowColor="?attr/colorOnPrimary"
         android:padding="10dp" />
 
@@ -39,7 +39,7 @@
         android:background="@drawable/edit_text_rounded_corner"
         android:backgroundTint="?attr/colorOnSecondary"
         android:elevation="5dp"
-        android:hint="Bio"
+        android:hint="@string/bio"
         android:outlineAmbientShadowColor="?attr/colorOnPrimary"
         android:inputType="text|textShortMessage|textAutoCorrect|textMultiLine"
         android:padding="10dp"

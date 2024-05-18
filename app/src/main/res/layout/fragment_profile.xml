@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:hint="Username"
+        android:hint="@string/username"
         android:inputType="text"
         android:layout_margin="10dp"
         android:background="@drawable/edit_text_rounded_corner"
@@ -43,7 +43,7 @@
         android:elevation="5dp"
         android:foregroundTint="?attr/colorOnPrimary"
         android:gravity="top"
-        android:hint="Bio"
+        android:hint="@string/bio"
         android:inputType="text|textShortMessage|textAutoCorrect|textMultiLine"
         android:outlineAmbientShadowColor="?attr/colorOnPrimary"
         android:padding="10dp" />
@@ -58,7 +58,7 @@
         android:elevation="5dp"
         android:enabled="false"
         android:foregroundTint="?attr/colorOnPrimary"
-        android:hint="Email"
+        android:hint="@string/email"
         android:outlineAmbientShadowColor="?attr/colorOnPrimary"
         android:padding="10dp" />
 
@@ -72,7 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_rounded_corner"
-            android:text="Update profile"
+            android:text="@string/update_profile"
             android:textColor="@color/white"
             android:id="@+id/profile_update_btn"/>
         <ProgressBar
@@ -86,7 +86,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Logout"
+        android:text="@string/logout"
         android:id="@+id/logout_btn"/>
 
 </LinearLayout>
