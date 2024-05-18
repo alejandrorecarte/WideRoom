@@ -54,10 +54,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="@string/access"
-        android:textColor="@android:color/black"
         android:textStyle="bold"
         android:paddingStart="8dp"
-        android:paddingEnd="8dp"/>
+        android:paddingEnd="8dp"
+        android:foregroundTint="?attr/colorOnPrimary"
+        android:backgroundTint="?attr/colorOnSecondary"/>
 
     <TextView
         android:id="@+id/email"
@@ -65,10 +66,12 @@
         android:layout_height="wrap_content"
         android:drawableStart="@drawable/phone_icon"
         android:drawableEnd="@drawable/email_icon"
+        android:drawableTint="?attr/colorOnPrimary"
         android:drawablePadding="8dp"
         android:padding="10dp"
         android:text="@string/access"
-        android:textColor="@android:color/black" />
+        android:foregroundTint="?attr/colorOnPrimary"
+        android:backgroundTint="?attr/colorOnSecondary"/>
 
     <LinearLayout
         android:layout_width="match_parent"

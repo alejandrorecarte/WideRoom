@@ -54,6 +54,8 @@
     <string name="_km2">(-1 Km)</string>
     <string name="advertiser">Please note that by subscribing to the event, other subscribed users will be able to see your profile information and know where and when you will be located. Be cautious and aware of which data is public on the internet.</string>
     <string name="access">Email or Phone</string>
+    <string name="no_events_category">Theres no events for this category</string>
+
 
 
 

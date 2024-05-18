@@ -65,20 +65,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@string/date"
-                android:textColor="@android:color/black"
                 android:textStyle="bold"
                 android:paddingStart="8dp"
-                android:paddingEnd="8dp"/>
+                android:paddingEnd="8dp"
+                android:foregroundTint="?attr/colorOnPrimary"
+                android:backgroundTint="?attr/colorOnSecondary"/>
+            />
 
             <TextView
                 android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_calendar"
+                android:drawableTint="?attr/colorOnPrimary"
                 android:drawablePadding="8dp"
                 android:padding="10dp"
                 android:text="@string/date"
-                android:textColor="@android:color/black" />
+                android:foregroundTint="?attr/colorOnPrimary"
+                android:backgroundTint="?attr/colorOnSecondary"/>
 
             <TextView
                 android:id="@+id/address_title"
@@ -86,20 +90,23 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@string/address"
-                android:textColor="@android:color/black"
                 android:textStyle="bold"
                 android:paddingStart="8dp"
-                android:paddingEnd="8dp"/>
+                android:paddingEnd="8dp"
+                android:foregroundTint="?attr/colorOnPrimary"
+                android:backgroundTint="?attr/colorOnSecondary"/>
 
             <TextView
                 android:id="@+id/address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_location"
+                android:drawableTint="?attr/colorOnPrimary"
                 android:drawablePadding="8dp"
                 android:padding="10dp"
                 android:text="@string/address"
-                android:textColor="@android:color/black" />
+                android:foregroundTint="?attr/colorOnPrimary"
+                android:backgroundTint="?attr/colorOnSecondary"/>
 
             <com.google.android.gms.maps.MapView
                 android:id="@+id/map_view"

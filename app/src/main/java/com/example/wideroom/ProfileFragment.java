@@ -36,7 +36,7 @@ public class ProfileFragment extends Fragment {
     ImageView profilePic;
     EditText usernameInput;
     EditText bioInput;
-    EditText emailInput;
+    TextView emailInput;
     Button updateProfileBtn;
     ProgressBar progressBar;
     TextView logoutBtn;

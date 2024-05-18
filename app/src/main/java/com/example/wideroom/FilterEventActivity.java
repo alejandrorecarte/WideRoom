@@ -1,8 +1,5 @@
 package com.example.wideroom;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,26 +10,20 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.wideroom.R;
 import com.example.wideroom.adapter.EventRecyclerAdapter;
-import com.example.wideroom.adapter.SearchUserRecyclerAdapter;
 import com.example.wideroom.model.EventModel;
-import com.example.wideroom.model.UserModel;
 import com.example.wideroom.utils.FirebaseUtil;
 import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQueryBounds;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
@@ -60,6 +51,9 @@ public class FilterEventActivity extends AppCompatActivity {
 
     EventRecyclerAdapter adapter;
 
+    // Nueva variable para almacenar la categoría seleccionada
+    String selectedCategory = "Music"; // Categoría predeterminada
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,25 +72,16 @@ public class FilterEventActivity extends AppCompatActivity {
 
         double[] coordinates = getIntent().getExtras().getDoubleArray("coordinates");
         final int[] distance = {100};
-        final String[] category = {"Music"};
         final String[] order = {"Distance ⬇"};
 
         // Crear un adaptador para el Spinner de categoría
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
-
-// Especificar el diseño del desplegable para el Spinner de categoría
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-// Agregar adaptador al Spinner de categoría
         categorySpinner.setAdapter(categoryAdapter);
 
-// Crear un adaptador para el Spinner de orden
+        // Crear un adaptador para el Spinner de orden
         ArrayAdapter<String> orderAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, orders);
-
-// Especificar el diseño del desplegable para el Spinner de orden
         orderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-// Agregar adaptador al Spinner de orden
         orderSpinner.setAdapter(orderAdapter);
 
         distanceBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -119,7 +104,7 @@ public class FilterEventActivity extends AppCompatActivity {
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                category[0] = parent.getItemAtPosition(position).toString();
+                selectedCategory = parent.getItemAtPosition(position).toString();
             }
 
             @Override
@@ -150,24 +135,25 @@ public class FilterEventActivity extends AppCompatActivity {
                 searchInput.setError("Invalid event name");
                 return;
             }
-            setupEventSearchRecyclerView(coordinates, category[0], distance[0], order[0] ,searchTerm);
+            setupEventSearchRecyclerView(coordinates, selectedCategory, distance[0], order[0] ,searchTerm);
         });
-
     }
 
-    void setupEventSearchRecyclerView(double[] coordinates, String category, int radiusInKm, String order, String searchTerm){
+    void setupEventSearchRecyclerView(double[] coordinates, String category, int radiusInKm, String order, String searchTerm) {
         Log.i("GeoFire", "User coordinates: " + Arrays.toString(coordinates));
         final GeoLocation userLocation = new GeoLocation(coordinates[0], coordinates[1]);
         double radiusInM = radiusInKm * 1000;
-        List<EventModel> events = new ArrayList<>();
 
         List<GeoQueryBounds> bounds = GeoFireUtils.getGeoHashQueryBounds(userLocation, radiusInM);
         final List<Task<QuerySnapshot>> tasks = new ArrayList<>();
         for (GeoQueryBounds b : bounds) {
             Query q = FirebaseUtil.allEventsCollectionReference()
-                    .orderBy("geohash")
+                    .whereEqualTo("category", category) ;// Filtrar por categoría
+                    /*.orderBy("geohash")
                     .startAt(b.startHash)
                     .endAt(b.endHash);
+
+                     */
 
             tasks.add(q.get());
         }
@@ -177,6 +163,7 @@ public class FilterEventActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<List<Task<?>>> t) {
                         List<DocumentSnapshot> matchingDocs = new ArrayList<>();
+                        List<EventModel> events = new ArrayList<>(); // Lista de eventos
 
                         for (Task<QuerySnapshot> task : tasks) {
                             QuerySnapshot snap = task.getResult();
@@ -184,39 +171,42 @@ public class FilterEventActivity extends AppCompatActivity {
                                 double lat = doc.getDouble("lat");
                                 double lng = doc.getDouble("lng");
 
-                                // We have to filter out a few false positives due to GeoHash
-                                // accuracy, but most will match
+                                // Filtrar eventos dentro del radio
                                 GeoLocation docLocation = new GeoLocation(lat, lng);
-                                double distanceInM = -1;
-                                distanceInM = GeoFireUtils.getDistanceBetween(docLocation, userLocation);
+                                double distanceInM = GeoFireUtils.getDistanceBetween(docLocation, userLocation);
                                 if (distanceInM <= radiusInM) {
                                     EventModel event = doc.toObject(EventModel.class);
-                                    if(distanceInM != -1) {
-                                        event.setDistanceInM(distanceInM);
-                                    }
-                                    events.add(event);
+                                    event.setDistanceInM(distanceInM);
+                                    events.add(event); // Agregar evento a la lista
                                 }
                             }
                         }
 
-                        switch (order){
-                            case "Distance ⬇":
-                                Collections.sort(events, Comparator.comparingDouble(EventModel::getDistanceInM));
-                                break;
-                            case "Distance ⬆":
-                                Collections.sort(events, Comparator.comparingDouble(EventModel::getDistanceInM).reversed());
-                                break;
-                            case "Event name ⬇":
-                                Collections.sort(events, Comparator.comparing(EventModel::getEventName));
-                                break;
-                            case "Event name ⬆":
-                                Collections.sort(events, Comparator.comparing(EventModel::getEventName).reversed());
-                                break;
-                        }
+                        if (!events.isEmpty()) { // Si hay eventos disponibles
+                            // Ordenar la lista de eventos según el criterio seleccionado
+                            switch (order){
+                                case "Distance ⬇":
+                                    Collections.sort(events, Comparator.comparingDouble(EventModel::getDistanceInM));
+                                    break;
+                                case "Distance ⬆":
+                                    Collections.sort(events, Comparator.comparingDouble(EventModel::getDistanceInM).reversed());
+                                    break;
+                                case "Event name ⬇":
+                                    Collections.sort(events, Comparator.comparing(EventModel::getEventName));
+                                    break;
+                                case "Event name ⬆":
+                                    Collections.sort(events, Comparator.comparing(EventModel::getEventName).reversed());
+                                    break;
+                            }
 
-                        adapter = new EventRecyclerAdapter(FilterEventActivity.this, events);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(FilterEventActivity.this));
-                        recyclerView.setAdapter(adapter);
+                            // Mostrar los eventos en el RecyclerView
+                            adapter = new EventRecyclerAdapter(FilterEventActivity.this, events);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(FilterEventActivity.this));
+                            recyclerView.setAdapter(adapter);
+                        } else { // Si no hay eventos disponibles
+                            // Mostrar un mensaje indicando que no hay eventos en esta categoría
+                            Toast.makeText(FilterEventActivity.this, getResources().getString(R.string.no_events_category), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
     }
