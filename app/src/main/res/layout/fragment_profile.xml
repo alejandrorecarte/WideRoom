@@ -48,19 +48,27 @@
         android:outlineAmbientShadowColor="?attr/colorOnPrimary"
         android:padding="10dp" />
 
-    <EditText
+    <TextView
+        android:id="@+id/access_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/access"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"/>
+
+    <TextView
         android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/edit_text_rounded_corner"
-        android:backgroundTint="?attr/colorOnSecondary"
-        android:elevation="5dp"
-        android:enabled="false"
-        android:foregroundTint="?attr/colorOnPrimary"
-        android:hint="@string/email"
-        android:outlineAmbientShadowColor="?attr/colorOnPrimary"
-        android:padding="10dp" />
+        android:drawableStart="@drawable/phone_icon"
+        android:drawableEnd="@drawable/email_icon"
+        android:drawablePadding="8dp"
+        android:padding="10dp"
+        android:text="@string/access"
+        android:textColor="@android:color/black" />
 
     <LinearLayout
         android:layout_width="match_parent"
