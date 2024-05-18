@@ -114,7 +114,7 @@ public class FriendRequestRecyclerAdapter extends FirestoreRecyclerAdapter<UserM
                         notification.put("target_channel", "push");
 
                         JSONObject contents = new JSONObject();
-                        contents.put("en", currentUserModel.getUsername() +message);
+                        contents.put("en", currentUserModel.getUsername() + " " +message);
 
                         notification.put("contents", contents);
 
