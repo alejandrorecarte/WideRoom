@@ -150,6 +150,16 @@
                 android:text="@string/search_user_event"
                 android:textColor="@color/white" />
 
+            <TextView
+                android:id="@+id/no_results_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:layout_margin="10dp"
+                android:gravity="center_horizontal"
+                android:visibility="gone"
+                android:text="@string/no_results_found" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/search_users_event_recycler_view"
                 android:layout_width="match_parent"

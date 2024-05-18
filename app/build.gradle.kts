@@ -32,6 +32,7 @@ android {
     packagingOptions {
         exclude ("META-INF/DEPENDENCIES")
     }
+    buildToolsVersion = "34.0.0"
 }
 
 dependencies {

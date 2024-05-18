@@ -63,20 +63,35 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:background="?attr/selectableItemBackgroundBorderless"
-            app:tint="@color/primary"
+            app:tint="?attr/colorPrimary"
             android:padding="4dp"
             android:layout_margin="10dp"
             android:id="@+id/search_user_btn"/>
 
     </RelativeLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <TextView
+        android:id="@+id/no_results_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/search_user_layout"
-        android:padding="10dp"
-        android:id="@+id/search_user_recycler_view"
-        />
+        android:textSize="20dp"
+        android:layout_margin="10dp"
+        android:gravity="center_horizontal"
+        android:visibility="gone"
+        android:text="@string/no_results_found" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/search_user_layout">
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:id="@+id/search_user_recycler_view"
+            />
+    </ScrollView>
+
 
 
 </RelativeLayout>

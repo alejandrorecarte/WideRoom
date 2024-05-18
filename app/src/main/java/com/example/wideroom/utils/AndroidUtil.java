@@ -23,6 +23,7 @@ public class AndroidUtil {
         intent.putExtra("oneSignalId",model.getOneSignalId());
         intent.putExtra("subscriptionId",model.getSubscriptionId());
         intent.putExtra("bio",model.getBio());
+        intent.putExtra("language", model.getLanguage());
     }
     public static UserModel getUserModelFromIntent(Intent intent){
         UserModel userModel =new UserModel();
@@ -32,6 +33,7 @@ public class AndroidUtil {
         userModel.setOneSignalId(intent.getStringExtra("oneSignalId"));
         userModel.setSubscriptionId(intent.getStringExtra("subscriptionId"));
         userModel.setBio(intent.getStringExtra("bio"));
+        intent.putExtra("language", intent.getStringExtra("language"));
         return userModel;
     }
 

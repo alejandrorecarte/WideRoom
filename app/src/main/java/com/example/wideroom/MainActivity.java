@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.wideroom.model.UserModel;
 import com.example.wideroom.utils.AndroidUtil;
 import com.example.wideroom.utils.FirebaseUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -82,6 +83,13 @@ public class MainActivity extends AppCompatActivity {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         requestLocation();
 
+        FirebaseUtil.currentUserDetails().get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                UserModel currentUserModel = task.getResult().toObject(UserModel.class);
+                LocaleHelper.setLocale(this, currentUserModel.getLanguage());
+            }
+        });
+
         searchButton.setOnClickListener((v) -> {
 
             startActivity(new Intent(MainActivity.this, SearchUserActivity.class));
@@ -131,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
         Log.i("OneSignal Info", "OneSignal ID: " + oneSignalId);
         FirebaseUtil.currentUserDetails().update("oneSignalId", oneSignalId);
         updateSubscriptionId(oneSignalId);
-
     }
 
     private static void updateSubscriptionId(String oneSignalId) {

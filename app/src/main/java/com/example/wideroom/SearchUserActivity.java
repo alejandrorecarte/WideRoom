@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.wideroom.adapter.FriendRequestRecyclerAdapter;
 import com.example.wideroom.adapter.SearchUserRecyclerAdapter;
 import com.example.wideroom.model.UserModel;
+import com.example.wideroom.utils.AndroidUtil;
 import com.example.wideroom.utils.FirebaseUtil;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -34,6 +36,7 @@ public class SearchUserActivity extends AppCompatActivity {
     ImageButton searchButton;
     ImageButton backButton;
     RecyclerView recyclerView;
+    TextView noResults;
 
     SearchUserRecyclerAdapter adapter;
 
@@ -46,7 +49,7 @@ public class SearchUserActivity extends AppCompatActivity {
         searchButton=findViewById(R.id.search_user_btn);
         backButton=findViewById(R.id.back_btn);
         recyclerView=findViewById(R.id.search_user_recycler_view);
-
+        noResults=findViewById(R.id.no_results_text);
         searchInput.requestFocus();
 
         backButton.setOnClickListener(v -> {
@@ -97,6 +100,8 @@ public class SearchUserActivity extends AppCompatActivity {
                             recyclerView.setAdapter(adapter);
                             recyclerView.setLayoutManager(new LinearLayoutManager(this));
                             adapter.startListening();
+                        }else{
+                            noResults.setVisibility(View.VISIBLE);
                         }
                     }
                     Log.e("FriendRequestError","Error al obtener datos de peticiones de amigos" + task.getException());

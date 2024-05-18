@@ -3,9 +3,12 @@ package com.example.wideroom;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -32,7 +35,10 @@ public class RegisterActivity extends AppCompatActivity {
     EditText emailInput;
     EditText passwordInput;
     EditText passwordConfirmInput;
+    Spinner languageSpinner;
     Button nextBtn;
+    final String[] languages = {"Español", "English"};
+    String selectedLanguage = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +50,32 @@ public class RegisterActivity extends AppCompatActivity {
         emailInput = findViewById(R.id.register_email);
         passwordInput = findViewById(R.id.register_password);
         passwordConfirmInput = findViewById(R.id.register_password_confirm);
+        languageSpinner = findViewById(R.id.language_spinner);
+
+        // Crear un adaptador para el Spinner de categoría
+        ArrayAdapter<String> languageAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, languages);
+        languageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        languageSpinner.setAdapter(languageAdapter);
+
+        languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch(parent.getItemAtPosition(position).toString()){
+                    case "Español":
+                        selectedLanguage = "es";
+                        break;
+                    case "Inglés":
+                        selectedLanguage = "en";
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +104,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
                                         AndroidUtil.showToast(RegisterActivity.this, getResources().getString(R.string.vrf_email_sent));
-                                        UserModel userModel = new UserModel(emailInput.getText().toString(), usernameInput.getText().toString(), Timestamp.now(),FirebaseUtil.currentUserId());
+                                        UserModel userModel = new UserModel(emailInput.getText().toString(), usernameInput.getText().toString(), Timestamp.now(),FirebaseUtil.currentUserId(), selectedLanguage);
                                         FirebaseUtil.currentUserDetails().set(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {

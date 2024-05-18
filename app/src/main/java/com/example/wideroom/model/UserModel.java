@@ -12,18 +12,20 @@ public class UserModel implements Serializable {
     private String oneSignalId;
     private String subscriptionId;
     private String bio;
+    private String language;
 
     public UserModel() {
     }
 
-    public UserModel(String accessId, String username, Timestamp createdTimestamp,String userId) {
+    public UserModel(String accessId, String username, Timestamp createdTimestamp,String userId, String language) {
         this.accessId = accessId;
         this.username = username;
         this.createdTimestamp = createdTimestamp;
         this.userId = userId;
+        this.language = language;
     }
 
-    public UserModel(String accessId, String username, Timestamp createdTimestamp, String userId, String oneSignalId, String subscriptionId, String bio) {
+    public UserModel(String accessId, String username, Timestamp createdTimestamp, String userId, String oneSignalId, String subscriptionId, String bio, String language) {
         this.accessId = accessId;
         this.username = username;
         this.createdTimestamp = createdTimestamp;
@@ -31,6 +33,7 @@ public class UserModel implements Serializable {
         this.oneSignalId = oneSignalId;
         this.subscriptionId = subscriptionId;
         this.bio = bio;
+        this.language = language;
     }
 
     public String getAccessId() {
@@ -88,5 +91,13 @@ public class UserModel implements Serializable {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }

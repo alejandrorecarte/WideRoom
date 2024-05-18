@@ -53,12 +53,11 @@
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-        android:layout_above="@id/bottom_layout"
-        android:id="@+id/chat_recycler_view"/>
-
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_above="@id/bottom_layout"
+    android:layout_below="@id/toolbar"
+    android:id="@+id/chat_recycler_view"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"

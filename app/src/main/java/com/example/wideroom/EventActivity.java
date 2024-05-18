@@ -52,6 +52,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
     ImageView eventBackgroundPic;
     TextView address;
     TextView date;
+    TextView noResults;
     Button subscribeBtn;
     Button searchForUsersBtn;
     MapView mapView;
@@ -68,6 +69,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
         setContentView(R.layout.activity_event);
 
         eventModel = AndroidUtil.getEventModelFromIntent(getIntent());
+        noResults = findViewById(R.id.no_results_text);
         eventName = findViewById(R.id.event_name);
         eventBackgroundPic = findViewById(R.id.event_background_pic);
         address = findViewById(R.id.address);
@@ -179,7 +181,6 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                                         }
 
                                         Log.i("Información", "Número de suscriptores encontrados: " + subscribers.size()); // Para verificar cuántos suscriptores se han obtenido.
-
                                         if (subscribers.size() != 0) {
 
                                             Query query = FirebaseUtil.allUserCollectionReference().whereIn("userId", subscribers);
@@ -192,6 +193,8 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                                             recyclerView.setAdapter(adapter);
                                             recyclerView.setLayoutManager(new LinearLayoutManager(this));
                                             adapter.startListening();
+                                        }else{
+                                            noResults.setVisibility(View.VISIBLE);
                                         }
                                     }
                                 });

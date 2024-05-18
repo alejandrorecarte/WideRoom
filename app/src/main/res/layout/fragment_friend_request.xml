@@ -5,6 +5,16 @@
     android:layout_height="match_parent"
     tools:context=".FriendRequestFragment">
 
+    <TextView
+        android:id="@+id/no_results_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="20dp"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="@string/no_results_found" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
