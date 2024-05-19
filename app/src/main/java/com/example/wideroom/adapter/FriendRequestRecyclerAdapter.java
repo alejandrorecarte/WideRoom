@@ -56,15 +56,17 @@ public class FriendRequestRecyclerAdapter extends FirestoreRecyclerAdapter<UserM
 
         holder.acceptButton.setOnClickListener(v -> {
             FirebaseUtil.acceptFriendRequest(model.getUserId());
-            holder.itemView.setVisibility(View.GONE);
             sendNotification(context.getString(R.string.friend_request_accepted), model);
-            notifyDataSetChanged();
+            holder.acceptButton.setText(context.getResources().getString(R.string.accepted));
+            holder.acceptButton.setEnabled(false);
+            holder.declineButton.setVisibility(View.GONE);
         });
 
         holder.declineButton.setOnClickListener(v -> {
             FirebaseUtil.removeFriend(model.getUserId());
-            holder.itemView.setVisibility(View.GONE);
-            notifyDataSetChanged();
+            holder.declineButton.setText(context.getResources().getString(R.string.declined));
+            holder.declineButton.setEnabled(false);
+            holder.acceptButton.setVisibility(View.GONE);
         });
     }
 

@@ -185,7 +185,6 @@ public class ChatActivity extends AppCompatActivity {
                 super.onItemRangeInserted(positionStart, itemCount);
                 recyclerView.smoothScrollToPosition(0);
                 adapter.notifyDataSetChanged();
-                AndroidUtil.showToast(ChatActivity.this, otherUser.getUsername());
                 FirebaseUtil.markAsRead(chatroomId, otherUser);
             }
         });

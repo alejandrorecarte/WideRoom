@@ -2,7 +2,9 @@
 <resources>
     <string name="default_notification_channel_id">Mensaje de texto</string>
     <string name="default_notification_channel_description">Canal para mensajes de texto</string>
-    <string name="dev_by">Desarrollado por Recarte e Ines</string>
+    <string name="app_name">Wide Room</string>
+    <string name="app_name_upper">WIDE ROOM</string>
+    <string name="dev_by">Desarrollado por Recarte e Inés</string>
     <string name="username">Nombre de usuario</string>
     <string name="write_msg">Escribe el mensaje aquí</string>
     <string name="event_name">Nombre del evento</string>
@@ -40,7 +42,7 @@
     <string name="update_profile">Actualizar perfil</string>
     <string name="logout">Cerrar sesión</string>
     <string name="accept">Aceptar</string>
-    <string name="reject">Rechazar</string>
+    <string name="reject">Denegar</string>
     <string name="zero">0</string>
     <string name="time">00:00</string>
     <string name="request">Solicitar</string>
@@ -76,4 +78,6 @@
     <string name="friend_request_accepted"> ha aceptado tu solicitud de amistad.</string>
     <string name="no_results_found">¡Nada que ver aquí por el momento!</string>
     <string name="username_error">El nombre de usuario debe tener al menos tres caracteres.</string>
+    <string name="declined">Denegada</string>
+    <string name="accepted">Aceptada</string>
 </resources>

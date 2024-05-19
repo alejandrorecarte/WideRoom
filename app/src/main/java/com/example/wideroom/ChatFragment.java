@@ -69,6 +69,13 @@ public class ChatFragment extends Fragment {
                             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                             recyclerView.setAdapter(adapter);
                             adapter.startListening();
+                            adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+                                @Override
+                                public void onItemRangeChanged(int positionStart, int itemCount) {
+                                    super.onItemRangeChanged(positionStart, itemCount);
+                                    adapter.notifyDataSetChanged();
+                                }
+                            });
                         }else{
                             noResults.setVisibility(View.VISIBLE);
                         }

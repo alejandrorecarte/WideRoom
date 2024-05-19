@@ -89,7 +89,7 @@
         <ImageView
             android:layout_width="300dp"
             android:layout_height="200dp"
-            android:margin="20dp"
+            android:layout_margin="20dp"
             android:layout_below="@id/no_results_text"
             android:src="@drawable/icon_search"
             app:tint="?attr/colorPrimary"

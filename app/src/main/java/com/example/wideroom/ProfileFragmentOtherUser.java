@@ -79,7 +79,9 @@ public class ProfileFragmentOtherUser extends Fragment {
         deleteFriendButton.setOnClickListener(v -> {
             FirebaseUtil.removeFriend(otherUserModel.getUserId());
             AndroidUtil.showToast(getContext(), getContext().getResources().getString(R.string.delete_friend));
-            this.getActivity().finish();
+            Intent intent = new Intent(getContext(), MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
         });
 
         return view;

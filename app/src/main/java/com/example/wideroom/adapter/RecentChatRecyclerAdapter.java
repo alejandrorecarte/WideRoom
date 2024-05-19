@@ -71,12 +71,12 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<Chatroom
                             holder.usernameText.setText(otherUserModel.getUsername());
 
                             FirebaseUtil.currentUserDetails().get().addOnCompleteListener(t -> {
-                               if(t.isSuccessful()){
-                                   UserModel currentUser = t.getResult().toObject(UserModel.class);
-                                   if(otherUserModel.getUsername().equals(currentUser.getUsername())){
-                                       holder.usernameText.setText(holder.usernameText.getText() + " (Me)");
-                                   }
-                               }
+                                if(t.isSuccessful()){
+                                    UserModel currentUser = t.getResult().toObject(UserModel.class);
+                                    if(otherUserModel.getUsername().equals(currentUser.getUsername())){
+                                        holder.usernameText.setText(holder.usernameText.getText() + " (Me)");
+                                    }
+                                }
                             });
 
                             if(lastMessageSendByMe){
@@ -156,4 +156,3 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<Chatroom
         }
     }
 }
-
