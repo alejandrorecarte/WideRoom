@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -36,8 +37,7 @@ public class SearchUserActivity extends AppCompatActivity {
     ImageButton searchButton;
     ImageButton backButton;
     RecyclerView recyclerView;
-    TextView noResults;
-
+    LinearLayout noResults;
     SearchUserRecyclerAdapter adapter;
 
     @Override
@@ -49,7 +49,7 @@ public class SearchUserActivity extends AppCompatActivity {
         searchButton=findViewById(R.id.search_user_btn);
         backButton=findViewById(R.id.back_btn);
         recyclerView=findViewById(R.id.search_user_recycler_view);
-        noResults=findViewById(R.id.no_results_text);
+        noResults=findViewById(R.id.no_results_found);
         searchInput.requestFocus();
 
         backButton.setOnClickListener(v -> {

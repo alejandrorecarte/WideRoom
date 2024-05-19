@@ -95,8 +95,7 @@ public class FirebaseUtil {
 
     public static void markAsRead(String chatroomId, UserModel otherUser){
         Query query = FirebaseUtil.getChatroomMessageReference(chatroomId)
-                .whereEqualTo("senderId", otherUser.getUserId())
-                .whereEqualTo("read", false);
+                .whereEqualTo("senderId", otherUser.getUserId());
         query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.wideroom.adapter.RecentChatRecyclerAdapter;
@@ -29,7 +30,7 @@ public class ChatFragment extends Fragment {
 
     RecyclerView recyclerView;
     RecentChatRecyclerAdapter adapter;
-    TextView noResults;
+    LinearLayout noResults;
     public ChatFragment() {
     }
 
@@ -39,7 +40,7 @@ public class ChatFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_chat, container, false);
         recyclerView = view.findViewById(R.id.recyler_view);
-        noResults = view.findViewById(R.id.no_results_text);
+        noResults = view.findViewById(R.id.no_results_found);
         setupRecyclerView();
         return view;
     }

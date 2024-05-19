@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -29,7 +30,7 @@ public class FriendRequestFragment extends Fragment {
 
     RecyclerView recyclerView;
     FriendRequestRecyclerAdapter adapter;
-    TextView noResults;
+    LinearLayout noResults;
     String eventId;
     EventModel eventModel;
 
@@ -42,7 +43,7 @@ public class FriendRequestFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_friend_request, container, false);
         recyclerView = view.findViewById(R.id.recyler_view);
-        noResults = view.findViewById(R.id.no_results_text);
+        noResults = view.findViewById(R.id.no_results_found);
         setupRecyclerView();
         return view;
     }

@@ -77,5 +77,5 @@
     <string name="delete_friend">Delete friend</string>
     <string name="friend_request_accepted"> has accepted your friend request!</string>
     <string name="no_results_found">Nothing to see here at the moment!</string>
-    <string name="language">Language</string>
+    <string name="username_error">Username must have more than 3 characters</string>
 </resources>

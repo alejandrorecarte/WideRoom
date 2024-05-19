@@ -33,52 +33,14 @@ public class ChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatMessageMod
     }
 
     @Override
-    protected void onBindViewHolder(ChatModelViewHolder holder, int position, @NonNull ChatMessageModel model) {
+    protected void onBindViewHolder(@NonNull ChatModelViewHolder holder, int position, @NonNull ChatMessageModel model) {
         ChatMessageModel previousMessage = null;
-        if(position > 0) {
+        if (position > 0) {
             previousMessage = getItem(position - 1);
         }
-        String timestamp = model.getTimestamp().toDate().getDate() + "/" +
-                model.getTimestamp().toDate().getMonth() + " " +
-                FirebaseUtil.timestampToString(model.getTimestamp());
-
-            if (model.getSenderId().equals(FirebaseUtil.currentUserId())) {
-                holder.leftChatLayout.setVisibility(View.GONE);
-                holder.rightChatLayout.setVisibility(View.VISIBLE);
-                holder.rightChatTextView.setText(model.getMessage());
-                if (previousMessage!=null && (!FirebaseUtil.timestampToString(previousMessage.getTimestamp()).equals(FirebaseUtil.timestampToString(model.getTimestamp()))
-                        || !previousMessage.getSenderId().equals(model.getSenderId()))) {
-                    holder.rightChatTextViewTimestamp.setText(timestamp);
-                } else if(previousMessage==null) {
-                    holder.rightChatTextViewTimestamp.setText(timestamp);
-                } else {
-                    holder.rightChatTextViewTimestamp.setVisibility(View.GONE);
-                }
-                if (previousMessage!=null && (!previousMessage.getSenderId().equals(model.getSenderId()))) {
-                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.rightChatLayout.getLayoutParams();
-                    params.setMargins(0, 0, 0, 20); // Ajusta el margen superior según sea necesario
-                    holder.rightChatLayout.setLayoutParams(params);
-                }
-
-            } else {
-                holder.rightChatLayout.setVisibility(View.GONE);
-                holder.leftChatLayout.setVisibility(View.VISIBLE);
-                holder.leftChatTextView.setText(model.getMessage());
-                if (previousMessage!=null && (!FirebaseUtil.timestampToString(previousMessage.getTimestamp()).equals(FirebaseUtil.timestampToString(model.getTimestamp()))
-                        || !previousMessage.getSenderId().equals(model.getSenderId()))) {
-                    holder.leftChatTextViewTimestamp.setText(timestamp);
-                } else if(previousMessage==null) {
-                    holder.leftChatTextViewTimestamp.setText(timestamp);
-                }else{
-                    holder.leftChatTextViewTimestamp.setVisibility(View.GONE);
-                }
-                if (previousMessage!=null && (!previousMessage.getSenderId().equals(model.getSenderId()))) {
-                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.leftChatLayout.getLayoutParams();
-                    params.setMargins(0, 0, 0, 20); // Ajusta el margen superior según sea necesario
-                    holder.leftChatLayout.setLayoutParams(params);
-                }
-            }
+        configureChatLayout(model, previousMessage, holder);
     }
+
 
     @NonNull
     @Override
@@ -102,4 +64,47 @@ public class ChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatMessageMod
 
         }
     }
+
+    private void configureChatLayout(ChatMessageModel model, ChatMessageModel previousMessage, ChatModelViewHolder holder) {
+        String timestamp = model.getTimestamp().toDate().getDate() + "/" +
+                model.getTimestamp().toDate().getMonth() + " " +
+                FirebaseUtil.timestampToString(model.getTimestamp());
+
+        boolean isCurrentUser = model.getSenderId().equals(FirebaseUtil.currentUserId());
+        View chatLayout = isCurrentUser ? holder.rightChatLayout : holder.leftChatLayout;
+        TextView chatTextView = isCurrentUser ? holder.rightChatTextView : holder.leftChatTextView;
+        TextView chatTimestampTextView = isCurrentUser ? holder.rightChatTextViewTimestamp : holder.leftChatTextViewTimestamp;
+
+        chatLayout.setVisibility(View.VISIBLE);
+        chatTextView.setText(model.getMessage());
+
+        boolean showTimestamp = previousMessage == null ||
+                !FirebaseUtil.timestampToString(previousMessage.getTimestamp()).equals(FirebaseUtil.timestampToString(model.getTimestamp())) ||
+                !previousMessage.getSenderId().equals(model.getSenderId());
+
+        if (showTimestamp) {
+            chatTimestampTextView.setText(timestamp);
+            chatTimestampTextView.setVisibility(View.VISIBLE);
+        } else {
+            chatTimestampTextView.setVisibility(View.GONE);
+        }
+
+        if (previousMessage != null && !previousMessage.getSenderId().equals(model.getSenderId())) {
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) chatLayout.getLayoutParams();
+            params.setMargins(0, 0, 0, 20); // Ajusta el margen superior
+            chatLayout.setLayoutParams(params);
+        } else {
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) chatLayout.getLayoutParams();
+            params.setMargins(0, 0, 0, 0); // Restablece los márgenes
+            chatLayout.setLayoutParams(params);
+        }
+
+        // Oculta el diseño del chat opuesto
+        if (isCurrentUser) {
+            holder.leftChatLayout.setVisibility(View.GONE);
+        } else {
+            holder.rightChatLayout.setVisibility(View.GONE);
+        }
+    }
+
 }

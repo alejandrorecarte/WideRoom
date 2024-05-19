@@ -184,6 +184,8 @@ public class ChatActivity extends AppCompatActivity {
             public void onItemRangeInserted(int positionStart, int itemCount) {
                 super.onItemRangeInserted(positionStart, itemCount);
                 recyclerView.smoothScrollToPosition(0);
+                adapter.notifyDataSetChanged();
+                AndroidUtil.showToast(ChatActivity.this, otherUser.getUsername());
                 FirebaseUtil.markAsRead(chatroomId, otherUser);
             }
         });
@@ -205,6 +207,7 @@ public class ChatActivity extends AppCompatActivity {
                             messageInput.setText("");
                             try {
                                 sendNotification(message, otherUser);
+                                adapter.notifyDataSetChanged();
                             }catch(Exception e){
                                 Log.e("OneSignal Response", Log.getStackTraceString(e));
                             }

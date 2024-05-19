@@ -55,10 +55,13 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(!emailInput.getText().toString().isEmpty() && !passwordInput.getText().toString().isEmpty()
                 && passwordConfirmInput.getText().toString().equals(passwordInput.getText().toString())
-                && passwordInput.getText().toString().length() >= 6) {
+                && passwordInput.getText().toString().length() >= 6
+                && usernameInput.getText().toString().length() >= 3) {
                     registerUser(emailInput.getText().toString(), passwordInput.getText().toString());
                 } else if (passwordInput.getText().toString().length() < 6) {
                     AndroidUtil.showToast(RegisterActivity.this, getResources().getString(R.string.pwd_6));
+                } else if (usernameInput.getText().toString().length() < 3) {
+                    AndroidUtil.showToast(RegisterActivity.this, getResources().getString(R.string.username_error));
                 } else {
                     AndroidUtil.showToast(RegisterActivity.this, getResources().getString(R.string.fill_all));
                 }

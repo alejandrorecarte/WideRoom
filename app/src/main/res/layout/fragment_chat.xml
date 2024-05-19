@@ -3,17 +3,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ChatFragment">
 
-    <TextView
-        android:id="@+id/no_results_text"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="20dp"
-        android:layout_margin="10dp"
+        android:orientation="vertical"
         android:gravity="center"
         android:visibility="gone"
-        android:text="@string/no_results_found" />
+        android:id="@+id/no_results_found">
+        <TextView
+            android:id="@+id/no_results_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="@string/no_results_found"/>
+
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:margin="20dp"
+            android:layout_below="@id/no_results_text"
+            android:src="@drawable/ic_logo_no_title"
+            app:tint="?attr/colorPrimary"
+            android:id="@+id/no_results_found_icon"/>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
