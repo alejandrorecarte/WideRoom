@@ -47,27 +47,6 @@
         android:inputType="text|textShortMessage|textAutoCorrect|textMultiLine"
         android:outlineAmbientShadowColor="?attr/colorOnPrimary"
         android:padding="10dp" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="17dp"
-        android:layout_margin="10dp"
-        android:textStyle="bold"
-
-        android:text="@string/language">
-    </TextView>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-        <Spinner
-            android:id="@+id/language_spinner"
-            android:layout_width="wrap_content"
-            android:gravity="left"
-            android:layout_margin="10dp"
-            android:textSize="18sp"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
 
     <TextView
         android:layout_width="match_parent"

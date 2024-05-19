@@ -49,8 +49,6 @@ public class ProfileFragment extends Fragment {
     UserModel currentUserModel;
     ActivityResultLauncher<Intent> imagePickLauncher;
     Uri selectedImageUri;
-    Spinner languageSpinner;
-    final String[] languages = {"Español", "English"};
 
     public ProfileFragment() {
     }
@@ -82,34 +80,9 @@ public class ProfileFragment extends Fragment {
         updateProfileBtn = view.findViewById(R.id.profile_update_btn);
         progressBar = view.findViewById(R.id.profile_progress_bar);
         logoutBtn = view.findViewById(R.id.logout_btn);
-        languageSpinner = view.findViewById(R.id.language_spinner);
 
         getUserData();
 
-        // Crear un adaptador para el Spinner de categoría
-        ArrayAdapter<String> languageAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, languages);
-        languageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        languageSpinner.setAdapter(languageAdapter);
-        if(currentUserModel!=null){
-        languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (parent.getItemAtPosition(position).toString()) {
-                    case "Español":
-                        currentUserModel.setLanguage("es");
-                        break;
-                    case "Inglés":
-                        currentUserModel.setLanguage("en");
-                        break;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        };
 
         updateProfileBtn.setOnClickListener((v -> {
             updateBtnClick();
@@ -167,11 +140,6 @@ public class ProfileFragment extends Fragment {
         }else{
             updateToFirestore();
         }
-        LocaleHelper.setLocale(getContext(), currentUserModel.getLanguage());
-        // Reiniciar la actividad para aplicar el cambio de idioma
-        Intent intent = new Intent(getContext(), MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
     }
 
     void updateToFirestore(){

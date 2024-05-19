@@ -83,12 +83,6 @@ public class MainActivity extends AppCompatActivity {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         requestLocation();
 
-        FirebaseUtil.currentUserDetails().get().addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
-                UserModel currentUserModel = task.getResult().toObject(UserModel.class);
-                LocaleHelper.setLocale(this, currentUserModel.getLanguage());
-            }
-        });
 
         searchButton.setOnClickListener((v) -> {
 

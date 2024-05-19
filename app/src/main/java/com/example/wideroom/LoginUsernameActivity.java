@@ -39,35 +39,10 @@ public class LoginUsernameActivity extends AppCompatActivity {
         usernameInput = findViewById(R.id.login_username);
         letMeInBtn = findViewById(R.id.login_let_me_in_btn);
         progressBar =findViewById(R.id.event_progress_bar);
-        languageSpinner = findViewById(R.id.language_spinner);
 
 
         phoneNumber = getIntent().getExtras().getString("phone");
         getUsername();
-
-        // Crear un adaptador para el Spinner de categoría
-        ArrayAdapter<String> languageAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, languages);
-        languageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        languageSpinner.setAdapter(languageAdapter);
-
-        languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (parent.getItemAtPosition(position).toString()) {
-                    case "Español":
-                        selectedLanguage = "es";
-                        break;
-                        case "Inglés":
-                            selectedLanguage = "en";
-                            break;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         letMeInBtn.setOnClickListener((v -> {
             setUsername();
@@ -87,7 +62,7 @@ public class LoginUsernameActivity extends AppCompatActivity {
         if(userModel!=null){
             userModel.setUsername(username);
         }else{
-            userModel = new UserModel(phoneNumber,username, Timestamp.now(),FirebaseUtil.currentUserId(), selectedLanguage);
+            userModel = new UserModel(phoneNumber,username, Timestamp.now(),FirebaseUtil.currentUserId());
         }
 
         FirebaseUtil.currentUserDetails().set(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
