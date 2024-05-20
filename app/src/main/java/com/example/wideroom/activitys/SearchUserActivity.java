@@ -1,4 +1,4 @@
-package com.example.wideroom;
+package com.example.wideroom.activitys;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -19,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.wideroom.R;
 import com.example.wideroom.adapter.FriendRequestRecyclerAdapter;
 import com.example.wideroom.adapter.SearchUserRecyclerAdapter;
 import com.example.wideroom.model.UserModel;

@@ -1,4 +1,4 @@
-package com.example.wideroom;
+package com.example.wideroom.activitys;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import com.example.wideroom.R;
 import com.hbb20.CountryCodePicker;
 
 public class LoginPhoneNumberActivity extends AppCompatActivity {
@@ -36,7 +37,7 @@ public class LoginPhoneNumberActivity extends AppCompatActivity {
                 phoneInput.setError(getResources().getString(R.string.phone_ko));
                 return;
             }
-            Intent intent = new Intent(LoginPhoneNumberActivity.this,LoginOtpActivity.class);
+            Intent intent = new Intent(LoginPhoneNumberActivity.this, LoginOtpActivity.class);
             intent.putExtra("phone",countryCodePicker.getFullNumberWithPlus());
             startActivity(intent);
         });

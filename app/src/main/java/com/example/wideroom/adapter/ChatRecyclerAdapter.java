@@ -1,12 +1,9 @@
 package com.example.wideroom.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -14,11 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.wideroom.ChatActivity;
 import com.example.wideroom.R;
 import com.example.wideroom.model.ChatMessageModel;
-import com.example.wideroom.model.UserModel;
-import com.example.wideroom.utils.AndroidUtil;
 import com.example.wideroom.utils.FirebaseUtil;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;

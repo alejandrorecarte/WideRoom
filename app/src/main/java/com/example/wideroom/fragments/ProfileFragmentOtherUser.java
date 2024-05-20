@@ -1,6 +1,4 @@
-package com.example.wideroom;
-
-import static android.content.Intent.getIntent;
+package com.example.wideroom.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,27 +8,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.wideroom.activitys.MainActivity;
+import com.example.wideroom.R;
 import com.example.wideroom.model.UserModel;
 import com.example.wideroom.utils.AndroidUtil;
 import com.example.wideroom.utils.FirebaseUtil;
-import com.github.dhaval2404.imagepicker.ImagePicker;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.messaging.FirebaseMessaging;
-
-import kotlin.Unit;
-import kotlin.jvm.functions.Function1;
 
 public class ProfileFragmentOtherUser extends Fragment {
 

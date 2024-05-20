@@ -1,7 +1,6 @@
-package com.example.wideroom;
+package com.example.wideroom.activitys;
 
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.wideroom.adapter.FriendRequestRecyclerAdapter;
+import com.example.wideroom.R;
 import com.example.wideroom.adapter.SearchUsersEventRecyclerAdapter;
 import com.example.wideroom.model.EventModel;
 import com.example.wideroom.model.EventSubscriptionModel;
@@ -33,14 +32,6 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 

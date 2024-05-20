@@ -1,14 +1,8 @@
-package com.example.wideroom;
+package com.example.wideroom.activitys;
 
-import static android.Manifest.permission.POST_NOTIFICATIONS;
-
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,8 +11,11 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.wideroom.model.UserModel;
-import com.example.wideroom.utils.AndroidUtil;
+import com.example.wideroom.R;
+import com.example.wideroom.fragments.ChatFragment;
+import com.example.wideroom.fragments.EventFragment;
+import com.example.wideroom.fragments.FriendRequestFragment;
+import com.example.wideroom.fragments.ProfileFragment;
 import com.example.wideroom.utils.FirebaseUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -30,20 +27,17 @@ import android.location.Location;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.onesignal.debug.LogLevel;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

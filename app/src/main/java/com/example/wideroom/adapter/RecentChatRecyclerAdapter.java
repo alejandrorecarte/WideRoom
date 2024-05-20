@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +13,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.wideroom.ChatActivity;
+import com.example.wideroom.activitys.ChatActivity;
 import com.example.wideroom.R;
 import com.example.wideroom.model.ChatroomModel;
 import com.example.wideroom.model.UserModel;
@@ -27,13 +25,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.AggregateQuery;
-import com.google.firebase.firestore.AggregateQuerySnapshot;
-import com.google.firebase.firestore.AggregateSource;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatroomModel, RecentChatRecyclerAdapter.ChatroomModelViewHolder> {
@@ -51,18 +43,19 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<Chatroom
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()){
-                            boolean lastMessageSendByMe=model.getLastMessageSenderId().equals(FirebaseUtil.currentUserId());
+                        if (task.isSuccessful()) {
+                            boolean lastMessageSendByMe = model.getLastMessageSenderId().equals(FirebaseUtil.currentUserId());
 
-                            UserModel otherUserModel=task.getResult().toObject(UserModel.class);
+                            UserModel otherUserModel = task.getResult().toObject(UserModel.class);
 
+                            // Cargar la imagen del perfil del usuario
                             FirebaseUtil.getOtherProfilePicStorageRef(otherUserModel.getUserId()).getDownloadUrl()
                                     .addOnCompleteListener(t -> {
-                                        if(t.isSuccessful()){
+                                        if (t.isSuccessful()) {
                                             Uri uri = t.getResult();
                                             AndroidUtil.setProfilePic(context, uri, holder.profilePic);
-                                        }else{
-                                            Log.i("FireUtil Info","Other user profile pic not found");
+                                        } else {
+                                            Log.i("FireUtil Info", "Other user profile pic not found");
                                             Uri uri = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.drawable.person_icon);
                                             AndroidUtil.setProfilePic(context, uri, holder.profilePic);
                                         }
@@ -70,54 +63,43 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<Chatroom
 
                             holder.usernameText.setText(otherUserModel.getUsername());
 
-                            FirebaseUtil.currentUserDetails().get().addOnCompleteListener(t -> {
-                                if(t.isSuccessful()){
-                                    UserModel currentUser = t.getResult().toObject(UserModel.class);
-                                    if(otherUserModel.getUsername().equals(currentUser.getUsername())){
-                                        holder.usernameText.setText(holder.usernameText.getText() + " (Me)");
-                                    }
-                                }
-                            });
-
-                            if(lastMessageSendByMe){
-                                holder.lastMessageText.setText("You : "+model.getLastMessage());
-                            }
-                            else{
-                                AggregateQuery aq = FirebaseUtil.getChatroomMessageReference(model.getChatroomId())
+                            // Comprobar si el último mensaje fue enviado por el usuario actual
+                            if (lastMessageSendByMe) {
+                                holder.lastMessageText.setText("You : " + model.getLastMessage());
+                            } else {
+                                // Obtener el recuento de mensajes no leídos
+                                FirebaseUtil.getChatroomMessageReference(model.getChatroomId())
                                         .whereEqualTo("senderId", otherUserModel.getUserId())
                                         .whereEqualTo("read", false)
-                                        .count();
-
-                                aq.get(AggregateSource.SERVER).addOnCompleteListener(new OnCompleteListener<AggregateQuerySnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<AggregateQuerySnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                            TypedValue typedValue = new TypedValue();
-                                            context.getTheme().resolveAttribute(androidx.appcompat.R.attr.colorPrimary, typedValue, true);
-                                            int color = ContextCompat.getColor(context, typedValue.resourceId);
-                                            AggregateQuerySnapshot snapshot = task.getResult();
-                                            if(snapshot.getCount() > 0){
-                                                holder.lastMessageText.setTypeface(null, Typeface.BOLD);
-                                                holder.lastMessageTime.setTypeface(null, Typeface.BOLD);
-                                                holder.lastMessageTime.setTextColor(color);
-                                                holder.nonReadMessagesCountLayout.setVisibility(View.VISIBLE);
-                                                holder.nonReadMessagesCount.setText(String.valueOf(snapshot.getCount()));
+                                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    QuerySnapshot querySnapshot = task.getResult();
+                                                    int unreadMessagesCount = querySnapshot.size();
+                                                    if (unreadMessagesCount > 0) {
+                                                        // Mostrar el recuento de mensajes no leídos y formatear en negrita
+                                                        holder.lastMessageText.setText(model.getLastMessage());
+                                                        holder.lastMessageText.setTypeface(null, Typeface.BOLD);
+                                                        holder.nonReadMessagesCountLayout.setVisibility(View.VISIBLE);
+                                                        holder.nonReadMessagesCount.setText(String.valueOf(unreadMessagesCount));
+                                                    } else {
+                                                        // Si no hay mensajes no leídos, mostrar el último mensaje normalmente
+                                                        holder.lastMessageText.setText(model.getLastMessage());
+                                                        holder.lastMessageText.setTypeface(null, Typeface.NORMAL);
+                                                        holder.nonReadMessagesCountLayout.setVisibility(View.GONE);
+                                                    }
+                                                } else {
+                                                    Log.e("Firestore Error", "Error getting unread messages count: ", task.getException());
+                                                }
                                             }
-                                            Log.d("Firebase Info", "Count: " + snapshot.getCount());
-                                        }
-                                    }
-                                });
-
-                                String lastMessage = model.getLastMessage();
-                                if(lastMessage.length() > 80){
-                                    lastMessage = lastMessage.substring(0,80)+"...";
-                                }
-
-                                holder.lastMessageText.setText(lastMessage);
-
+                                        });
                             }
 
+                            // Establecer la hora del último mensaje
                             holder.lastMessageTime.setText(FirebaseUtil.timestampToString(model.getLastMessageTimestamp()));
+
+                            // Establecer el clic del elemento para abrir la actividad de chat
                             holder.itemView.setOnClickListener(v -> {
                                 Intent intent = new Intent(context, ChatActivity.class);
                                 AndroidUtil.passUserModelAsIntent(intent, otherUserModel);
@@ -155,4 +137,5 @@ public class RecentChatRecyclerAdapter extends FirestoreRecyclerAdapter<Chatroom
             nonReadMessagesCountLayout.setVisibility(View.GONE);
         }
     }
+
 }

@@ -1,6 +1,4 @@
-package com.example.wideroom;
-
-import static android.content.Intent.getIntent;
+package com.example.wideroom.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,15 +14,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.wideroom.R;
+import com.example.wideroom.activitys.SplashActivity;
 import com.example.wideroom.model.UserModel;
 import com.example.wideroom.utils.AndroidUtil;
 import com.example.wideroom.utils.FirebaseUtil;

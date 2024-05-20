@@ -12,7 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.wideroom.ChatActivity;
+import com.example.wideroom.activitys.ChatActivity;
 import com.example.wideroom.R;
 import com.example.wideroom.model.UserModel;
 import com.example.wideroom.utils.AndroidUtil;

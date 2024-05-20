@@ -1,32 +1,19 @@
-package com.example.wideroom;
+package com.example.wideroom.activitys;
 
-import android.app.AlertDialog;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.Settings;
 import android.util.Log;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.wideroom.R;
+import com.example.wideroom.fragments.FriendRequestFragment;
 import com.example.wideroom.model.UserModel;
 import com.example.wideroom.utils.AndroidUtil;
 import com.example.wideroom.utils.FirebaseUtil;
-import com.onesignal.Continue;
 import com.onesignal.OneSignal;
-import com.onesignal.debug.LogLevel;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -95,7 +82,7 @@ public class SplashActivity extends AppCompatActivity {
                 if(FirebaseUtil.isLoggedIn()){
                     startActivity(new Intent(SplashActivity.this,MainActivity.class));
                 }else{
-                    startActivity(new Intent(SplashActivity.this,LoginEmailActivity.class));
+                    startActivity(new Intent(SplashActivity.this, LoginEmailActivity.class));
                 }
                 finish();
             }

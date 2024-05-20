@@ -1,19 +1,17 @@
-package com.example.wideroom;
+package com.example.wideroom.fragments;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.wideroom.adapter.EventRecyclerAdapter;
+import com.example.wideroom.R;
 import com.example.wideroom.adapter.FriendRequestRecyclerAdapter;
 import com.example.wideroom.model.EventModel;
 import com.example.wideroom.model.UserModel;

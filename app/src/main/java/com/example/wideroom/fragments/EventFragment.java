@@ -1,4 +1,4 @@
-package com.example.wideroom;
+package com.example.wideroom.fragments;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -11,9 +11,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.wideroom.R;
 import com.example.wideroom.adapter.EventRecyclerAdapter;
 import com.example.wideroom.model.EventModel;
-import com.example.wideroom.utils.AndroidUtil;
 import com.example.wideroom.utils.FirebaseUtil;
 import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;

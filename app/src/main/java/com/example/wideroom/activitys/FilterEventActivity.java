@@ -1,4 +1,4 @@
-package com.example.wideroom;
+package com.example.wideroom.activitys;
 
 import android.os.Bundle;
 import android.util.Log;

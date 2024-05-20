@@ -1,4 +1,4 @@
-package com.example.wideroom;
+package com.example.wideroom.activitys;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,21 +8,16 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
+import com.example.wideroom.R;
 import com.example.wideroom.utils.AndroidUtil;
-import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.hbb20.CountryCodePicker;
 
 public class LoginEmailActivity extends AppCompatActivity {
 

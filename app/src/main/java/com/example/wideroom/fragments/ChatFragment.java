@@ -1,4 +1,4 @@
-package com.example.wideroom;
+package com.example.wideroom.fragments;
 
 import android.os.Bundle;
 
@@ -10,14 +10,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
+import com.example.wideroom.R;
 import com.example.wideroom.adapter.RecentChatRecyclerAdapter;
-import com.example.wideroom.adapter.SearchUserRecyclerAdapter;
 import com.example.wideroom.model.ChatroomModel;
-import com.example.wideroom.model.UserModel;
 import com.example.wideroom.utils.FirebaseUtil;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.Query;

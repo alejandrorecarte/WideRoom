@@ -1,10 +1,8 @@
-package com.example.wideroom;
+package com.example.wideroom.activitys;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -13,6 +11,7 @@ import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.wideroom.R;
 import com.example.wideroom.model.UserModel;
 import com.example.wideroom.utils.FirebaseUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -70,7 +69,7 @@ public class LoginUsernameActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 setInProgress(false);
                 if(task.isSuccessful()){
-                    Intent intent = new Intent(LoginUsernameActivity.this,MainActivity.class);
+                    Intent intent = new Intent(LoginUsernameActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
                     startActivity(intent);
                 }
