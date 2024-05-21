@@ -32,9 +32,22 @@
             android:id="@+id/no_results_found_icon"/>
     </LinearLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <ProgressBar
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:indeterminateTint="?attr/colorPrimary"
+            android:layout_gravity="center"
+            android:id="@+id/progress_bar"/>
+    </RelativeLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:id="@+id/recyler_view"/>
 
 </RelativeLayout>

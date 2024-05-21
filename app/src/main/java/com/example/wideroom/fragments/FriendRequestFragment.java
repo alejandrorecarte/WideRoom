@@ -66,12 +66,12 @@ public class FriendRequestFragment extends Fragment {
                             FirestoreRecyclerOptions<UserModel> options = new FirestoreRecyclerOptions.Builder<UserModel>()
                                     .setQuery(query, UserModel.class).build();
 
+                            noResults.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
                             adapter = new FriendRequestRecyclerAdapter(options, getContext());
                             recyclerView.setAdapter(adapter);
                             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                             adapter.startListening();
-                        }else{
-                            noResults.setVisibility(View.VISIBLE);
                         }
                     }
                     Log.e("FriendRequestError","Error al obtener datos de peticiones de amigos" + task.getException());

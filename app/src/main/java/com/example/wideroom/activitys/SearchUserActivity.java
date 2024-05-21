@@ -97,12 +97,13 @@ public class SearchUserActivity extends AppCompatActivity {
                             FirestoreRecyclerOptions<UserModel> options = new FirestoreRecyclerOptions.Builder<UserModel>()
                                     .setQuery(query, UserModel.class).build();
 
+
+                            noResults.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
                             adapter = new SearchUserRecyclerAdapter(options, this);
                             recyclerView.setAdapter(adapter);
                             recyclerView.setLayoutManager(new LinearLayoutManager(this));
                             adapter.startListening();
-                        }else{
-                            noResults.setVisibility(View.VISIBLE);
                         }
                     }
                     Log.e("FriendRequestError","Error al obtener datos de peticiones de amigos" + task.getException());

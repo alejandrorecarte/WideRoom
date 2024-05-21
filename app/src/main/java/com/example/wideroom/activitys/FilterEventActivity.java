@@ -152,8 +152,6 @@ public class FilterEventActivity extends AppCompatActivity {
                     .orderBy("geohash")
                     .startAt(b.startHash)
                     .endAt(b.endHash);
-
-
             tasks.add(q.get());
         }
 
@@ -178,6 +176,12 @@ public class FilterEventActivity extends AppCompatActivity {
                                     event.setDistanceInM(distanceInM);
                                     events.add(event); // Agregar evento a la lista
                                 }
+                            }
+                        }
+
+                        for(int i = 0; i < events.size(); i++){
+                            if(!events.get(i).getEventName().toLowerCase().contains(searchTerm.toLowerCase())){
+                                events.remove(events.get(i));
                             }
                         }
 

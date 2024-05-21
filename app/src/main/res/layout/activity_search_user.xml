@@ -75,7 +75,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/no_results_found">
         <TextView
             android:id="@+id/no_results_text"
@@ -95,17 +95,16 @@
             app:tint="?attr/colorPrimary"
             android:id="@+id/no_results_found_icon"/>
     </LinearLayout>
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/search_user_layout">
+
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/toolbar"
+            android:visibility="gone"
             android:padding="10dp"
             android:id="@+id/search_user_recycler_view"
             />
-    </ScrollView>
+
 
 
 

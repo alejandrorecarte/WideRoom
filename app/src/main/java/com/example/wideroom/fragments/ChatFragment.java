@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.example.wideroom.R;
 import com.example.wideroom.adapter.RecentChatRecyclerAdapter;
@@ -28,6 +29,7 @@ public class ChatFragment extends Fragment {
     RecyclerView recyclerView;
     RecentChatRecyclerAdapter adapter;
     LinearLayout noResults;
+    ProgressBar progressBar;
     public ChatFragment() {
     }
 
@@ -38,6 +40,7 @@ public class ChatFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_chat, container, false);
         recyclerView = view.findViewById(R.id.recyler_view);
         noResults = view.findViewById(R.id.no_results_found);
+        progressBar = view.findViewById(R.id.progress_bar);
         setupRecyclerView();
         return view;
     }
@@ -62,6 +65,8 @@ public class ChatFragment extends Fragment {
                             FirestoreRecyclerOptions<ChatroomModel> options = new FirestoreRecyclerOptions.Builder<ChatroomModel>()
                                     .setQuery(query, ChatroomModel.class).build();
 
+                            setInProgress(2);
+
                             adapter = new RecentChatRecyclerAdapter(options, getContext());
                             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                             recyclerView.setAdapter(adapter);
@@ -74,10 +79,26 @@ public class ChatFragment extends Fragment {
                                 }
                             });
                         }else{
-                            noResults.setVisibility(View.VISIBLE);
+                            setInProgress(1);
                         }
                     }
                 });
+    }
+
+    void setInProgress(int inProgress){
+        if(inProgress == 0){
+            progressBar.setVisibility(View.VISIBLE);
+            noResults.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.GONE);
+        }else if (inProgress == 1){
+            progressBar.setVisibility(View.GONE);
+            noResults.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }else{
+            progressBar.setVisibility(View.GONE);
+            noResults.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

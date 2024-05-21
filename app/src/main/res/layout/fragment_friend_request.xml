@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/no_results_found">
         <TextView
             android:id="@+id/no_results_text"
@@ -34,6 +34,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:id="@+id/recyler_view"/>
 
 </RelativeLayout>
