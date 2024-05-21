@@ -1,4 +1,4 @@
-package com.example.wideroom.activitys;
+package com.example.wideroom.activities;
 
 import android.content.Intent;
 import android.os.Bundle;

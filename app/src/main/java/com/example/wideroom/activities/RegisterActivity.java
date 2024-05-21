@@ -1,4 +1,4 @@
-package com.example.wideroom.activitys;
+package com.example.wideroom.activities;
 
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.wideroom.R;
-import com.example.wideroom.model.UserModel;
+import com.example.wideroom.models.UserModel;
 import com.example.wideroom.utils.AndroidUtil;
 import com.example.wideroom.utils.FirebaseUtil;
 import com.google.android.gms.tasks.OnCompleteListener;

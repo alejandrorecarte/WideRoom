@@ -1,31 +1,20 @@
-package com.example.wideroom.activitys;
+package com.example.wideroom.activities;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wideroom.R;
-import com.example.wideroom.adapter.FriendRequestRecyclerAdapter;
-import com.example.wideroom.adapter.SearchUserRecyclerAdapter;
-import com.example.wideroom.model.UserModel;
-import com.example.wideroom.utils.AndroidUtil;
+import com.example.wideroom.adapters.SearchUserRecyclerAdapter;
+import com.example.wideroom.models.UserModel;
 import com.example.wideroom.utils.FirebaseUtil;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;

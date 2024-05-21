@@ -1,4 +1,4 @@
-package com.example.wideroom.adapter;
+package com.example.wideroom.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wideroom.R;
-import com.example.wideroom.model.ChatMessageModel;
+import com.example.wideroom.models.ChatMessageModel;
 import com.example.wideroom.utils.FirebaseUtil;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;

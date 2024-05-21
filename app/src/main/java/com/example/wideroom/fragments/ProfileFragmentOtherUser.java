@@ -16,9 +16,9 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.wideroom.activitys.MainActivity;
+import com.example.wideroom.activities.MainActivity;
 import com.example.wideroom.R;
-import com.example.wideroom.model.UserModel;
+import com.example.wideroom.models.UserModel;
 import com.example.wideroom.utils.AndroidUtil;
 import com.example.wideroom.utils.FirebaseUtil;
 

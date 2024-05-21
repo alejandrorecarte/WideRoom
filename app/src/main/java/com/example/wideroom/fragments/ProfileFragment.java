@@ -21,8 +21,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.wideroom.R;
-import com.example.wideroom.activitys.SplashActivity;
-import com.example.wideroom.model.UserModel;
+import com.example.wideroom.activities.SplashActivity;
+import com.example.wideroom.models.UserModel;
 import com.example.wideroom.utils.AndroidUtil;
 import com.example.wideroom.utils.FirebaseUtil;
 import com.github.dhaval2404.imagepicker.ImagePicker;

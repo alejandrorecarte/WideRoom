@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wideroom.R;
-import com.example.wideroom.adapter.FriendRequestRecyclerAdapter;
-import com.example.wideroom.model.EventModel;
-import com.example.wideroom.model.UserModel;
+import com.example.wideroom.adapters.FriendRequestRecyclerAdapter;
+import com.example.wideroom.models.EventModel;
+import com.example.wideroom.models.UserModel;
 import com.example.wideroom.utils.FirebaseUtil;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.Query;

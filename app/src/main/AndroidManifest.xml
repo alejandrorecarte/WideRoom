@@ -18,16 +18,16 @@
         tools:targetApi="31"
         android:theme="@style/Theme.WideRoom">
         <activity
-            android:name=".activitys.LoginPhoneNumberActivity"
+            android:name=".activities.LoginPhoneNumberActivity"
             android:exported="false" />
         <activity
-            android:name=".activitys.RegisterActivity"
+            android:name=".activities.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".activitys.LoginEmailActivity"
+            android:name=".activities.LoginEmailActivity"
             android:exported="false" />
         <activity
-            android:name=".activitys.FilterEventActivity"
+            android:name=".activities.FilterEventActivity"
             android:exported="false" />
 
         <meta-data
@@ -41,16 +41,16 @@
             android:value="@string/default_notification_channel_id" />
 
         <activity
-            android:name=".activitys.ChatActivity"
+            android:name=".activities.ChatActivity"
             android:exported="false" />
         <activity
-            android:name=".activitys.EventActivity"
+            android:name=".activities.EventActivity"
             android:exported="false" />
         <activity
-            android:name=".activitys.SearchUserActivity"
+            android:name=".activities.SearchUserActivity"
             android:exported="false" />
         <activity
-            android:name=".activitys.SplashActivity"
+            android:name=".activities.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -62,15 +62,15 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity android:name=".activitys.LoginOtpActivity"
+        <activity android:name=".activities.LoginOtpActivity"
             android:exported="false">
         </activity>
 
-        <activity android:name=".activitys.LoginUsernameActivity"
+        <activity android:name=".activities.LoginUsernameActivity"
             android:exported="false">
         </activity>
         <activity
-            android:name=".activitys.MainActivity"
+            android:name=".activities.MainActivity"
             android:exported="true" />
 
         <meta-data

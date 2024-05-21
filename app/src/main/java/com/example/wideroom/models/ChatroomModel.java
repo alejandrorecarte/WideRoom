@@ -1,4 +1,4 @@
-package com.example.wideroom.model;
+package com.example.wideroom.models;
 
 import com.google.firebase.Timestamp;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.wideroom.adapter;
+package com.example.wideroom.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,10 +15,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.wideroom.activitys.ChatActivity;
+import com.example.wideroom.activities.ChatActivity;
 import com.example.wideroom.R;
-import com.example.wideroom.model.ChatroomModel;
-import com.example.wideroom.model.UserModel;
+import com.example.wideroom.models.ChatroomModel;
+import com.example.wideroom.models.UserModel;
 import com.example.wideroom.utils.AndroidUtil;
 import com.example.wideroom.utils.FirebaseUtil;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;

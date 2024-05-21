@@ -1,4 +1,4 @@
-package com.example.wideroom.adapter;
+package com.example.wideroom.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,9 +12,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.wideroom.activitys.EventActivity;
+import com.example.wideroom.activities.EventActivity;
 import com.example.wideroom.R;
-import com.example.wideroom.model.EventModel;
+import com.example.wideroom.models.EventModel;
 import com.example.wideroom.utils.AndroidUtil;
 import com.example.wideroom.utils.FirebaseUtil;
 

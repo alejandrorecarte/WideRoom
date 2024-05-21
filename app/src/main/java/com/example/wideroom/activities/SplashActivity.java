@@ -1,4 +1,4 @@
-package com.example.wideroom.activitys;
+package com.example.wideroom.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.wideroom.R;
 import com.example.wideroom.fragments.FriendRequestFragment;
-import com.example.wideroom.model.UserModel;
+import com.example.wideroom.models.UserModel;
 import com.example.wideroom.utils.AndroidUtil;
 import com.example.wideroom.utils.FirebaseUtil;
 import com.onesignal.OneSignal;

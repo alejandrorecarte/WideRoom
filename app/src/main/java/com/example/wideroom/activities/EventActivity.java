@@ -1,4 +1,4 @@
-package com.example.wideroom.activitys;
+package com.example.wideroom.activities;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,10 +15,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wideroom.R;
-import com.example.wideroom.adapter.SearchUsersEventRecyclerAdapter;
-import com.example.wideroom.model.EventModel;
-import com.example.wideroom.model.EventSubscriptionModel;
-import com.example.wideroom.model.UserModel;
+import com.example.wideroom.adapters.SearchUsersEventRecyclerAdapter;
+import com.example.wideroom.models.EventModel;
+import com.example.wideroom.models.EventSubscriptionModel;
+import com.example.wideroom.models.UserModel;
 import com.example.wideroom.utils.AndroidUtil;
 import com.example.wideroom.utils.FirebaseUtil;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;

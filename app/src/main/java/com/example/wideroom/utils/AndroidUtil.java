@@ -8,8 +8,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.wideroom.model.EventModel;
-import com.example.wideroom.model.UserModel;
+import com.example.wideroom.models.EventModel;
+import com.example.wideroom.models.UserModel;
 
 public class AndroidUtil {
 

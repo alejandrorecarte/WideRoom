@@ -1,7 +1,4 @@
-package com.example.wideroom.model;
-
-import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.GeoPoint;
+package com.example.wideroom.models;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;

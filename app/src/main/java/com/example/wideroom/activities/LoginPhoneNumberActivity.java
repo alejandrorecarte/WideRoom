@@ -1,4 +1,4 @@
-package com.example.wideroom.activitys;
+package com.example.wideroom.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 

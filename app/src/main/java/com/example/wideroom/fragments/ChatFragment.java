@@ -14,8 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.example.wideroom.R;
-import com.example.wideroom.adapter.RecentChatRecyclerAdapter;
-import com.example.wideroom.model.ChatroomModel;
+import com.example.wideroom.adapters.RecentChatRecyclerAdapter;
+import com.example.wideroom.models.ChatroomModel;
 import com.example.wideroom.utils.FirebaseUtil;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.Query;
