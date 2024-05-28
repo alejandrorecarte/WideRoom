@@ -8,7 +8,7 @@ android:orientation="vertical"
 android:gravity="center"
 android:layout_margin="20dp"
 android:weightSum="100"
-tools:context=".activities.LoginEmailActivity">
+tools:context=".activities.login.LoginEmailActivity">
 
     <ImageView
     android:layout_width="150dp"

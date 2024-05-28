@@ -1,4 +1,4 @@
-package com.example.wideroom.activities;
+package com.example.wideroom.activities.login;
 
 import android.os.Bundle;
 import android.view.View;

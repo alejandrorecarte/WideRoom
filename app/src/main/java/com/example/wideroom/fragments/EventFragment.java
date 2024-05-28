@@ -55,7 +55,7 @@ public class EventFragment extends Fragment {
 
         coordinates = getArguments().getDoubleArray("coordinates");
         Log.i("GeoFire", "User coordinates: " + Arrays.toString(coordinates));
-        coordinates = new double[]{40.32168011549933, -3.8684653512644993};
+        //coordinates = new double[]{40.32168011549933, -3.8684653512644993};
         if (coordinates != null) {
             final GeoLocation userLocation = new GeoLocation(coordinates[0], coordinates[1]);
             double radiusInKm = 100;

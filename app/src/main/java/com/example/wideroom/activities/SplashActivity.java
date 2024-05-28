@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.wideroom.R;
+import com.example.wideroom.activities.login.LoginEmailActivity;
 import com.example.wideroom.fragments.FriendRequestFragment;
 import com.example.wideroom.models.UserModel;
 import com.example.wideroom.utils.AndroidUtil;
