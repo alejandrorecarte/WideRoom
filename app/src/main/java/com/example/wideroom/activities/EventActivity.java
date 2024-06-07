@@ -71,7 +71,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
         mapView = findViewById(R.id.map_view);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
-        progressBar = findViewById(R.id.event_progress_bar);
+        progressBar = findViewById(R.id.register_progress_bar);
         recyclerView = findViewById(R.id.search_users_event_recycler_view);
 
 

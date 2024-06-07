@@ -37,7 +37,7 @@ public class LoginEmailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_email);
 
-        progressBar = findViewById(R.id.event_progress_bar);
+        progressBar = findViewById(R.id.register_progress_bar);
 
         progressBar.setVisibility(View.GONE);
 

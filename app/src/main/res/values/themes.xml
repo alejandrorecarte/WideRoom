@@ -5,7 +5,7 @@
         <item name="colorPrimaryVariant">@color/primary</item>
         <item name="colorOnPrimary">@color/black</item>
 
-        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorSecondary">@color/chat_color_sender</item>
         <item name="colorSecondaryVariant">@color/secondary</item>
         <item name="colorOnSecondary">@color/white</item>
 

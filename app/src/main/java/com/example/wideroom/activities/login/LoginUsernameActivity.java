@@ -38,7 +38,7 @@ public class LoginUsernameActivity extends AppCompatActivity {
 
         usernameInput = findViewById(R.id.login_username);
         letMeInBtn = findViewById(R.id.login_let_me_in_btn);
-        progressBar =findViewById(R.id.event_progress_bar);
+        progressBar =findViewById(R.id.register_progress_bar);
 
 
         phoneNumber = getIntent().getExtras().getString("phone");

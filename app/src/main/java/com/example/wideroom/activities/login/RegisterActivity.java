@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +26,7 @@ public class RegisterActivity extends AppCompatActivity {
     EditText emailInput;
     EditText passwordInput;
     EditText passwordConfirmInput;
-    Spinner languageSpinner;
+    ProgressBar progressBar;
     Button nextBtn;
 
     @Override
@@ -39,6 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
         emailInput = findViewById(R.id.register_email);
         passwordInput = findViewById(R.id.register_password);
         passwordConfirmInput = findViewById(R.id.register_password_confirm);
+        progressBar = findViewById(R.id.register_progress_bar);
 
 
         nextBtn.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
     private void registerUser(String email, String password) {
+        progressBar.setVisibility(View.VISIBLE);
         mAuth = FirebaseAuth.getInstance();
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -83,16 +85,17 @@ public class RegisterActivity extends AppCompatActivity {
                                         });
 
                                     } else {
-                                        AndroidUtil.showToast(RegisterActivity.this, getResources().getString(R.string.error_email_send));
+                                        //AndroidUtil.showToast(RegisterActivity.this, getResources().getString(R.string.error_email_send));
                                     }
                                 }
                             });
                         } else {
                             // El registro falló, actualiza la interfaz de usuario con el mensaje de error.
-                            AndroidUtil.showToast(RegisterActivity.this, getResources().getString(R.string.error_register));
+                            //AndroidUtil.showToast(RegisterActivity.this, getResources().getString(R.string.error_register));
                         }
                     }
                 });
+        progressBar.setVisibility(View.GONE);
     }
 
 }

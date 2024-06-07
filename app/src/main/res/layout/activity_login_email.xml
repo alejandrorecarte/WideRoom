@@ -111,7 +111,7 @@ tools:context=".activities.login.LoginEmailActivity">
         </LinearLayout>
 
         <ProgressBar
-            android:id="@+id/event_progress_bar"
+            android:id="@+id/register_progress_bar"
             android:layout_width="32dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

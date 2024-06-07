@@ -1,4 +1,4 @@
-arguments=--init-script C\:\\Users\\Ines\\AppData\\Roaming\\TabNine\\language-servers\\bundled_java\\1.24.0\\app\\configuration\\org.eclipse.osgi\\53\\0\\.cp\\gradle\\init\\init.gradle
+arguments=--init-script C\:\\Users\\alexr\\AppData\\Roaming\\TabNine\\language-servers\\bundled_java\\1.24.0\\app\\configuration\\org.eclipse.osgi\\53\\0\\.cp\\gradle\\init\\init.gradle
 auto.sync=false
 build.scans.enabled=false
 connection.gradle.distribution=GRADLE_DISTRIBUTION(WRAPPER)

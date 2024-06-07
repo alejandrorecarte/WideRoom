@@ -46,7 +46,7 @@ public class LoginOtpActivity extends AppCompatActivity {
 
         otpInput = findViewById(R.id.login_otp);
         nextBtn = findViewById(R.id.login_next_btn);
-        progressBar = findViewById(R.id.event_progress_bar);
+        progressBar = findViewById(R.id.register_progress_bar);
         resendOtpTextView = findViewById(R.id.resend_otp_textview);
 
         phoneNumber = getIntent().getExtras().getString("phone");

@@ -60,8 +60,6 @@ public class ChatActivity extends AppCompatActivity {
     FragmentContainerView profileContainer;
     private static final String ONESIGNAL_APP_ID = "e16a55f3-93a5-44fa-92fa-cd5d29413fd1";
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

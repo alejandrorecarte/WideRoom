@@ -20,7 +20,7 @@
             android:layout_height="32dp"
             android:layout_margin="10dp"
             android:background="@drawable/circular_bg"
-            android:backgroundTint="@color/primary">
+            android:backgroundTint="?attr/colorPrimary">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -66,7 +66,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:src="@drawable/phone_icon"
-        app:tint="@color/primary"
+        app:tint="?attr/colorPrimary"
         android:layout_weight="20"
     />
 
@@ -137,7 +137,7 @@
             android:layout_height="wrap_content"
             android:indeterminateTint="?attr/colorPrimary"
             android:layout_gravity="center"
-            android:id="@+id/event_progress_bar"/>
+            android:id="@+id/register_progress_bar"/>
     </LinearLayout>
 
 </LinearLayout>
