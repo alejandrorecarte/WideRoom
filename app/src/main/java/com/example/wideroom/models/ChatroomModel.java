@@ -106,4 +106,20 @@ public class ChatroomModel {
     public void setLastMessage(String lastMessage) {
         this.lastMessage = lastMessage;
     }
+
+    /**
+     * Sets the chatroom id.
+     * @param chatroomId
+     */
+    public void setChatroomId(String chatroomId) {
+        this.chatroomId = chatroomId;
+    }
+
+    /**
+     * Sets the user ids of the chatroom.
+     * @param userIds
+     */
+    public void setUserIds(List<String> userIds) {
+        this.userIds = userIds;
+    }
 }

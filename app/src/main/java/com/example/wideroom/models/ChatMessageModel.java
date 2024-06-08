@@ -72,4 +72,36 @@ public class ChatMessageModel {
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
+
+    /**
+     * Returns if the message is read.
+     * @param message
+     */
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    /**
+     * Returns the sender id of the message.
+     * @param senderId
+     */
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
+    }
+
+    /**
+     * Returns if the message is read.
+     * @return
+     */
+    public boolean isRead() {
+        return isRead;
+    }
+
+    /**
+     * Sets if the message is read.
+     * @param read
+     */
+    public void setRead(boolean read) {
+        isRead = read;
+    }
 }

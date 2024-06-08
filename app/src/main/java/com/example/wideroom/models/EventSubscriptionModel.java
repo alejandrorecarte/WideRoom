@@ -69,4 +69,20 @@ public class EventSubscriptionModel implements Serializable {
     public void setSubscribed(boolean subscribed) {
         isSubscribed = subscribed;
     }
+
+    /**
+     * Returns the subscription timestamp
+     * @return
+     */
+    public Timestamp getSubTimestamp() {
+        return subTimestamp;
+    }
+
+    /**
+     * Sets the subscription timestamp
+     * @param subTimestamp
+     */
+    public void setSubTimestamp(Timestamp subTimestamp) {
+        this.subTimestamp = subTimestamp;
+    }
 }

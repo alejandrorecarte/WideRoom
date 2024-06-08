@@ -160,4 +160,21 @@ public class UserModel implements Serializable {
     public void setBio(String bio) {
         this.bio = bio;
     }
+
+    /**
+     * Returns the createdTimestamp.
+     * @return
+     */
+    public Timestamp getCreatedTimestamp() {
+        return createdTimestamp;
+    }
+
+    /**
+     * Sets the createdTimestamp.
+     * @param createdTimestamp
+     */
+    public void setCreatedTimestamp(Timestamp createdTimestamp) {
+        this.createdTimestamp = createdTimestamp;
+    }
+
 }
