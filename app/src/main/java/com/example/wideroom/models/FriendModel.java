@@ -80,4 +80,28 @@ public class FriendModel {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
+    /**
+     * Returns if the request is accepted,
+     * @return isRequestAccepted
+     */
+    public boolean isRequestAccepted() {
+        return requestAccepted;
+    }
+
+    /**
+     * Sets if the request is accepted
+     * @param requestAccepted
+     */
+    public void setRequestAccepted(boolean requestAccepted) {
+        this.requestAccepted = requestAccepted;
+    }
+
+    /**
+     * Returns if the request is sent by the current user
+     * @return isSender
+     */
+    public boolean isSender() {
+        return sender;
+    }
 }
