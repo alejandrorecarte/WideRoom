@@ -8,14 +8,12 @@
     android:outlineAmbientShadowColor="?attr/colorOnPrimary"
     android:layout_margin="10dp"
     android:elevation="2dp">
-
     <include layout="@layout/profile_pic_view"
         android:layout_width="52dp"
         android:layout_height="52dp"
         android:layout_gravity="center"
         android:layout_margin="10dp"
         />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,8 +21,7 @@
         android:layout_gravity="center">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -32,7 +29,6 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:id="@+id/user_name_text"/>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -41,7 +37,6 @@
                 android:layout_marginEnd="10dp"
                 android:id="@+id/last_message_time_text"/>
         </RelativeLayout>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -50,7 +45,6 @@
                 android:layout_height="wrap_content"
                 tools:text="null"
                 android:id="@+id/last_message_text"/>
-
             <RelativeLayout
                 android:id="@+id/non_read_messages_layout"
                 android:layout_width="25dp"
@@ -60,7 +54,6 @@
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/circular_bg"
                 android:backgroundTint="?attr/colorPrimary">
-
                 <TextView
                     android:id="@+id/non_read_messages_count"
                     android:layout_width="wrap_content"

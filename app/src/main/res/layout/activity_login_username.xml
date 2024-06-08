@@ -9,7 +9,6 @@
     android:layout_margin="20dp"
     android:weightSum="100"
     tools:context=".activities.login.LoginUsernameActivity">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,7 +20,6 @@
             android:layout_margin="10dp"
             android:background="@drawable/circular_bg"
             android:backgroundTint="@color/gray">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -36,7 +34,6 @@
             android:layout_margin="10dp"
             android:background="@drawable/circular_bg"
             android:backgroundTint="@color/gray">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -51,7 +48,6 @@
             android:layout_margin="10dp"
             android:background="@drawable/circular_bg"
             android:backgroundTint="?attr/colorPrimary">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -61,7 +57,6 @@
                 android:textSize="18sp" />
         </RelativeLayout>
     </LinearLayout>
-
     <ImageView
         android:layout_width="150dp"
         android:layout_height="150dp"
@@ -69,7 +64,6 @@
         app:tint="?attr/colorPrimary"
         android:layout_weight="20"
     />
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -87,9 +81,6 @@
         android:orientation="vertical"
         android:gravity="center"
         android:layout_weight="5">
-
-
-
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -104,10 +95,7 @@
             android:elevation="5dp"
             android:id="@+id/login_username"
         />
-
-
     </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -128,5 +116,4 @@
             android:layout_gravity="center"
             android:id="@+id/register_progress_bar"/>
     </LinearLayout>
-
 </LinearLayout>

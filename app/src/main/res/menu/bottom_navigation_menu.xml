@@ -12,10 +12,8 @@
         android:icon="@drawable/ic_logo_no_title"
         android:id="@+id/menu_chat"
         />
-
     <item android:title="@string/profile"
         android:icon="@drawable/person_icon"
         android:id="@+id/menu_profile"
         />
-
 </menu>

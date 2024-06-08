@@ -5,10 +5,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.wideroom.R;
 import com.example.wideroom.models.UserModel;
 import com.example.wideroom.utils.AndroidUtil;
@@ -20,6 +18,18 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * This class is used to show the register from to the user.
+ *
+ * Copyright © 2024 Alejandro Recarte Rebollo & Inés Rodrigues Trigo. CC BY-NC (Attribution-NonCommercial)
+ *
+ * @author Alejandro Recarte Rebollo <alejandro.recarte.rebollo@gmail.com>+
+ * @author Inés Rodrigues Trigo <itralways@gmail.com>
+ *
+ * @version 1.0
+ * @date 08-06-2024
+ */
+
 public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     EditText usernameInput;
@@ -29,19 +39,24 @@ public class RegisterActivity extends AppCompatActivity {
     ProgressBar progressBar;
     Button nextBtn;
 
+    /**
+     * Called when the activity is first created.
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
         usernameInput = findViewById(R.id.register_username);
         nextBtn = findViewById(R.id.login_next_btn);
         emailInput = findViewById(R.id.register_email);
         passwordInput = findViewById(R.id.register_password);
         passwordConfirmInput = findViewById(R.id.register_password_confirm);
         progressBar = findViewById(R.id.register_progress_bar);
-
-
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,6 +75,12 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Registers the user with an email and password, verifies it is completed, sends an email of verification
+     * @param email
+     * @param password
+     */
     private void registerUser(String email, String password) {
         progressBar.setVisibility(View.VISIBLE);
         mAuth = FirebaseAuth.getInstance();
@@ -83,19 +104,17 @@ public class RegisterActivity extends AppCompatActivity {
                                                 }
                                             }
                                         });
-
                                     } else {
-                                        //AndroidUtil.showToast(RegisterActivity.this, getResources().getString(R.string.error_email_send));
+                                        AndroidUtil.showToast(RegisterActivity.this, getResources().getString(R.string.error_email_send));
                                     }
                                 }
                             });
                         } else {
                             // El registro falló, actualiza la interfaz de usuario con el mensaje de error.
-                            //AndroidUtil.showToast(RegisterActivity.this, getResources().getString(R.string.error_register));
+                            AndroidUtil.showToast(RegisterActivity.this, getResources().getString(R.string.error_register));
                         }
                     }
                 });
         progressBar.setVisibility(View.GONE);
     }
-
 }

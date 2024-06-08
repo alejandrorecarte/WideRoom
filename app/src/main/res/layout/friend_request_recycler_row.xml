@@ -10,21 +10,18 @@
     android:elevation="2dp"
     android:orientation="horizontal"
     android:padding="10dp">
-
     <include layout="@layout/profile_pic_view"
         android:layout_width="52dp"
         android:layout_height="52dp"
         android:layout_gravity="center"
         android:layout_marginEnd="10dp"
         />
-
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical"
         android:gravity="center_vertical">
-
         <TextView
             android:id="@+id/user_name_text"
             android:layout_width="wrap_content"
@@ -32,7 +29,6 @@
             android:text="@string/username"
             android:textSize="18sp"
             android:textStyle="bold" />
-
         <TextView
             android:id="@+id/user_bio_text"
             android:layout_width="wrap_content"
@@ -40,13 +36,11 @@
             android:text="@string/bio"
             android:textSize="14sp"
             android:layout_marginTop="4dp" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="10dp">
-
             <Button
                 android:id="@+id/accept_btn"
                 android:layout_width="0dp"
@@ -57,7 +51,6 @@
                 android:drawableTint="@color/white"
                 android:textColor="@color/white"
                 android:drawableEnd="@drawable/check_icon" />
-
             <Button
                 android:id="@+id/reject_btn"
                 android:layout_width="0dp"

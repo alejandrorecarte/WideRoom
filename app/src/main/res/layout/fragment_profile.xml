@@ -7,7 +7,6 @@
     android:orientation="vertical"
     android:gravity="center"
     android:layout_margin="20dp">
-
     <ImageView
         android:layout_width="160dp"
         android:layout_height="160dp"
@@ -17,7 +16,6 @@
         android:scaleType="centerCrop"
         android:layout_marginBottom="40dp"
         android:id="@+id/event_background_pic"/>
-
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,7 +30,6 @@
         android:elevation="5dp"
         android:id="@+id/profile_username"
         />
-
     <EditText
         android:id="@+id/address"
         android:layout_width="match_parent"
@@ -47,7 +44,6 @@
         android:inputType="text|textShortMessage|textAutoCorrect|textMultiLine"
         android:outlineAmbientShadowColor="?attr/colorOnPrimary"
         android:padding="10dp" />
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,7 +53,6 @@
         android:textStyle="bold"
         android:foregroundTint="?attr/colorOnPrimary"
         android:backgroundTint="?attr/colorOnSecondary"/>
-
     <TextView
         android:id="@+id/email"
         android:layout_width="match_parent"
@@ -68,7 +63,6 @@
         android:foregroundTint="?attr/colorOnPrimary"
         android:layout_margin="10dp"
         android:text="@string/access" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -89,11 +83,9 @@
             android:layout_gravity="center"
             android:id="@+id/profile_progress_bar"/>
     </LinearLayout>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/logout"
         android:id="@+id/logout_btn"/>
-
 </LinearLayout>

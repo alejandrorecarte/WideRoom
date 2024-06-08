@@ -10,14 +10,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.wideroom.R;
 import com.example.wideroom.fragments.ProfileFragmentOtherUser;
 import com.example.wideroom.adapters.ChatRecyclerAdapter;
@@ -33,16 +31,26 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
+
+/**
+ * This class is used to show the user the chatroom with a friend.
+ *
+ * Copyright © 2024 Alejandro Recarte Rebollo & Inés Rodrigues Trigo. CC BY-NC (Attribution-NonCommercial)
+ *
+ * @author Alejandro Recarte Rebollo <alejandro.recarte.rebollo@gmail.com>+
+ * @author Inés Rodrigues Trigo <itralways@gmail.com>
+ *
+ * @version 1.0
+ * @date 08-06-2024
+ */
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -60,14 +68,19 @@ public class ChatActivity extends AppCompatActivity {
     FragmentContainerView profileContainer;
     private static final String ONESIGNAL_APP_ID = "27100f8e-6316-478b-8ba0-a8157f66495b";
 
+    /**
+     * Called when the activity is first created.
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-
         otherUser= AndroidUtil.getUserModelFromIntent(getIntent());
         chatroomId = FirebaseUtil.getChatroomId(FirebaseUtil.currentUserId(), otherUser.getUserId());
-
         messageInput = findViewById(R.id.chat_message_input);
         sendMessageBtn = findViewById(R.id.message_send_btn);
         backBtn = findViewById(R.id.back_btn);
@@ -76,12 +89,11 @@ public class ChatActivity extends AppCompatActivity {
         imageView = findViewById(R.id.profile_pic_image_view);
         profileFragment=new ProfileFragmentOtherUser();
         profileContainer = findViewById(R.id.fragment_container);
-
         Bundle args = new Bundle();
         args.putSerializable("otherUserModel", otherUser);
         profileFragment.setArguments(args);
         profileContainer.setVisibility(View.GONE);
-
+        // recupera la imagen del otro usuario
         try {
             FirebaseUtil.getOtherProfilePicStorageRef(otherUser.getUserId()).getDownloadUrl()
                     .addOnCompleteListener(t -> {
@@ -91,7 +103,7 @@ public class ChatActivity extends AppCompatActivity {
                         }
                     });
         }catch(Exception e){}
-
+        // si se hace click sobre la imagen abre profileFragment para ver los detalles del otor usuario
         imageView.setOnClickListener(v -> {
             if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -102,8 +114,8 @@ public class ChatActivity extends AppCompatActivity {
                 sendMessageBtn.setVisibility(View.GONE);
             }
         });
-
-        imageView.setOnClickListener(v -> {
+        // si se hace click sobre el nombre de usuario abre profileFragement para ver los detalles del otro usuario
+        otherUsername.setOnClickListener(v -> {
             if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.add(R.id.fragment_container, profileFragment).addToBackStack(null).commit();
@@ -113,7 +125,7 @@ public class ChatActivity extends AppCompatActivity {
                 sendMessageBtn.setVisibility(View.GONE);
             }
         });
-
+        // botón de vuelta. Vuelve a la activity anterior
         backBtn.setOnClickListener(v -> {
             if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
                 Intent intent = new Intent(ChatActivity.this, MainActivity.class);
@@ -127,28 +139,27 @@ public class ChatActivity extends AppCompatActivity {
                 sendMessageBtn.setVisibility(View.VISIBLE);
             }
         });
-
         otherUsername.setText(otherUser.getUsername());
-
+        // envía el mensaje
         sendMessageBtn.setOnClickListener((v -> {
             String message = messageInput.getText().toString().trim();
             if(message.isEmpty())
                 return;
             sendMessageToUser(message);
         }));
-
         getOrCreateChatroomModel();
         setupChatRecyclerView();
     }
 
+    /**
+     * Establishes the recycler view of the chat, updates the chat if needed
+     */
     void setupChatRecyclerView(){
         FirebaseUtil.markAsRead(chatroomId, otherUser);
         Query query = FirebaseUtil.getChatroomMessageReference(chatroomId)
                 .orderBy("timestamp", Query.Direction.DESCENDING);
-
         FirestoreRecyclerOptions<ChatMessageModel> options = new FirestoreRecyclerOptions.Builder<ChatMessageModel>()
                 .setQuery(query, ChatMessageModel.class).build();
-
         adapter = new ChatRecyclerAdapter(options, ChatActivity.this);
         LinearLayoutManager manager=new LinearLayoutManager(this);
         manager.setReverseLayout(true);
@@ -166,13 +177,15 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Sends the message and notification to the other user. Updates the DB
+     * @param message
+     */
     void sendMessageToUser(String message){
-
         chatroomModel.setLastMessageTimestamp(Timestamp.now());
         chatroomModel.setLastMessageSenderId(FirebaseUtil.currentUserId());
         chatroomModel.setLastMessage(message);
         FirebaseUtil.getChatroomReference(chatroomId).set(chatroomModel);
-
         ChatMessageModel chatMessageModel = new ChatMessageModel(message, FirebaseUtil.currentUserId(), Timestamp.now(), false);
         FirebaseUtil.getChatroomMessageReference(chatroomId).add(chatMessageModel)
                 .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
@@ -189,9 +202,11 @@ public class ChatActivity extends AppCompatActivity {
                         }
                     }
                 });
-
     }
 
+    /**
+     * Gets or creates a chatroom where the chats will be saved with the usersIds
+     */
     void getOrCreateChatroomModel(){
         FirebaseUtil.getChatroomReference(chatroomId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -212,6 +227,11 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Sends notification via OneSignal API
+     * @param message
+     * @param otherUser
+     */
     private static void sendNotification(String message, UserModel otherUser) {
         FirebaseUtil.currentUserDetails().get().addOnCompleteListener(task -> {
             UserModel currentUserModel = task.getResult().toObject(UserModel.class);
@@ -221,44 +241,33 @@ public class ChatActivity extends AppCompatActivity {
                     try {
                         JSONObject notification = new JSONObject();
                         notification.put("app_id", ONESIGNAL_APP_ID);
-
                         JSONArray subscriptionIds = new JSONArray();
                         Log.i("OneSignal Response", "Sending notification to " + otherUser.getSubscriptionId());
-                        subscriptionIds.put(otherUser.getSubscriptionId()); // Asumiendo que getOneSignalId() devuelve el ID de suscripción
-                        //onesignalIds.put("onesignal_id", subscriptionIds);
+                        subscriptionIds.put(otherUser.getSubscriptionId());
                         notification.put("include_subscription_ids",subscriptionIds);
-
                         JSONObject data = new JSONObject();
                         data.put("userId", currentUserModel.getUserId());
                         data.put("activity", "ChatActivity");
                         notification.put("data", data);
-
                         notification.put("target_channel", "push");
-
                         JSONObject contents = new JSONObject();
                         contents.put("en", message);
-
                         notification.put("contents", contents);
-
                         JSONObject headings = new JSONObject();
                         headings.put("en", currentUserModel.getUsername());
                         notification.put("headings",headings);
-
-
-                        // Crear la conexión HTTP
+                        // creates the http connection
                         URL url = new URL("https://onesignal.com/api/v1/notifications");
                         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                         conn.setRequestProperty("accept", "application/json");
                         conn.setRequestProperty("content-type", "application/json");
                         conn.setDoOutput(true);
-
-                        // Escribir los datos en la conexión
+                        // writes the data on the connection
                         OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
                         writer.write(String.valueOf(notification));
                         writer.flush();
                         writer.close();
-
-                        // Verificar la respuesta del servidor
+                        // verifies the response
                         int responseCode = conn.getResponseCode();
                         Log.i("OneSignal Response", String.valueOf(responseCode));
                         if (responseCode != HttpURLConnection.HTTP_OK && responseCode != HttpURLConnection.HTTP_CREATED) {

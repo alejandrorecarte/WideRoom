@@ -8,7 +8,6 @@
     android:orientation="vertical"
     android:gravity="center"
     android:layout_margin="20dp">
-
     <ImageView
         android:layout_width="160dp"
         android:layout_height="160dp"
@@ -18,7 +17,6 @@
         android:scaleType="centerCrop"
         android:layout_marginBottom="40dp"
         android:id="@+id/profile_image_view_other_user"/>
-
     <TextView
         android:id="@+id/profile_username_other_user"
         android:layout_width="match_parent"
@@ -31,7 +29,6 @@
         android:hint="@string/username"
         android:outlineAmbientShadowColor="?attr/colorOnPrimary"
         android:padding="10dp" />
-
     <TextView
         android:id="@+id/profile_bio_other_user"
         android:layout_width="match_parent"
@@ -45,7 +42,6 @@
         android:inputType="text|textShortMessage|textAutoCorrect|textMultiLine"
         android:padding="10dp"
         android:textColor="?attr/colorOnPrimary" />
-
     <Button
         android:id="@+id/delete_friend_btn"
         android:layout_width="wrap_content"
@@ -57,5 +53,4 @@
         android:textColor="@color/white"
         app:iconTint="@color/white"
         app:icon="@drawable/cross_icon" />
-
 </LinearLayout>

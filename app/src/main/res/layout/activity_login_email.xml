@@ -9,14 +9,12 @@ android:gravity="center"
 android:layout_margin="20dp"
 android:weightSum="100"
 tools:context=".activities.login.LoginEmailActivity">
-
     <ImageView
     android:layout_width="150dp"
     android:layout_height="150dp"
     android:src="@drawable/ic_logo_no_title"
     android:layout_weight="20"
     />
-
 <TextView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -28,7 +26,6 @@ tools:context=".activities.login.LoginEmailActivity">
     android:textColor="?attr/colorOnPrimary"
     android:textSize="25sp"
     android:textStyle="bold" />
-
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,7 +54,6 @@ tools:context=".activities.login.LoginEmailActivity">
         android:elevation="5dp"
         android:id="@+id/login_password"
         />
-
     <TextView
         android:layout_margin="10dp"
         android:layout_width="match_parent"
@@ -66,7 +62,6 @@ tools:context=".activities.login.LoginEmailActivity">
         android:text="@string/rmmbr_pswd"
         android:id="@+id/restore_password_text"
         />
-
     <TextView
         android:layout_margin="10dp"
         android:layout_width="match_parent"
@@ -75,15 +70,12 @@ tools:context=".activities.login.LoginEmailActivity">
         android:text="@string/no_account"
         android:id="@+id/register_text"
         />
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="182dp"
         android:layout_weight="20"
         android:gravity="center_vertical"
         android:orientation="vertical">
-
         <Button
             android:id="@+id/login_btn"
             android:layout_width="match_parent"
@@ -91,12 +83,10 @@ tools:context=".activities.login.LoginEmailActivity">
             android:background="@drawable/btn_rounded_corner"
             android:text="@string/login"
             android:textColor="@color/white" />
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center">
-
             <Button
                 android:id="@+id/login_phone_btn"
                 android:layout_width="wrap_content"
@@ -107,9 +97,7 @@ tools:context=".activities.login.LoginEmailActivity">
                 android:drawableTint="@color/white"
                 android:text="@string/use_phone"
                 android:textColor="@color/white" />
-
         </LinearLayout>
-
         <ProgressBar
             android:id="@+id/register_progress_bar"
             android:layout_width="32dp"

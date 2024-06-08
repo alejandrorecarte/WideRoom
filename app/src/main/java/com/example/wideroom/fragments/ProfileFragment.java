@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +17,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.example.wideroom.R;
 import com.example.wideroom.activities.SplashActivity;
 import com.example.wideroom.models.UserModel;
@@ -29,9 +26,20 @@ import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
-
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
+
+/**
+ * This class is used to show the profile of the current user.
+ *
+ * Copyright © 2024 Alejandro Recarte Rebollo & Inés Rodrigues Trigo. CC BY-NC (Attribution-NonCommercial)
+ *
+ * @author Alejandro Recarte Rebollo <alejandro.recarte.rebollo@gmail.com>+
+ * @author Inés Rodrigues Trigo <itralways@gmail.com>
+ *
+ * @version 1.0
+ * @date 08-06-2024
+ */
 
 public class ProfileFragment extends Fragment {
 
@@ -47,9 +55,17 @@ public class ProfileFragment extends Fragment {
     ActivityResultLauncher<Intent> imagePickLauncher;
     Uri selectedImageUri;
 
+    /**
+     * Empty constructor.
+     */
     public ProfileFragment() {
     }
 
+    /**
+     * Called on the first time the fragment is created.
+     * @param savedInstanceState If the fragment is being re-created from
+     * a previous saved state, this is the state.
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +82,18 @@ public class ProfileFragment extends Fragment {
                 );
     }
 
+    /**
+     * Called on the first time the view is created.
+     * @param inflater The LayoutInflater object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI should be attached to.  The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -77,14 +105,10 @@ public class ProfileFragment extends Fragment {
         updateProfileBtn = view.findViewById(R.id.profile_update_btn);
         progressBar = view.findViewById(R.id.profile_progress_bar);
         logoutBtn = view.findViewById(R.id.logout_btn);
-
-        getUserData();
-
-
+        setUserData();
         updateProfileBtn.setOnClickListener((v -> {
             updateBtnClick();
         }));
-
         logoutBtn.setOnClickListener((v -> {
             FirebaseMessaging.getInstance().deleteToken()
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -113,22 +137,21 @@ public class ProfileFragment extends Fragment {
                         }
                     });
         });
-
         return view;
-
     }
 
+    /**
+     * Functionality for update btn.
+     */
     void updateBtnClick(){
         String newUsername = usernameInput.getText().toString();
         if(newUsername.isEmpty() || newUsername.length()<3){
             usernameInput.setError(getResources().getString(R.string.error_username));
             return;
         }
-
         currentUserModel.setUsername(newUsername);
         currentUserModel.setBio(bioInput.getText().toString());
         setInProgress(true);
-
         if(selectedImageUri != null) {
             FirebaseUtil.getCurrentProfilePicStorageRef().putFile(selectedImageUri)
                     .addOnCompleteListener(task -> {
@@ -139,6 +162,9 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    /**
+     * Updates the user data on database.
+     */
     void updateToFirestore(){
         FirebaseUtil.currentUserDetails().set(currentUserModel)
                 .addOnCompleteListener(task -> {
@@ -151,9 +177,11 @@ public class ProfileFragment extends Fragment {
                 });
     }
 
-    void getUserData(){
+    /**
+     * Sets the user data on the UI.
+     */
+    void setUserData(){
         setInProgress(true);
-
         FirebaseUtil.getCurrentProfilePicStorageRef().getDownloadUrl()
                         .addOnCompleteListener(task -> {
                             if(task.isSuccessful()){
@@ -171,6 +199,10 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+    /**
+     * Sets the progress bar visibility.
+     * @param inProgress
+     */
     void setInProgress(boolean inProgress){
         if(inProgress){
             progressBar.setVisibility(View.VISIBLE);

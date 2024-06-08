@@ -9,11 +9,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.wideroom.R;
 import com.example.wideroom.adapters.SearchUsersEventRecyclerAdapter;
 import com.example.wideroom.models.EventModel;
@@ -31,9 +29,20 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * This class is used to show an event information.
+ *
+ * Copyright © 2024 Alejandro Recarte Rebollo & Inés Rodrigues Trigo. CC BY-NC (Attribution-NonCommercial)
+ *
+ * @author Alejandro Recarte Rebollo <alejandro.recarte.rebollo@gmail.com>+
+ * @author Inés Rodrigues Trigo <itralways@gmail.com>
+ *
+ * @version 1.0
+ * @date 08-06-2024
+ */
 
 public class EventActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -53,12 +62,17 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
     SearchUsersEventRecyclerAdapter adapter;
     private GoogleMap googleMap;
 
-
+    /**
+     * Called when the activity is first created.
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
-
         eventModel = AndroidUtil.getEventModelFromIntent(getIntent());
         noResults = findViewById(R.id.no_results_text);
         eventName = findViewById(R.id.event_name);
@@ -73,11 +87,8 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
         mapView.getMapAsync(this);
         progressBar = findViewById(R.id.register_progress_bar);
         recyclerView = findViewById(R.id.search_users_event_recycler_view);
-
-
         searchForUsersBtn.setVisibility(View.GONE);
         setInProgress(false);
-
         FirebaseUtil.getEventsSubscriberReference(eventModel.getEventId(), FirebaseUtil.currentUserId()).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 sub = task.getResult().toObject(EventSubscriptionModel.class);
@@ -87,7 +98,6 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                 }
             }
         });
-
         try {
             FirebaseUtil.getEventPicIconStorageRef(eventModel.getEventId()).getDownloadUrl()
                     .addOnCompleteListener(t -> {
@@ -97,11 +107,11 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                         }
                     });
         }catch(Exception e){}
-
         backBtn.setOnClickListener(v -> {
             onBackPressed();
         });
-
+        // listener de el botón de suscribir. Verifica si estás o no suscrito 
+        // cambia el mensaje según. Establece a true o false el campo de suscrito
         subscribeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,8 +121,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                     sub = new EventSubscriptionModel(FirebaseUtil.currentUserId(),Timestamp.now());
                     FirebaseUtil.allEventSubscribersReference(eventModel.getEventId()).document(FirebaseUtil.currentUserId()).set(sub);
                 }
-
-                //ESTAR SUBSCRITO
+                    //subscribed
                 if(sub.isSubscribed()){
                     sub.setSubscribed(false);
                     FirebaseUtil.getEventsSubscriberReference(eventModel.getEventId(), FirebaseUtil.currentUserId()).set(sub).addOnCompleteListener(task -> {
@@ -121,8 +130,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                         recyclerView.setVisibility(View.GONE);
                         setInProgress(false);
                     });
-
-                    //NO ESTAR SUBSCRITO
+                    //not subscribed
                 }else{
                     sub.setSubscribed(true);
                     FirebaseUtil.getEventsSubscriberReference(eventModel.getEventId(), FirebaseUtil.currentUserId()).set(sub).addOnCompleteListener(task -> {
@@ -133,23 +141,25 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                 }
             }
         });
-
+        // listener del botón de buscar usuarios y muestra el recycler view
         searchForUsersBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 searchForUsersBtn.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
                 setupRecyclerView();
-
             }
         });
-
+        // recupera los datos del evento para mostrarlos
         eventName.setText(eventModel.getEventName());
         address.setText(eventModel.getAddress() + ", " + eventModel.getCity() + "\n" + eventModel.getDistanceAsString());
         date.setText(eventModel.getDate());
-
     }
 
+    /**
+     * Establishes the data of the recycler view of the people subscribed to the event.
+     * Does not show the friends subscribed or the ones that has requested friendship
+     */
     void setupRecyclerView(){
         Log.i("Información","entra en el recycler");
         FirebaseUtil.allOwnFriendsReference()
@@ -160,7 +170,6 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                             subscribedFriends.add(document.getString("userId"));
                             Log.i("Información", document.getId() + " => " + document.getString("userId"));
                         }
-
                         FirebaseUtil.allEventSubscribersReference(eventModel.getEventId()).whereEqualTo("subscribed", true)
                                 .get().addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {
@@ -170,16 +179,12 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                                                 subscribers.add(document.getString("userId"));
                                             }
                                         }
-
                                         Log.i("Información", "Número de suscriptores encontrados: " + subscribers.size()); // Para verificar cuántos suscriptores se han obtenido.
                                         if (subscribers.size() != 0) {
-
                                             Query query = FirebaseUtil.allUserCollectionReference().whereIn("userId", subscribers);
-
                                             Log.i("Información", "Query Firestore creada correctamente: " + query.toString()); // Para verificar la consulta Firestore creada correctamente.
                                             FirestoreRecyclerOptions<UserModel> options = new FirestoreRecyclerOptions.Builder<UserModel>()
                                                     .setQuery(query, UserModel.class).build();
-
                                             adapter = new SearchUsersEventRecyclerAdapter(options, EventActivity.this);
                                             recyclerView.setAdapter(adapter);
                                             recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -193,6 +198,10 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                 });
     }
 
+    /**
+     * Shows or hides the progressBar
+     * @param inProgress
+     */
     void setInProgress(boolean inProgress){
         if(inProgress){
             progressBar.setVisibility(View.VISIBLE);
@@ -203,20 +212,26 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
         }
     }
 
+    /**
+     * Shows the map with the location
+     * @param map
+     */
     @Override
     public void onMapReady(GoogleMap map) {
         googleMap = map;
         LatLng COORDINATES = new LatLng(eventModel.getLat(), eventModel.getLng());
-        // Añadir marcador en las coordenadas especificadas
+        // adds a mark on the given coordinates
         googleMap.addMarker(new MarkerOptions()
                 .position(COORDINATES)
                 .title(eventModel.getAddress())
                 .snippet(eventModel.getCity()));
-
-        // Mover la cámara a las coordenadas especificadas y ajustar el zoom
+        // moves the camera to the given coordinates with a zoom of 16
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(COORDINATES, 16));
     }
 
+    /**
+     * on Resume,, adapter starts listening
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -226,18 +241,27 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
         }
     }
 
+    /**
+     * Pauses the map and the activity
+     */
     @Override
     protected void onPause() {
         super.onPause();
         mapView.onPause();
     }
 
+    /**
+     * Destroys the map and activity
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
     }
 
+    /**
+     * Reduces the memory on use
+     */
     @Override
     public void onLowMemory() {
         super.onLowMemory();

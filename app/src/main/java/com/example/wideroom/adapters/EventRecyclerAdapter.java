@@ -11,25 +11,47 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.wideroom.activities.EventActivity;
 import com.example.wideroom.R;
 import com.example.wideroom.models.EventModel;
 import com.example.wideroom.utils.AndroidUtil;
 import com.example.wideroom.utils.FirebaseUtil;
-
 import java.util.List;
+
+/**
+ * This class is used to show every event.
+ *
+ * Copyright © 2024 Alejandro Recarte Rebollo & Inés Rodrigues Trigo. CC BY-NC (Attribution-NonCommercial)
+ *
+ * @author Alejandro Recarte Rebollo <alejandro.recarte.rebollo@gmail.com>+
+ * @author Inés Rodrigues Trigo <itralways@gmail.com>
+ *
+ * @version 1.0
+ * @date 08-06-2024
+ */
 
 public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdapter.EventModelViewHolder> {
 
     private Context context;
     private List<EventModel> eventsList;
 
+    /**
+     * Parametrized constructor.
+     * @param context
+     * @param eventsList
+     */
     public EventRecyclerAdapter(Context context, List<EventModel> eventsList) {
         this.context = context;
         this.eventsList = eventsList;
     }
 
+    /**
+     * Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent an item.
+     * @param parent   The ViewGroup into which the new View will be added after it is bound to
+     *                 an adapter position.
+     * @param viewType The view type of the new View.
+     * @return
+     */
     @NonNull
     @Override
     public EventModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -37,6 +59,12 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         return new EventModelViewHolder(view);
     }
 
+    /**
+     * Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent an item.
+     * @param holder   The ViewHolder which should be updated to represent the contents of the
+     *                 item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
+     */
     @Override
     public void onBindViewHolder(@NonNull EventModelViewHolder holder, int position) {
         EventModel eventModel = eventsList.get(position);
@@ -45,7 +73,6 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         holder.cityText.setText(eventModel.getCity());
         holder.distanceText.setText(eventModel.getDistanceAsString());
         holder.addressText.setText(eventModel.getAddress());
-
         FirebaseUtil.getEventPicIconStorageRef(eventModel.getEventId()).getDownloadUrl()
                 .addOnCompleteListener(t -> {
                     if(t.isSuccessful()){
@@ -57,7 +84,6 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                         AndroidUtil.setEventPic(context, uri, holder.eventPic);
                     }
                 });
-
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, EventActivity.class);
             AndroidUtil.passEventModelAsIntent(intent, eventModel);
@@ -66,11 +92,19 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         });
     }
 
+    /**
+     * Gets the count of the events
+     * @return
+     */
     @Override
     public int getItemCount() {
         return eventsList.size();
     }
 
+    /**
+     *
+    * Establishes the relationship between the recycler view java items and layout
+     */
     public class EventModelViewHolder extends RecyclerView.ViewHolder{
         TextView eventNameText;
         TextView dateText;

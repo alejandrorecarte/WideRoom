@@ -7,14 +7,12 @@
     android:outlineAmbientShadowColor="?attr/colorOnPrimary"
     android:layout_margin="10dp"
     android:elevation="2dp">
-
     <include layout="@layout/profile_pic_view"
         android:layout_width="52dp"
         android:layout_height="52dp"
         android:layout_gravity="center"
         android:layout_margin="10dp"
         />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,7 +30,5 @@
             android:layout_height="wrap_content"
             android:text="@string/bio"
             android:id="@+id/user_bio_text"/>
-
     </LinearLayout>
-
 </LinearLayout>

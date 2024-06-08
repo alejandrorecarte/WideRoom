@@ -1,19 +1,13 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.WideRoom" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryVariant">@color/primary</item>
         <item name="colorOnPrimary">@color/black</item>
-
         <item name="colorSecondary">@color/chat_color_sender</item>
         <item name="colorSecondaryVariant">@color/secondary</item>
         <item name="colorOnSecondary">@color/white</item>
-
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your light theme here. -->
         <item name="android:windowBackground">@color/white</item>
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
-
     <style name="Theme.WideRoom" parent="Base.Theme.WideRoom" />
 </resources>

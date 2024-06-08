@@ -5,18 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.SplashActivity">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
-
         <ImageView
             android:layout_width="160dp"
             android:layout_height="160dp"
             android:src="@drawable/ic_logo_no_title"/>
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -26,16 +23,12 @@
             android:textColor="?attr/colorPrimary"
             android:textSize="40sp"
             android:textStyle="bold" />
-
         <ProgressBar
             android:layout_width="32dp"
             android:layout_height="wrap_content"
             android:indeterminate="true"
             android:indeterminateTint="?attr/colorPrimary" />
-
-
     </LinearLayout>
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,6 +37,4 @@
         android:gravity="center"
         android:layout_marginBottom="20dp"
         android:textColor="?attr/colorPrimary"/>
-
-
 </RelativeLayout>
